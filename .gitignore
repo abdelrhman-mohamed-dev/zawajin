@@ -48,8 +48,8 @@ lerna-debug.log*
 .env.local
 
 # Firebase service account (security sensitive)
-*firebase-adminsdk*.json
-firebase-service-account.json
+# *firebase-adminsdk*.json
+# firebase-service-account.json
 
 # temp directory
 .tmp

@@ -79,30 +79,4 @@ export class UsersController {
       timestamp: new Date().toISOString(),
     };
   }
-
-  @Get(':id')
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get user by ID' })
-  @ApiParam({
-    name: 'id',
-    description: 'User ID',
-    example: '615c8a9b4f7d4e3e4c8b4567',
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'User retrieved successfully',
-  })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
-  @ApiResponse({ status: 404, description: 'User not found' })
-  async getUserById(@Param('id') id: string) {
-    const user = await this.usersService.getUserById(id);
-
-    return {
-      success: true,
-      message: 'User retrieved successfully / تم استرجاع المستخدم بنجاح',
-      data: user,
-      timestamp: new Date().toISOString(),
-    };
-  }
 }

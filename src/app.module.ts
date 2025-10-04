@@ -11,6 +11,7 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
 import { AuthModule } from './modules/auth/auth.module';
 import { MailModule } from './modules/mail/mail.module';
 import { UsersModule } from './modules/users/users.module';
+import { InteractionsModule } from './modules/interactions/interactions.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { UsersModule } from './modules/users/users.module';
     AuthModule,
     MailModule,
     UsersModule,
+    InteractionsModule,
   ],
   controllers: [],
   providers: [

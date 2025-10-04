@@ -20,7 +20,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"displayName\": \"Ahmed Khan\",\n    \"email\": \"ahmed.khan@example.com\",\n    \"password\": \"password123\"\n}"
+							"raw": "{\n    \"fullName\": \"Ahmed Khan\",\n    \"gender\": \"male\",\n    \"email\": \"ahmed.khan@example.com\",\n    \"phone\": \"1234567890\",\n    \"password\": \"password123\",\n    \"confirmPassword\": \"password123\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/auth/register",
@@ -30,6 +30,60 @@
 							"path": [
 								"auth",
 								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Email OTP",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"ahmed.khan@example.com\",\n    \"code\": \"123456\",\n    \"fcmToken\": \"optional-fcm-token\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/verify-email",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"verify-email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Resend OTP",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"ahmed.khan@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/resend-otp",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"resend-otp"
 							]
 						}
 					},
@@ -47,7 +101,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"ahmed.khan@example.com\",\n    \"password\": \"password123\"\n}"
+							"raw": "{\n    \"email\": \"ahmed.khan@example.com\",\n    \"password\": \"password123\",\n    \"fcmToken\": \"optional-fcm-token\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/auth/login",
@@ -191,9 +245,65 @@
 					"response": []
 				},
 				{
+					"name": "Unlike a User",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/615c8a9b4f7d4e3e4c8b4567/like",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"615c8a9b4f7d4e3e4c8b4567",
+								"like"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Block a User",
 					"request": {
 						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"reason\": \"Inappropriate behavior\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/615c8a9b4f7d4e3e4c8b4567/block",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"615c8a9b4f7d4e3e4c8b4567",
+								"block"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unblock a User",
+					"request": {
+						"method": "DELETE",
 						"header": [
 							{
 								"key": "Authorization",
@@ -209,6 +319,77 @@
 								"users",
 								"615c8a9b4f7d4e3e4c8b4567",
 								"block"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Likes Sent",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/likes/sent",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"likes",
+								"sent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Likes Received",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/likes/received",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"likes",
+								"received"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Blocked Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/blocks",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"blocks"
 							]
 						}
 					},
