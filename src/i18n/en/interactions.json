@@ -1,0 +1,8 @@
+{
+  "unlike_successful": "Unlike successful",
+  "user_blocked": "User blocked successfully",
+  "user_unblocked": "User unblocked successfully",
+  "likes_retrieved": "Likes retrieved successfully",
+  "blocked_users_retrieved": "Blocked users retrieved successfully",
+  "user_retrieved": "User retrieved successfully"
+}

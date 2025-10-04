@@ -18,6 +18,7 @@ import {
   ApiParam,
   ApiBody,
 } from '@nestjs/swagger';
+import { I18n, I18nContext } from 'nestjs-i18n';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { InteractionsService } from '../services/interactions.service';
 import { UsersService } from '../../users/services/users.service';
@@ -90,12 +91,12 @@ export class InteractionsController {
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 404, description: 'Like not found' })
-  async unlikeUser(@Request() req, @Param('id') likedUserId: string) {
+  async unlikeUser(@Request() req, @Param('id') likedUserId: string, @I18n() i18n: I18nContext) {
     await this.interactionsService.unlikeUser(req.user.sub, likedUserId);
 
     return {
       success: true,
-      message: 'Unlike successful / تم إلغاء الإعجاب بنجاح',
+      message: await i18n.t('interactions.unlike_successful'),
       timestamp: new Date().toISOString(),
     };
   }
@@ -126,13 +127,14 @@ export class InteractionsController {
   async blockUser(
     @Request() req,
     @Param('id') blockedUserId: string,
+    @I18n() i18n: I18nContext,
     @Body() body?: { reason?: string },
   ) {
     await this.interactionsService.blockUser(req.user.sub, blockedUserId, body?.reason);
 
     return {
       success: true,
-      message: 'User blocked successfully / تم حظر المستخدم بنجاح',
+      message: await i18n.t('interactions.user_blocked'),
       timestamp: new Date().toISOString(),
     };
   }
@@ -147,12 +149,12 @@ export class InteractionsController {
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 404, description: 'Block not found' })
-  async unblockUser(@Request() req, @Param('id') blockedUserId: string) {
+  async unblockUser(@Request() req, @Param('id') blockedUserId: string, @I18n() i18n: I18nContext) {
     await this.interactionsService.unblockUser(req.user.sub, blockedUserId);
 
     return {
       success: true,
-      message: 'User unblocked successfully / تم إلغاء حظر المستخدم بنجاح',
+      message: await i18n.t('interactions.user_unblocked'),
       timestamp: new Date().toISOString(),
     };
   }
@@ -164,12 +166,12 @@ export class InteractionsController {
     description: 'Likes retrieved successfully',
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async getLikesSent(@Request() req) {
+  async getLikesSent(@Request() req, @I18n() i18n: I18nContext) {
     const likes = await this.interactionsService.getLikesSent(req.user.sub);
 
     return {
       success: true,
-      message: 'Likes retrieved successfully / تم استرجاع الإعجابات بنجاح',
+      message: await i18n.t('interactions.likes_retrieved'),
       data: {
         likes,
         total: likes.length,
@@ -185,12 +187,12 @@ export class InteractionsController {
     description: 'Likes retrieved successfully',
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async getLikesReceived(@Request() req) {
+  async getLikesReceived(@Request() req, @I18n() i18n: I18nContext) {
     const likes = await this.interactionsService.getLikesReceived(req.user.sub);
 
     return {
       success: true,
-      message: 'Likes retrieved successfully / تم استرجاع الإعجابات بنجاح',
+      message: await i18n.t('interactions.likes_retrieved'),
       data: {
         likes,
         total: likes.length,
@@ -206,12 +208,12 @@ export class InteractionsController {
     description: 'Blocked users retrieved successfully',
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async getBlockedUsers(@Request() req) {
+  async getBlockedUsers(@Request() req, @I18n() i18n: I18nContext) {
     const blocks = await this.interactionsService.getBlockedUsers(req.user.sub);
 
     return {
       success: true,
-      message: 'Blocked users retrieved successfully / تم استرجاع المستخدمين المحظورين بنجاح',
+      message: await i18n.t('interactions.blocked_users_retrieved'),
       data: {
         blocks,
         total: blocks.length,
@@ -233,12 +235,12 @@ export class InteractionsController {
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 404, description: 'User not found' })
-  async getUserById(@Param('id') id: string) {
+  async getUserById(@Param('id') id: string, @I18n() i18n: I18nContext) {
     const user = await this.usersService.getUserById(id);
 
     return {
       success: true,
-      message: 'User retrieved successfully / تم استرجاع المستخدم بنجاح',
+      message: await i18n.t('interactions.user_retrieved'),
       data: user,
       timestamp: new Date().toISOString(),
     };

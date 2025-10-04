@@ -17,6 +17,7 @@ import {
   ApiBearerAuth,
   ApiParam,
 } from '@nestjs/swagger';
+import { I18n, I18nContext } from 'nestjs-i18n';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { UsersService } from '../services/users.service';
 import { UpdateProfileDto } from '../dto/update-profile.dto';
@@ -38,7 +39,7 @@ export class UsersController {
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 404, description: 'User not found' })
-  async updateProfile(@Request() req, @Body() updateProfileDto: UpdateProfileDto) {
+  async updateProfile(@Request() req, @Body() updateProfileDto: UpdateProfileDto, @I18n() i18n: I18nContext) {
     const user = await this.usersService.updateProfile(
       req.user.sub,
       updateProfileDto,
@@ -46,7 +47,7 @@ export class UsersController {
 
     return {
       success: true,
-      message: 'Profile updated successfully / تم تحديث الملف الشخصي بنجاح',
+      message: await i18n.t('users.profile_updated'),
       data: user,
       timestamp: new Date().toISOString(),
     };
@@ -61,12 +62,12 @@ export class UsersController {
     description: 'Users retrieved successfully',
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async getAllUsers(@Query() getUsersDto: GetUsersDto) {
+  async getAllUsers(@Query() getUsersDto: GetUsersDto, @I18n() i18n: I18nContext) {
     const result = await this.usersService.getAllUsers(getUsersDto);
 
     return {
       success: true,
-      message: 'Users retrieved successfully / تم استرجاع المستخدمين بنجاح',
+      message: await i18n.t('users.users_retrieved'),
       data: {
         users: result.users,
         pagination: {

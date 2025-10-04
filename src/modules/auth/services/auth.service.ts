@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { I18nContext, I18nService } from 'nestjs-i18n';
 import * as bcrypt from 'bcrypt';
 import { RegisterDto } from '../dto/register.dto';
 import { LoginDto } from '../dto/login.dto';
@@ -28,6 +29,7 @@ export class AuthService {
     private readonly mailService: MailService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    private readonly i18n: I18nService,
   ) {}
 
   async register(dto: RegisterDto): Promise<RegisterResponse> {
@@ -36,7 +38,9 @@ export class AuthService {
     // Check if email already exists
     const emailExists = await this.userRepository.isEmailExists(dto.email);
     if (emailExists) {
-      throw new ConflictException('Email already exists / البريد الإلكتروني مسجل مسبقاً');
+      throw new ConflictException(
+        this.i18n.t('auth.email_already_exists', { lang: I18nContext.current()?.lang })
+      );
     }
 
 
@@ -44,7 +48,9 @@ export class AuthService {
     // Check if phone already exists
     const phoneExists = await this.userRepository.isPhoneExists(dto.phone);
     if (phoneExists) {
-      throw new ConflictException('Phone number already exists / رقم الهاتف مسجل مسبقاً');
+      throw new ConflictException(
+        this.i18n.t('auth.phone_already_exists', { lang: I18nContext.current()?.lang })
+      );
     }
 
     // Hash password
@@ -70,14 +76,16 @@ export class AuthService {
 
     if (!emailSent) {
       this.logger.error(`Failed to send OTP email to ${dto.email}`);
-      throw new BadRequestException('Failed to send verification email / فشل في إرسال بريد التحقق');
+      throw new BadRequestException(
+        this.i18n.t('auth.failed_send_verification_email', { lang: I18nContext.current()?.lang })
+      );
     }
 
     this.logger.log(`User registered successfully: ${user.id}`);
 
     return {
       success: true,
-      message: 'Registration successful. Please check your email for verification code / تم التسجيل بنجاح. يرجى التحقق من بريدك الإلكتروني للحصول على رمز التحقق',
+      message: this.i18n.t('auth.registration_successful', { lang: I18nContext.current()?.lang }),
       data: {
         userId: user.id,
         email: user.email,
@@ -92,20 +100,28 @@ export class AuthService {
 
     const user = await this.userRepository.findByEmail(email);
     if (!user) {
-      throw new NotFoundException('User not found / المستخدم غير موجود');
+      throw new NotFoundException(
+        this.i18n.t('auth.user_not_found', { lang: I18nContext.current()?.lang })
+      );
     }
 
     if (user.isEmailVerified) {
-      throw new BadRequestException('Email already verified / البريد الإلكتروني محقق مسبقاً');
+      throw new BadRequestException(
+        this.i18n.t('auth.email_already_verified', { lang: I18nContext.current()?.lang })
+      );
     }
 
     const validation = await this.otpService.validateOtp(email, code, OtpType.EMAIL);
 
     if (!validation.isValid) {
       if (validation.attemptsExceeded) {
-        throw new UnauthorizedException('Too many failed attempts. Please request a new OTP / محاولات كثيرة فاشلة. يرجى طلب رمز تحقق جديد');
+        throw new UnauthorizedException(
+          this.i18n.t('auth.too_many_failed_attempts', { lang: I18nContext.current()?.lang })
+        );
       }
-      throw new UnauthorizedException('Invalid or expired OTP code / رمز التحقق غير صحيح أو منتهي الصلاحية');
+      throw new UnauthorizedException(
+        this.i18n.t('auth.invalid_or_expired_otp', { lang: I18nContext.current()?.lang })
+      );
     }
 
     // Mark user as email verified
@@ -126,7 +142,7 @@ export class AuthService {
 
     return {
       success: true,
-      message: 'Email verified successfully / تم التحقق من البريد الإلكتروني بنجاح',
+      message: this.i18n.t('auth.email_verified_successfully', { lang: I18nContext.current()?.lang }),
       data: {
         userId: user.id,
         email: user.email,
@@ -143,11 +159,15 @@ export class AuthService {
 
     const user = await this.userRepository.findByEmail(email);
     if (!user) {
-      throw new NotFoundException('User not found / المستخدم غير موجود');
+      throw new NotFoundException(
+        this.i18n.t('auth.user_not_found', { lang: I18nContext.current()?.lang })
+      );
     }
 
     if (user.isEmailVerified) {
-      throw new BadRequestException('Email already verified / البريد الإلكتروني محقق مسبقاً');
+      throw new BadRequestException(
+        this.i18n.t('auth.email_already_verified', { lang: I18nContext.current()?.lang })
+      );
     }
 
     // Delete existing OTP
@@ -159,7 +179,9 @@ export class AuthService {
 
     if (!emailSent) {
       this.logger.error(`Failed to resend OTP email to ${email}`);
-      throw new BadRequestException('Failed to send verification email / فشل في إرسال بريد التحقق');
+      throw new BadRequestException(
+        this.i18n.t('auth.failed_send_verification_email', { lang: I18nContext.current()?.lang })
+      );
     }
 
     const expiresAt = await this.otpService.getOtpExpiry(email, OtpType.EMAIL);
@@ -168,7 +190,7 @@ export class AuthService {
 
     return {
       success: true,
-      message: 'Verification code sent successfully / تم إرسال رمز التحقق بنجاح',
+      message: this.i18n.t('auth.verification_code_sent', { lang: I18nContext.current()?.lang }),
       data: {
         email,
         expiresAt,
@@ -182,20 +204,28 @@ export class AuthService {
 
     const user = await this.userRepository.findByEmail(dto.email);
     if (!user) {
-      throw new UnauthorizedException('Invalid credentials / بيانات الاعتماد غير صحيحة');
+      throw new UnauthorizedException(
+        this.i18n.t('auth.invalid_credentials', { lang: I18nContext.current()?.lang })
+      );
     }
 
     if (!user.isEmailVerified) {
-      throw new UnauthorizedException('Email not verified. Please verify your email first / البريد الإلكتروني غير محقق. يرجى التحقق من بريدك الإلكتروني أولاً');
+      throw new UnauthorizedException(
+        this.i18n.t('auth.email_not_verified', { lang: I18nContext.current()?.lang })
+      );
     }
 
     if (!user.isActive) {
-      throw new UnauthorizedException('Account is deactivated / الحساب معطل');
+      throw new UnauthorizedException(
+        this.i18n.t('auth.account_deactivated', { lang: I18nContext.current()?.lang })
+      );
     }
 
     const isPasswordValid = await bcrypt.compare(dto.password, user.passwordHash);
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid credentials / بيانات الاعتماد غير صحيحة');
+      throw new UnauthorizedException(
+        this.i18n.t('auth.invalid_credentials', { lang: I18nContext.current()?.lang })
+      );
     }
 
     // Update FCM token if provided
@@ -210,7 +240,7 @@ export class AuthService {
 
     return {
       success: true,
-      message: 'Login successful / تم تسجيل الدخول بنجاح',
+      message: this.i18n.t('auth.login_successful', { lang: I18nContext.current()?.lang }),
       data: {
         userId: user.id,
         fullName: user.fullName,

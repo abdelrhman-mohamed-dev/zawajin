@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
+import { I18n, I18nContext } from 'nestjs-i18n';
 import { RegisterDto } from '../dto/register.dto';
 import { LoginDto } from '../dto/login.dto';
 import { VerifyOtpDto } from '../dto/verify-otp.dto';
@@ -474,7 +475,7 @@ export class AuthController {
       }
     }
   })
-  async getCurrentUser(@Request() req) {
+  async getCurrentUser(@Request() req, @I18n() i18n: I18nContext) {
     try {
       this.logger.log(`Get current user request for: ${req.user.sub}`);
       const user = await this.userRepository.findById(req.user.sub);
@@ -484,7 +485,7 @@ export class AuthController {
 
       return {
         success: true,
-        message: 'User profile retrieved successfully / تم استرجاع الملف الشخصي بنجاح',
+        message: await i18n.t('auth.user_profile_retrieved'),
         data: userWithoutSensitiveData,
         timestamp: new Date().toISOString(),
       };
