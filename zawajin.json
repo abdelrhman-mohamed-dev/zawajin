@@ -419,6 +419,29 @@
 					"response": []
 				},
 				{
+					"name": "Get My Subscription",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/subscriptions/my-subscription",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"subscriptions",
+								"my-subscription"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Create Subscription",
 					"request": {
 						"method": "POST",
@@ -434,7 +457,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"paymentMethodId\": \"pm_card_visa\",\n    \"planId\": \"price_123abc\"\n}"
+							"raw": "{\n    \"planId\": \"plan-uuid-here\",\n    \"billingCycle\": \"monthly\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/subscriptions/create-subscription",
@@ -444,6 +467,83 @@
 							"path": [
 								"subscriptions",
 								"create-subscription"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upgrade Subscription",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"newPlanId\": \"new-plan-uuid-here\",\n    \"billingCycle\": \"yearly\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/subscriptions/upgrade",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"subscriptions",
+								"upgrade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Subscription",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/subscriptions/cancel",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"subscriptions",
+								"cancel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Subscription History",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/subscriptions/history",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"subscriptions",
+								"history"
 							]
 						}
 					},

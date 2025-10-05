@@ -13,8 +13,10 @@ export const getDatabaseConfig = (
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
   synchronize: configService.get<boolean>('DB_SYNCHRONIZE', true),
   logging: configService.get<boolean>('DB_LOGGING', false),
-  ssl: false,
+  ssl: configService.get<boolean>('DB_SSL', false),
   extra: {
-    ssl: false,
+    ssl: configService.get<boolean>('DB_SSL', false)
+      ? { rejectUnauthorized: false }
+      : false,
   },
 });

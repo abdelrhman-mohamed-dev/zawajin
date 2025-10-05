@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CacheModule } from '@nestjs/cache-manager';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { ScheduleModule } from '@nestjs/schedule';
 import { APP_GUARD } from '@nestjs/core';
 import { I18nModule, QueryResolver, AcceptLanguageResolver } from 'nestjs-i18n';
 import * as path from 'path';
@@ -14,6 +15,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { MailModule } from './modules/mail/mail.module';
 import { UsersModule } from './modules/users/users.module';
 import { InteractionsModule } from './modules/interactions/interactions.module';
+import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
+import { SeedModule } from './database/seeds/seed.module';
 
 @Module({
   imports: [
@@ -51,12 +54,15 @@ import { InteractionsModule } from './modules/interactions/interactions.module';
         AcceptLanguageResolver,
       ],
     }),
+    ScheduleModule.forRoot(),
     HealthModule,
     NotificationsModule,
     AuthModule,
     MailModule,
     UsersModule,
     InteractionsModule,
+    SubscriptionsModule,
+    SeedModule,
   ],
   controllers: [],
   providers: [
