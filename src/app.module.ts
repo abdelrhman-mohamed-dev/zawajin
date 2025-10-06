@@ -17,6 +17,7 @@ import { UsersModule } from './modules/users/users.module';
 import { InteractionsModule } from './modules/interactions/interactions.module';
 import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
 import { SeedModule } from './database/seeds/seed.module';
+import { ChatModule } from './modules/chat/chat.module';
 
 @Module({
   imports: [
@@ -63,6 +64,7 @@ import { SeedModule } from './database/seeds/seed.module';
     InteractionsModule,
     SubscriptionsModule,
     SeedModule,
+    ChatModule,
   ],
   controllers: [],
   providers: [
