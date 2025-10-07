@@ -24,6 +24,9 @@
     "subscriptionPlanCreated": "تم إنشاء خطة الاشتراك بنجاح",
     "subscriptionPlanUpdated": "تم تحديث خطة الاشتراك بنجاح",
     "subscriptionPlanDeactivated": "تم تعطيل خطة الاشتراك بنجاح",
+    "planCreated": "تم إنشاء خطة الاشتراك بنجاح",
+    "planUpdated": "تم تحديث خطة الاشتراك بنجاح",
+    "planDeactivated": "تم تعطيل خطة الاشتراك بنجاح",
     "subscriptionsFetched": "تم جلب الاشتراكات بنجاح",
     "subscriptionUpdated": "تم تحديث الاشتراك بنجاح",
     "analyticsFetched": "تم جلب بيانات التحليلات بنجاح"
@@ -49,7 +52,11 @@
     "reportNotFound": "البلاغ غير موجود",
     "reportAlreadyResolved": "البلاغ محلول بالفعل",
     "subscriptionPlanNotFound": "خطة الاشتراك غير موجودة",
-    "subscriptionNotFound": "الاشتراك غير موجود"
+    "subscriptionNotFound": "الاشتراك غير موجود",
+    "planNotFound": "خطة الاشتراك غير موجودة",
+    "planAlreadyExists": "توجد خطة بهذا الاسم بالفعل",
+    "planNameExists": "توجد خطة بهذا الاسم بالفعل",
+    "planHasActiveSubscriptions": "لا يمكن إلغاء تفعيل الخطة التي تحتوي على {{count}} اشتراكات نشطة"
   },
   "notifications": {
     "banned": {

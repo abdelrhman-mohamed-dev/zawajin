@@ -50,6 +50,7 @@ async function bootstrap() {
     .addTag('Authentication', 'User registration and email verification')
     .addTag('Health', 'Application health checks')
     .addTag('Notifications', 'Push notification services')
+    .addTag('Matching', 'Match recommendations and preferences')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

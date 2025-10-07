@@ -1,11 +1,19 @@
 import { Controller, Post, HttpCode, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { SubscriptionPlan } from '../../modules/subscriptions/entities/subscription-plan.entity';
 import { User } from '../../modules/auth/entities/user.entity';
+import { MatchingPreferences } from '../../modules/matching/entities/matching-preferences.entity';
+import { Like } from '../../modules/interactions/entities/like.entity';
+import { Conversation } from '../../modules/chat/entities/conversation.entity';
+import { Message } from '../../modules/chat/entities/message.entity';
 import { Public } from '../../common/decorators/public.decorator';
+import { seedUsers } from './users.seed';
+import { seedMatchingPreferences } from './matching-preferences.seed';
+import { seedLikes } from './likes.seed';
+import { seedConversations } from './conversations.seed';
 
 @Controller('seed')
 @Public()
@@ -15,7 +23,16 @@ export class SeedController {
     private subscriptionPlanRepository: Repository<SubscriptionPlan>,
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @InjectRepository(MatchingPreferences)
+    private matchingPreferencesRepository: Repository<MatchingPreferences>,
+    @InjectRepository(Like)
+    private likeRepository: Repository<Like>,
+    @InjectRepository(Conversation)
+    private conversationRepository: Repository<Conversation>,
+    @InjectRepository(Message)
+    private messageRepository: Repository<Message>,
     private configService: ConfigService,
+    private dataSource: DataSource,
   ) {}
 
   @Post('subscription-plans')
@@ -176,5 +193,62 @@ export class SeedController {
       email: email,
       warning: 'Please change the password after first login',
     };
+  }
+
+  @Post('all')
+  @HttpCode(HttpStatus.OK)
+  async seedAll() {
+    const results = {
+      superAdmin: null,
+      subscriptionPlans: null,
+      users: null,
+      matchingPreferences: null,
+      likes: null,
+      conversations: null,
+    };
+
+    try {
+      // 1. Seed super admin
+      const adminResult = await this.seedSuperAdmin();
+      results.superAdmin = adminResult.message;
+
+      // 2. Seed subscription plans
+      const plansResult = await this.seedSubscriptionPlans();
+      results.subscriptionPlans = plansResult.message;
+
+      // 3. Seed users
+      const users = await seedUsers(this.dataSource);
+      results.users = `${users.length} users seeded`;
+
+      // 4. Seed matching preferences
+      await seedMatchingPreferences(this.dataSource, users);
+      const prefsCount = await this.matchingPreferencesRepository.count();
+      results.matchingPreferences = `${prefsCount} preferences seeded`;
+
+      // 5. Seed likes
+      await seedLikes(this.dataSource, users);
+      const likesCount = await this.likeRepository.count();
+      results.likes = `${likesCount} likes seeded`;
+
+      // 6. Seed conversations
+      await seedConversations(this.dataSource, users);
+      const conversationsCount = await this.conversationRepository.count();
+      const messagesCount = await this.messageRepository.count();
+      results.conversations = `${conversationsCount} conversations with ${messagesCount} messages seeded`;
+
+      return {
+        success: true,
+        message: 'All seeds completed successfully',
+        results,
+        note: 'Default password for test users: Test@123',
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: 'Error during seeding',
+        error: error.message,
+        results,
+      };
+    }
   }
 }

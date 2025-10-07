@@ -3,6 +3,10 @@ import { ConfigService } from '@nestjs/config';
 import { config } from 'dotenv';
 import { seedSubscriptionPlans } from './subscription-plans.seed';
 import { seedSuperAdmin } from './super-admin.seed';
+import { seedUsers } from './users.seed';
+import { seedMatchingPreferences } from './matching-preferences.seed';
+import { seedLikes } from './likes.seed';
+import { seedConversations } from './conversations.seed';
 
 // Load environment variables
 config();
@@ -39,7 +43,31 @@ async function runSeeds() {
     console.log('\n2️⃣ Seeding subscription plans...');
     await seedSubscriptionPlans(AppDataSource);
 
+    // Run users seed
+    console.log('\n3️⃣ Seeding test users...');
+    const users = await seedUsers(AppDataSource);
+
+    // Run matching preferences seed
+    console.log('\n4️⃣ Seeding matching preferences...');
+    await seedMatchingPreferences(AppDataSource, users);
+
+    // Run likes seed
+    console.log('\n5️⃣ Seeding likes and matches...');
+    await seedLikes(AppDataSource, users);
+
+    // Run conversations seed
+    console.log('\n6️⃣ Seeding conversations and messages...');
+    await seedConversations(AppDataSource, users);
+
     console.log('\n✅ All seeds completed successfully!\n');
+    console.log('📝 Summary:');
+    console.log('   - 1 Super Admin');
+    console.log('   - 4 Subscription Plans');
+    console.log(`   - ${users.length} Test Users`);
+    console.log('   - Matching Preferences for active users');
+    console.log('   - Mutual likes creating matches');
+    console.log('   - Conversations with sample messages');
+    console.log('\n🔑 Default password for test users: Test@123\n');
 
     await AppDataSource.destroy();
     process.exit(0);

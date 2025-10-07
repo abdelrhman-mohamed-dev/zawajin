@@ -841,6 +841,122 @@
 			]
 		},
 		{
+			"name": "Matching & Recommendations",
+			"item": [
+				{
+					"name": "Update Matching Preferences",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"minAge\": 25,\n    \"maxAge\": 35,\n    \"preferredCity\": \"Dubai\",\n    \"preferredCountry\": \"UAE\",\n    \"maxDistanceKm\": 100,\n    \"preferredReligiousPractices\": [\"Religious\", \"Moderate\"],\n    \"preferredSects\": [\"Sunni\"],\n    \"preferredPrayerLevels\": [\"Prays 5 times a day\", \"Sometimes\"],\n    \"preferredMaritalStatuses\": [\"single\", \"divorced\"],\n    \"preferredProfessions\": [\"Engineer\", \"Doctor\"],\n    \"lookingForGender\": \"female\",\n    \"ageImportance\": 5,\n    \"locationImportance\": 7,\n    \"religiousImportance\": 9,\n    \"maritalStatusImportance\": 6,\n    \"professionImportance\": 3\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/matching/preferences",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"matching",
+								"preferences"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Matching Preferences",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/matching/preferences",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"matching",
+								"preferences"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Match Recommendations",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/matching/recommendations?page=1&limit=10&minCompatibilityScore=60",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"matching",
+								"recommendations"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "minCompatibilityScore",
+									"value": "60"
+								},
+								{
+									"key": "gender",
+									"value": "female",
+									"disabled": true
+								},
+								{
+									"key": "maritalStatus",
+									"value": "single",
+									"disabled": true
+								},
+								{
+									"key": "minAge",
+									"value": "25",
+									"disabled": true
+								},
+								{
+									"key": "maxAge",
+									"value": "35",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Admin",
 			"item": [
 				{
@@ -1524,6 +1640,96 @@
 							"response": []
 						},
 						{
+							"name": "Create Subscription Plan",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Platinum\",\n    \"priceMonthly\": 39.99,\n    \"priceYearly\": 399.99,\n    \"features\": [\n        \"Everything in Gold\",\n        \"Unlimited likes\",\n        \"VIP support\",\n        \"Priority matching\"\n    ],\n    \"maxLikesPerDay\": null,\n    \"canSendMessages\": true,\n    \"canViewLikes\": true,\n    \"canSeeWhoLikedYou\": true,\n    \"prioritySupport\": true,\n    \"profileBadge\": \"Platinum Member\",\n    \"displayOrder\": 5\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin/subscriptions/plans",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"subscriptions",
+										"plans"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Subscription Plan",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"priceMonthly\": 34.99,\n    \"priceYearly\": 349.99,\n    \"features\": [\n        \"Everything in Gold\",\n        \"Unlimited likes\",\n        \"24/7 VIP support\",\n        \"Priority matching\",\n        \"Profile verification\"\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin/subscriptions/plans/{{planId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"subscriptions",
+										"plans",
+										"{{planId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deactivate Subscription Plan",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/subscriptions/plans/{{planId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"subscriptions",
+										"plans",
+										"{{planId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Get All Subscriptions",
 							"request": {
 								"method": "GET",
@@ -1713,6 +1919,10 @@
 		},
 		{
 			"key": "reportId",
+			"value": ""
+		},
+		{
+			"key": "planId",
 			"value": ""
 		}
 	]

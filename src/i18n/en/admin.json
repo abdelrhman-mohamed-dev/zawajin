@@ -24,6 +24,9 @@
     "subscriptionPlanCreated": "Subscription plan created successfully",
     "subscriptionPlanUpdated": "Subscription plan updated successfully",
     "subscriptionPlanDeactivated": "Subscription plan deactivated successfully",
+    "planCreated": "Subscription plan created successfully",
+    "planUpdated": "Subscription plan updated successfully",
+    "planDeactivated": "Subscription plan deactivated successfully",
     "subscriptionsFetched": "Subscriptions fetched successfully",
     "subscriptionUpdated": "Subscription updated successfully",
     "analyticsFetched": "Analytics data fetched successfully"
@@ -49,7 +52,11 @@
     "reportNotFound": "Report not found",
     "reportAlreadyResolved": "Report is already resolved",
     "subscriptionPlanNotFound": "Subscription plan not found",
-    "subscriptionNotFound": "Subscription not found"
+    "subscriptionNotFound": "Subscription not found",
+    "planNotFound": "Subscription plan not found",
+    "planAlreadyExists": "A plan with this name already exists",
+    "planNameExists": "A plan with this name already exists",
+    "planHasActiveSubscriptions": "Cannot deactivate plan with {{count}} active subscriptions"
   },
   "notifications": {
     "banned": {
