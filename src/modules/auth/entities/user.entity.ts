@@ -45,9 +45,9 @@ export class User {
   @Column({ type: 'varchar', length: 255, nullable: true, name: 'fcm_token' })
   fcmToken: string;
 
-  // Profile fields
-  @Column({ type: 'text', nullable: true })
-  bio: string;
+  // Profile fields - Section 1: Basic Info
+  @Column({ type: 'date', nullable: true, name: 'date_of_birth' })
+  dateOfBirth: Date;
 
   @Column({ type: 'int', nullable: true })
   @Index('idx_users_age')
@@ -60,15 +60,8 @@ export class User {
   })
   location: { city: string; country: string };
 
-  @Column({ type: 'varchar', length: 100, nullable: true, name: 'religious_practice' })
-  @Index('idx_users_religious_practice')
-  religiousPractice: string;
-
-  @Column({ type: 'varchar', length: 50, nullable: true })
-  sect: string;
-
-  @Column({ type: 'varchar', length: 100, nullable: true, name: 'prayer_level' })
-  prayerLevel: string;
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  origin: string;
 
   @Column({
     type: 'enum',
@@ -81,6 +74,89 @@ export class User {
 
   @Column({ type: 'varchar', length: 100, nullable: true })
   profession: string;
+
+  // Profile fields - Section 2: Physical Attributes
+  @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true })
+  weight: number;
+
+  @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true })
+  height: number;
+
+  @Column({ type: 'varchar', length: 50, nullable: true, name: 'body_color' })
+  bodyColor: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true, name: 'hair_color' })
+  hairColor: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true, name: 'hair_type' })
+  hairType: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true, name: 'eye_color' })
+  eyeColor: string;
+
+  @Column({ type: 'boolean', nullable: true, name: 'house_available' })
+  houseAvailable: boolean;
+
+  @Column({ type: 'varchar', length: 100, nullable: true, name: 'nature_of_work' })
+  natureOfWork: string;
+
+  @Column({ type: 'text', nullable: true })
+  bio: string;
+
+  // Profile fields - Section 3: Partner Preferences
+  @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_min_weight' })
+  preferredMinWeight: number;
+
+  @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_max_weight' })
+  preferredMaxWeight: number;
+
+  @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_min_height' })
+  preferredMinHeight: number;
+
+  @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_max_height' })
+  preferredMaxHeight: number;
+
+  @Column({
+    type: 'jsonb',
+    nullable: true,
+    comment: 'Array of preferred body colors',
+  })
+  preferredBodyColors: string[];
+
+  @Column({
+    type: 'jsonb',
+    nullable: true,
+    comment: 'Array of preferred hair colors',
+  })
+  preferredHairColors: string[];
+
+  @Column({
+    type: 'jsonb',
+    nullable: true,
+    comment: 'Array of preferred eye colors',
+  })
+  preferredEyeColors: string[];
+
+  @Column({ type: 'text', nullable: true, name: 'partner_preferences_bio' })
+  partnerPreferencesBio: string;
+
+  // Profile fields - Section 4: Marriage Preferences
+  @Column({ type: 'varchar', length: 50, nullable: true, name: 'marriage_type' })
+  marriageType: string;
+
+  @Column({ type: 'boolean', nullable: true, name: 'accept_polygamy' })
+  acceptPolygamy: boolean;
+
+  // Legacy fields
+  @Column({ type: 'varchar', length: 100, nullable: true, name: 'religious_practice' })
+  @Index('idx_users_religious_practice')
+  religiousPractice: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  sect: string;
+
+  @Column({ type: 'varchar', length: 100, nullable: true, name: 'prayer_level' })
+  prayerLevel: string;
 
   // Admin fields
   @Column({

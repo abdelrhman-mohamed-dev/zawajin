@@ -241,7 +241,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"bio\": \"A kind and practicing Muslim looking for a life partner.\",\n    \"age\": 30,\n    \"gender\": \"male\",\n    \"location\": {\n        \"city\": \"Dubai\",\n        \"country\": \"UAE\"\n    },\n    \"religiousPractice\": \"Religious\",\n    \"sect\": \"Sunni\",\n    \"prayerLevel\": \"Prays 5 times a day\",\n    \"maritalStatus\": \"single\",\n    \"profession\": \"Software Engineer\"\n}"
+							"raw": "{\n    \"dateOfBirth\": \"1995-05-15\",\n    \"location\": {\n        \"city\": \"Dubai\",\n        \"country\": \"UAE\"\n    },\n    \"origin\": \"Pakistani\",\n    \"maritalStatus\": \"single\",\n    \"profession\": \"Software Engineer\",\n    \"weight\": 70.5,\n    \"height\": 175.5,\n    \"bodyColor\": \"medium\",\n    \"hairColor\": \"black\",\n    \"hairType\": \"straight\",\n    \"eyeColor\": \"brown\",\n    \"houseAvailable\": true,\n    \"natureOfWork\": \"Full-time office job\",\n    \"bio\": \"A kind and practicing Muslim looking for a life partner.\",\n    \"preferredMinWeight\": 50,\n    \"preferredMaxWeight\": 80,\n    \"preferredMinHeight\": 150,\n    \"preferredMaxHeight\": 180,\n    \"preferredBodyColors\": [\"fair\", \"medium\"],\n    \"preferredHairColors\": [\"black\", \"dark_brown\"],\n    \"preferredEyeColors\": [\"brown\", \"hazel\"],\n    \"partnerPreferencesBio\": \"Looking for someone kind, religious, and family-oriented.\",\n    \"marriageType\": \"religious\",\n    \"acceptPolygamy\": false\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/users/profile",

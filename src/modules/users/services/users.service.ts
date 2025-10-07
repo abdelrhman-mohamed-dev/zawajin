@@ -22,7 +22,26 @@ export class UsersService {
       throw new NotFoundException('User not found / المستخدم غير موجود');
     }
 
-    const updatedUser = await this.userRepository.updateProfile(userId, profileData);
+    // Prepare update data
+    const updateData: Partial<User> = { ...profileData } as any;
+
+    // Calculate age from dateOfBirth if provided
+    if (profileData.dateOfBirth) {
+      const birthDate = new Date(profileData.dateOfBirth);
+      updateData.dateOfBirth = birthDate;
+
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+
+      updateData.age = age;
+    }
+
+    const updatedUser = await this.userRepository.updateProfile(userId, updateData);
 
     this.logger.log(`Profile updated successfully for user: ${userId}`);
 
