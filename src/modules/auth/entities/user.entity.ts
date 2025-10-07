@@ -82,6 +82,66 @@ export class User {
   @Column({ type: 'varchar', length: 100, nullable: true })
   profession: string;
 
+  // Admin fields
+  @Column({
+    type: 'enum',
+    enum: ['user', 'admin', 'super_admin'],
+    default: 'user',
+  })
+  @Index('idx_users_role')
+  role: string;
+
+  @Column({
+    type: 'jsonb',
+    nullable: true,
+    comment: 'Array of permission strings for granular admin access control',
+  })
+  permissions: string[];
+
+  @Column({ type: 'boolean', default: false, name: 'is_banned' })
+  isBanned: boolean;
+
+  @Column({
+    type: 'enum',
+    enum: ['temporary', 'permanent'],
+    nullable: true,
+    name: 'ban_type',
+  })
+  banType: string;
+
+  @Column({ type: 'timestamp', nullable: true, name: 'banned_at' })
+  bannedAt: Date;
+
+  @Column({ type: 'timestamp', nullable: true, name: 'banned_until' })
+  bannedUntil: Date;
+
+  @Column({ type: 'text', nullable: true, name: 'banned_reason' })
+  bannedReason: string;
+
+  @Column({ type: 'uuid', nullable: true, name: 'banned_by' })
+  bannedBy: string;
+
+  @Column({ type: 'boolean', default: false, name: 'is_verified' })
+  isVerified: boolean;
+
+  @Column({ type: 'timestamp', nullable: true, name: 'verified_at' })
+  verifiedAt: Date;
+
+  @Column({ type: 'uuid', nullable: true, name: 'verified_by' })
+  verifiedBy: string;
+
+  @Column({ type: 'boolean', default: false, name: 'is_deleted' })
+  isDeleted: boolean;
+
+  @Column({ type: 'timestamp', nullable: true, name: 'deleted_at' })
+  deletedAt: Date;
+
+  @Column({ type: 'uuid', nullable: true, name: 'role_assigned_by' })
+  roleAssignedBy: string;
+
+  @Column({ type: 'timestamp', nullable: true, name: 'role_assigned_at' })
+  roleAssignedAt: Date;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

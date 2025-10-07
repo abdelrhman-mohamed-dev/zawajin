@@ -41,7 +41,7 @@ export class UsersService {
   }> {
     this.logger.log(`Fetching users with filters: ${JSON.stringify(queryDto)}`);
 
-    const result = await this.userRepository.findAll(queryDto);
+    const result = await this.userRepository.findAllUsers(queryDto);
 
     // Remove sensitive data from all users
     result.users = result.users.map((user) => {

@@ -1,0 +1,68 @@
+{
+  "messages": {
+    "usersFetched": "Users fetched successfully",
+    "userFetched": "User fetched successfully",
+    "userUpdated": "User updated successfully",
+    "userBanned": "User banned successfully",
+    "userUnbanned": "User unbanned successfully",
+    "userDeleted": "User account disabled successfully",
+    "userVerified": "User verified successfully",
+    "notificationSent": "Notification sent successfully",
+    "activityLogsFetched": "Activity logs fetched successfully",
+    "adminsFetched": "Admins fetched successfully",
+    "adminCreated": "Admin created successfully",
+    "adminRolesUpdated": "Admin roles updated successfully",
+    "adminPromoted": "Admin promoted to super admin successfully",
+    "adminDemoted": "Super admin demoted to admin successfully",
+    "adminRemoved": "Admin privileges removed successfully",
+    "reportsFetched": "Reports fetched successfully",
+    "reportFetched": "Report fetched successfully",
+    "reportReviewed": "Report marked as reviewed",
+    "reportResolved": "Report resolved successfully",
+    "reportDismissed": "Report dismissed successfully",
+    "subscriptionPlansFetched": "Subscription plans fetched successfully",
+    "subscriptionPlanCreated": "Subscription plan created successfully",
+    "subscriptionPlanUpdated": "Subscription plan updated successfully",
+    "subscriptionPlanDeactivated": "Subscription plan deactivated successfully",
+    "subscriptionsFetched": "Subscriptions fetched successfully",
+    "subscriptionUpdated": "Subscription updated successfully",
+    "analyticsFetched": "Analytics data fetched successfully"
+  },
+  "errors": {
+    "unauthorized": "Unauthorized access",
+    "userNotFound": "User not found",
+    "userBanned": "User is banned",
+    "userDeleted": "User account is deleted",
+    "insufficientPermissions": "Insufficient permissions",
+    "userAlreadyBanned": "User is already banned",
+    "cannotBanAdmin": "Cannot ban admin or super admin users",
+    "userNotBanned": "User is not banned",
+    "userAlreadyDeleted": "User account is already deleted",
+    "cannotDeleteAdmin": "Cannot delete admin or super admin users",
+    "userAlreadyVerified": "User is already verified",
+    "emailExists": "Email already exists",
+    "cannotModifyOtherAdmins": "Cannot modify other admin users",
+    "cannotDemoteSelf": "Cannot demote yourself",
+    "cannotRemoveSelf": "Cannot remove your own admin privileges",
+    "userNotAdmin": "User is not an admin",
+    "userAlreadyAdmin": "User is already an admin",
+    "reportNotFound": "Report not found",
+    "reportAlreadyResolved": "Report is already resolved",
+    "subscriptionPlanNotFound": "Subscription plan not found",
+    "subscriptionNotFound": "Subscription not found"
+  },
+  "notifications": {
+    "banned": {
+      "title": "Account Suspended",
+      "body": "Your account has been suspended. Reason: {{reason}}"
+    },
+    "unbanned": {
+      "title": "Account Reactivated",
+      "body": "Your account has been reactivated. You can now access the platform."
+    },
+    "verified": {
+      "title": "Profile Verified",
+      "body": "Congratulations! Your profile has been verified by our team."
+    }
+  }
+}

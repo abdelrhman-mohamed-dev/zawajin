@@ -18,6 +18,7 @@ import { InteractionsModule } from './modules/interactions/interactions.module';
 import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
 import { SeedModule } from './database/seeds/seed.module';
 import { ChatModule } from './modules/chat/chat.module';
+import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
   imports: [
@@ -65,6 +66,7 @@ import { ChatModule } from './modules/chat/chat.module';
     SubscriptionsModule,
     SeedModule,
     ChatModule,
+    AdminModule,
   ],
   controllers: [],
   providers: [

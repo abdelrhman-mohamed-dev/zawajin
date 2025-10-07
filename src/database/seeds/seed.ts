@@ -2,6 +2,7 @@ import { DataSource } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 import { config } from 'dotenv';
 import { seedSubscriptionPlans } from './subscription-plans.seed';
+import { seedSuperAdmin } from './super-admin.seed';
 
 // Load environment variables
 config();
@@ -30,7 +31,12 @@ async function runSeeds() {
 
     console.log('\n🌱 Starting database seeding...\n');
 
+    // Run super admin seed first
+    console.log('1️⃣ Seeding super admin user...');
+    await seedSuperAdmin(AppDataSource, configService);
+
     // Run subscription plans seed
+    console.log('\n2️⃣ Seeding subscription plans...');
     await seedSubscriptionPlans(AppDataSource);
 
     console.log('\n✅ All seeds completed successfully!\n');

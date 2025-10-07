@@ -79,7 +79,99 @@ export class UserRepository {
     return this.findById(userId);
   }
 
-  async findAll(queryDto: GetUsersQueryDto): Promise<{
+  async findAll(
+    page: number = 1,
+    limit: number = 20,
+    search?: string,
+    role?: string,
+    isBanned?: boolean,
+    isVerified?: boolean,
+  ): Promise<{
+    users: User[];
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  }> {
+    const skip = (page - 1) * limit;
+
+    const queryBuilder = this.userRepo
+      .createQueryBuilder('user')
+      .where('user.isDeleted = :isDeleted', { isDeleted: false });
+
+    // Search by email, fullName, or chartNumber
+    if (search) {
+      queryBuilder.andWhere(
+        '(user.email ILIKE :search OR user.fullName ILIKE :search OR user.chartNumber ILIKE :search)',
+        { search: `%${search}%` },
+      );
+    }
+
+    // Filter by role
+    if (role) {
+      queryBuilder.andWhere('user.role = :role', { role });
+    }
+
+    // Filter by banned status
+    if (isBanned !== undefined) {
+      queryBuilder.andWhere('user.isBanned = :isBanned', { isBanned });
+    }
+
+    // Filter by verified status
+    if (isVerified !== undefined) {
+      queryBuilder.andWhere('user.isVerified = :isVerified', { isVerified });
+    }
+
+    // Get total count
+    const total = await queryBuilder.getCount();
+
+    // Apply pagination and select fields (exclude password hash)
+    const users = await queryBuilder
+      .select([
+        'user.id',
+        'user.fullName',
+        'user.email',
+        'user.phone',
+        'user.gender',
+        'user.chartNumber',
+        'user.bio',
+        'user.age',
+        'user.location',
+        'user.religiousPractice',
+        'user.sect',
+        'user.prayerLevel',
+        'user.maritalStatus',
+        'user.profession',
+        'user.role',
+        'user.permissions',
+        'user.isBanned',
+        'user.banType',
+        'user.bannedAt',
+        'user.bannedUntil',
+        'user.bannedReason',
+        'user.isVerified',
+        'user.verifiedAt',
+        'user.isEmailVerified',
+        'user.isPhoneVerified',
+        'user.isActive',
+        'user.createdAt',
+        'user.updatedAt',
+      ])
+      .skip(skip)
+      .take(limit)
+      .orderBy('user.createdAt', 'DESC')
+      .getMany();
+
+    return {
+      users,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
+  }
+
+  async findAllUsers(queryDto: GetUsersQueryDto): Promise<{
     users: User[];
     total: number;
     page: number;

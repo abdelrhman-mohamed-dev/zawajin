@@ -84,6 +84,56 @@ export class MailService {
     }
   }
 
+  async sendAdminNotification(to: string, subject: string, message: string): Promise<boolean> {
+    try {
+      const htmlContent = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background-color: #4F46E5; color: white; padding: 20px; text-align: center; }
+            .content { padding: 30px 20px; background-color: #f9fafb; }
+            .message { background-color: white; padding: 20px; border-radius: 5px; margin: 20px 0; }
+            .footer { text-align: center; padding: 20px; color: #666; font-size: 12px; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>Zawaj-In Admin Notification</h1>
+            </div>
+            <div class="content">
+              <div class="message">
+                <p>${message.replace(/\n/g, '<br>')}</p>
+              </div>
+            </div>
+            <div class="footer">
+              <p>&copy; ${new Date().getFullYear()} Zawaj-In. All rights reserved.</p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `;
+
+      const mailOptions = {
+        from: this.configService.get<string>('MAIL_FROM', 'Zawaj <noreply@zawaj.com>'),
+        to,
+        subject: subject,
+        html: htmlContent,
+      };
+
+      const result = await this.transporter.sendMail(mailOptions);
+      this.logger.log(`Admin notification sent successfully to ${to}. Message ID: ${result.messageId}`);
+      return true;
+    } catch (error) {
+      this.logger.error(`Failed to send admin notification to ${to}:`, error);
+      return false;
+    }
+  }
+
   private async loadTemplate(templateName: string): Promise<string> {
     try {
       const templatePath = path.join(process.cwd(), 'src', 'templates', templateName);

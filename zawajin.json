@@ -844,28 +844,844 @@
 			"name": "Admin",
 			"item": [
 				{
-					"name": "Ban User",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/users/615c8a9b4f7d4e3e4c8b4567/ban",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"users",
-								"615c8a9b4f7d4e3e4c8b4567",
-								"ban"
-							]
+					"name": "User Management",
+					"item": [
+						{
+							"name": "Get All Users (Admin)",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/users?page=1&limit=20",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"users"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "20"
+										},
+										{
+											"key": "search",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "role",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "isBanned",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "isVerified",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get User By ID (Admin)",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/users/{{userId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"users",
+										"{{userId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update User (Admin)",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"fullName\": \"Updated Name\",\n    \"isActive\": true,\n    \"isEmailVerified\": true\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin/users/{{userId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"users",
+										"{{userId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Ban User",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"banType\": \"temporary\",\n    \"reason\": \"Violating community guidelines\",\n    \"bannedUntil\": \"2025-12-31T23:59:59.000Z\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin/users/{{userId}}/ban",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"users",
+										"{{userId}}",
+										"ban"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Unban User",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/users/{{userId}}/unban",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"users",
+										"{{userId}}",
+										"unban"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete User (Soft Delete)",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/users/{{userId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"users",
+										"{{userId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verify User",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/users/{{userId}}/verify",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"users",
+										"{{userId}}",
+										"verify"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Send Notification to User",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"subject\": \"Important Update\",\n    \"message\": \"Your profile has been verified successfully.\",\n    \"notificationType\": \"email\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin/users/{{userId}}/send-notification",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"users",
+										"{{userId}}",
+										"send-notification"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Send Email to User",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"subject\": \"Account Update\",\n    \"message\": \"Your account status has been updated.\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin/users/{{userId}}/send-email",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"users",
+										"{{userId}}",
+										"send-email"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get User Activity Logs",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/users/{{userId}}/activity-logs?page=1&limit=50",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"users",
+										"{{userId}}",
+										"activity-logs"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "50"
+										}
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
+				},
+				{
+					"name": "Admin Role Management (Super Admin)",
+					"item": [
+						{
+							"name": "Get All Admins",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/admins?page=1&limit=20",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"admins"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "20"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Admin User",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"fullName\": \"Admin User\",\n    \"email\": \"admin@zawaj.in\",\n    \"phone\": \"+1234567890\",\n    \"gender\": \"male\",\n    \"password\": \"Admin@123\",\n    \"permissions\": [\"manage_users\", \"manage_reports\", \"view_analytics\"]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin/admins",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"admins"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Admin Roles/Permissions",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"permissions\": [\"manage_users\", \"manage_reports\", \"view_analytics\", \"send_notifications\"]\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin/admins/{{adminId}}/roles",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"admins",
+										"{{adminId}}",
+										"roles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Promote to Super Admin",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/admins/{{adminId}}/promote",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"admins",
+										"{{adminId}}",
+										"promote"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Demote to Admin",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/admins/{{adminId}}/demote",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"admins",
+										"{{adminId}}",
+										"demote"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove Admin Privileges",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/admins/{{adminId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"admins",
+										"{{adminId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Reports Management",
+					"item": [
+						{
+							"name": "Get All Reports",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/reports?page=1&limit=20",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"reports"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "20"
+										},
+										{
+											"key": "status",
+											"value": "pending",
+											"disabled": true
+										},
+										{
+											"key": "priority",
+											"value": "high",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Report Details",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/reports/{{reportId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"reports",
+										"{{reportId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Review Report",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/reports/{{reportId}}/review",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"reports",
+										"{{reportId}}",
+										"review"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Resolve Report",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"resolution\": \"User has been warned and content removed\",\n    \"actionTaken\": \"warning_sent\"\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin/reports/{{reportId}}/resolve",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"reports",
+										"{{reportId}}",
+										"resolve"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Dismiss Report",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/reports/{{reportId}}/dismiss",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"reports",
+										"{{reportId}}",
+										"dismiss"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Subscription Management",
+					"item": [
+						{
+							"name": "Get All Subscription Plans (Admin)",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/subscriptions/plans",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"subscriptions",
+										"plans"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Subscriptions",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/subscriptions?page=1&limit=20",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"subscriptions"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "20"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Analytics",
+					"item": [
+						{
+							"name": "Get Overview Analytics",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/analytics/overview",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"analytics",
+										"overview"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get User Analytics",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/analytics/users",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"analytics",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Match Analytics",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/analytics/matches",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"analytics",
+										"matches"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Message Analytics",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/analytics/messages",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"analytics",
+										"messages"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Subscription Analytics",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/analytics/subscriptions",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"analytics",
+										"subscriptions"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}
@@ -885,6 +1701,18 @@
 		},
 		{
 			"key": "messageId",
+			"value": ""
+		},
+		{
+			"key": "userId",
+			"value": ""
+		},
+		{
+			"key": "adminId",
+			"value": ""
+		},
+		{
+			"key": "reportId",
 			"value": ""
 		}
 	]
