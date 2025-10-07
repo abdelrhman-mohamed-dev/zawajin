@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, IsInt, Min, Max, IsEnum } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class GetRecommendationsDto {
   @ApiProperty({
@@ -9,6 +10,7 @@ export class GetRecommendationsDto {
     required: false,
   })
   @IsOptional()
+  @Type(() => Number)
   @IsInt()
   @Min(1)
   page?: number = 1;
@@ -20,6 +22,7 @@ export class GetRecommendationsDto {
     required: false,
   })
   @IsOptional()
+  @Type(() => Number)
   @IsInt()
   @Min(1)
   @Max(50)
@@ -31,6 +34,7 @@ export class GetRecommendationsDto {
     required: false,
   })
   @IsOptional()
+  @Type(() => Number)
   @IsInt()
   @Min(0)
   @Max(100)
@@ -62,6 +66,7 @@ export class GetRecommendationsDto {
     required: false,
   })
   @IsOptional()
+  @Type(() => Number)
   @IsInt()
   @Min(18)
   @Max(100)
@@ -73,6 +78,7 @@ export class GetRecommendationsDto {
     required: false,
   })
   @IsOptional()
+  @Type(() => Number)
   @IsInt()
   @Min(18)
   @Max(100)
