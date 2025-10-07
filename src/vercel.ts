@@ -34,6 +34,9 @@ async function bootstrapExpressApp() {
     credentials: true,
   });
 
+  // Do not call listen() in serverless
+  await app.init();
+
   // Swagger configuration (served at /api/docs)
   const config = new DocumentBuilder()
     .setTitle('Zawaj-In API')
@@ -64,9 +67,6 @@ async function bootstrapExpressApp() {
     },
     customSiteTitle: 'Zawaj-In API Documentation',
   });
-
-  // Do not call listen() in serverless
-  await app.init();
   return app.getHttpAdapter().getInstance();
 }
 
