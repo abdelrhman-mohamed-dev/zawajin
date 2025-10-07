@@ -49,6 +49,22 @@ export interface LoginResponse {
   timestamp: string;
 }
 
+export interface ForgetPasswordResponse {
+  success: boolean;
+  message: string;
+  data: {
+    email: string;
+    expiresAt: Date;
+  };
+  timestamp: string;
+}
+
+export interface ResetPasswordResponse {
+  success: boolean;
+  message: string;
+  timestamp: string;
+}
+
 export interface ApiErrorResponse {
   success: false;
   message: string;

@@ -115,6 +115,60 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Forget Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"ahmed.khan@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/forget-password",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"forget-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"ahmed.khan@example.com\",\n    \"code\": \"123456\",\n    \"newPassword\": \"NewPassword123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/reset-password",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"reset-password"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

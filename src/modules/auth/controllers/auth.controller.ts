@@ -16,8 +16,10 @@ import { RegisterDto } from '../dto/register.dto';
 import { LoginDto } from '../dto/login.dto';
 import { VerifyOtpDto } from '../dto/verify-otp.dto';
 import { ResendOtpDto } from '../dto/resend-otp.dto';
+import { ForgetPasswordDto } from '../dto/forget-password.dto';
+import { ResetPasswordDto } from '../dto/reset-password.dto';
 import { AuthService } from '../services/auth.service';
-import { RegisterResponse, VerifyResponse, ResendResponse, LoginResponse } from '../interfaces/auth.interface';
+import { RegisterResponse, VerifyResponse, ResendResponse, LoginResponse, ForgetPasswordResponse, ResetPasswordResponse } from '../interfaces/auth.interface';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { UserRepository } from '../repositories/user.repository';
 
@@ -414,6 +416,203 @@ export class AuthController {
       return await this.authService.login(loginDto);
     } catch (error) {
       this.logger.error(`Login failed for ${loginDto.email}:`, error.message);
+      throw error;
+    }
+  }
+
+  @Post('forget-password')
+  @HttpCode(HttpStatus.OK)
+  @Throttle({ default: { limit: 3, ttl: 3600000 } }) // 3 requests per hour
+  @ApiOperation({
+    summary: 'Request password reset',
+    description: 'Request a password reset by providing your email address. A verification code will be sent to your email.',
+  })
+  @ApiBody({
+    type: ForgetPasswordDto,
+    description: 'Email address for password reset',
+    examples: {
+      forgetPassword: {
+        summary: 'Request password reset',
+        description: 'Provide your email to receive a password reset code',
+        value: {
+          email: 'an.roooof@gmail.com'
+        }
+      }
+    }
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Password reset code sent successfully',
+    schema: {
+      example: {
+        success: true,
+        message: 'Password reset code sent successfully. Please check your email',
+        data: {
+          email: 'an.roooof@gmail.com',
+          expiresAt: '2024-01-01T00:05:00.000Z',
+        },
+        timestamp: '2024-01-01T00:00:00.000Z',
+      },
+    },
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'User not found',
+    schema: {
+      example: {
+        success: false,
+        message: 'User not found',
+        error: {
+          code: 'NOT_FOUND',
+          details: []
+        },
+        timestamp: '2024-01-01T00:00:00.000Z'
+      }
+    }
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Email not verified or account deactivated',
+    schema: {
+      example: {
+        success: false,
+        message: 'Email not verified. Please verify your email first',
+        error: {
+          code: 'BAD_REQUEST',
+          details: []
+        },
+        timestamp: '2024-01-01T00:00:00.000Z'
+      }
+    }
+  })
+  @ApiResponse({
+    status: 429,
+    description: 'Too many password reset requests',
+    schema: {
+      example: {
+        success: false,
+        message: 'Too many requests',
+        error: {
+          code: 'RATE_LIMIT_ERROR',
+          details: []
+        },
+        timestamp: '2024-01-01T00:00:00.000Z'
+      }
+    }
+  })
+  async forgetPassword(@Body() forgetPasswordDto: ForgetPasswordDto): Promise<ForgetPasswordResponse> {
+    try {
+      this.logger.log(`Forget password request for: ${forgetPasswordDto.email}`);
+      return await this.authService.forgetPassword(forgetPasswordDto.email);
+    } catch (error) {
+      this.logger.error(`Forget password failed for ${forgetPasswordDto.email}:`, error.message);
+      throw error;
+    }
+  }
+
+  @Post('reset-password')
+  @HttpCode(HttpStatus.OK)
+  @Throttle({ default: { limit: 5, ttl: 3600000 } }) // 5 requests per hour
+  @ApiOperation({
+    summary: 'Reset password',
+    description: 'Reset your password using the verification code sent to your email.',
+  })
+  @ApiBody({
+    type: ResetPasswordDto,
+    description: 'Email, OTP code, and new password',
+    examples: {
+      resetPassword: {
+        summary: 'Reset password',
+        description: 'Provide email, OTP code, and new password to reset your password',
+        value: {
+          email: 'an.roooof@gmail.com',
+          code: '123456',
+          newPassword: 'NewPassword123'
+        }
+      }
+    }
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Password reset successful',
+    schema: {
+      example: {
+        success: true,
+        message: 'Password reset successful. You can now login with your new password',
+        timestamp: '2024-01-01T00:00:00.000Z',
+      },
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Invalid or expired OTP code',
+    schema: {
+      example: {
+        success: false,
+        message: 'Invalid or expired OTP code',
+        error: {
+          code: 'UNAUTHORIZED',
+          details: []
+        },
+        timestamp: '2024-01-01T00:00:00.000Z'
+      }
+    }
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'User not found',
+    schema: {
+      example: {
+        success: false,
+        message: 'User not found',
+        error: {
+          code: 'NOT_FOUND',
+          details: []
+        },
+        timestamp: '2024-01-01T00:00:00.000Z'
+      }
+    }
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Invalid input data',
+    schema: {
+      example: {
+        success: false,
+        message: 'Validation failed',
+        error: {
+          code: 'VALIDATION_ERROR',
+          details: ['Password must be at least 8 characters long']
+        },
+        timestamp: '2024-01-01T00:00:00.000Z'
+      }
+    }
+  })
+  @ApiResponse({
+    status: 429,
+    description: 'Too many password reset attempts',
+    schema: {
+      example: {
+        success: false,
+        message: 'Too many requests',
+        error: {
+          code: 'RATE_LIMIT_ERROR',
+          details: []
+        },
+        timestamp: '2024-01-01T00:00:00.000Z'
+      }
+    }
+  })
+  async resetPassword(@Body() resetPasswordDto: ResetPasswordDto): Promise<ResetPasswordResponse> {
+    try {
+      this.logger.log(`Password reset attempt for: ${resetPasswordDto.email}`);
+      return await this.authService.resetPassword(
+        resetPasswordDto.email,
+        resetPasswordDto.code,
+        resetPasswordDto.newPassword
+      );
+    } catch (error) {
+      this.logger.error(`Password reset failed for ${resetPasswordDto.email}:`, error.message);
       throw error;
     }
   }

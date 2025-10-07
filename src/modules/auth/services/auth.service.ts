@@ -15,7 +15,7 @@ import { LoginDto } from '../dto/login.dto';
 import { UserRepository } from '../repositories/user.repository';
 import { OtpService, OtpType } from './otp.service';
 import { MailService } from '../../mail/services/mail.service';
-import { RegisterResponse, VerifyResponse, ResendResponse, LoginResponse } from '../interfaces/auth.interface';
+import { RegisterResponse, VerifyResponse, ResendResponse, LoginResponse, ForgetPasswordResponse, ResetPasswordResponse } from '../interfaces/auth.interface';
 import { User } from '../entities/user.entity';
 
 @Injectable()
@@ -252,6 +252,96 @@ export class AuthService {
         access_token: tokens.access_token,
         refresh_token: tokens.refresh_token,
       },
+      timestamp: new Date().toISOString(),
+    };
+  }
+
+  async forgetPassword(email: string): Promise<ForgetPasswordResponse> {
+    this.logger.log(`Forget password request for email: ${email}`);
+
+    const user = await this.userRepository.findByEmail(email);
+    if (!user) {
+      throw new NotFoundException(
+        this.i18n.t('auth.user_not_found', { lang: I18nContext.current()?.lang })
+      );
+    }
+
+    if (!user.isEmailVerified) {
+      throw new BadRequestException(
+        this.i18n.t('auth.email_not_verified', { lang: I18nContext.current()?.lang })
+      );
+    }
+
+    if (!user.isActive) {
+      throw new BadRequestException(
+        this.i18n.t('auth.account_deactivated', { lang: I18nContext.current()?.lang })
+      );
+    }
+
+    // Delete existing OTP if any
+    await this.otpService.deleteOtp(email, OtpType.EMAIL);
+
+    // Generate and send new OTP for password reset
+    const otpCode = await this.otpService.generateOtp(user.id, email, OtpType.EMAIL);
+    const emailSent = await this.mailService.sendPasswordResetEmail(email, otpCode, user.fullName);
+
+    if (!emailSent) {
+      this.logger.error(`Failed to send password reset email to ${email}`);
+      throw new BadRequestException(
+        this.i18n.t('auth.failed_send_verification_email', { lang: I18nContext.current()?.lang })
+      );
+    }
+
+    const expiresAt = await this.otpService.getOtpExpiry(email, OtpType.EMAIL);
+
+    this.logger.log(`Password reset OTP sent successfully to: ${email}`);
+
+    return {
+      success: true,
+      message: this.i18n.t('auth.password_reset_code_sent', { lang: I18nContext.current()?.lang }),
+      data: {
+        email,
+        expiresAt,
+      },
+      timestamp: new Date().toISOString(),
+    };
+  }
+
+  async resetPassword(email: string, code: string, newPassword: string): Promise<ResetPasswordResponse> {
+    this.logger.log(`Password reset attempt for email: ${email}`);
+
+    const user = await this.userRepository.findByEmail(email);
+    if (!user) {
+      throw new NotFoundException(
+        this.i18n.t('auth.user_not_found', { lang: I18nContext.current()?.lang })
+      );
+    }
+
+    // Validate OTP
+    const validation = await this.otpService.validateOtp(email, code, OtpType.EMAIL);
+
+    if (!validation.isValid) {
+      if (validation.attemptsExceeded) {
+        throw new UnauthorizedException(
+          this.i18n.t('auth.too_many_failed_attempts', { lang: I18nContext.current()?.lang })
+        );
+      }
+      throw new UnauthorizedException(
+        this.i18n.t('auth.invalid_or_expired_otp', { lang: I18nContext.current()?.lang })
+      );
+    }
+
+    // Hash new password
+    const passwordHash = await bcrypt.hash(newPassword, this.bcryptRounds);
+
+    // Update user password
+    await this.userRepository.updatePassword(user.id, passwordHash);
+
+    this.logger.log(`Password reset successful for user: ${user.id}`);
+
+    return {
+      success: true,
+      message: this.i18n.t('auth.password_reset_successful', { lang: I18nContext.current()?.lang }),
       timestamp: new Date().toISOString(),
     };
   }

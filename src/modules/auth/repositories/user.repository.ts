@@ -55,6 +55,10 @@ export class UserRepository {
     await this.userRepo.update(id, { fcmToken });
   }
 
+  async updatePassword(id: string, passwordHash: string): Promise<void> {
+    await this.userRepo.update(id, { passwordHash });
+  }
+
   async isEmailExists(email: string): Promise<boolean> {
     const count = await this.userRepo.count({ where: { email } });
     return count > 0;

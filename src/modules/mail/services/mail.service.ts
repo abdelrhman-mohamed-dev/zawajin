@@ -63,6 +63,27 @@ export class MailService {
     }
   }
 
+  async sendPasswordResetEmail(to: string, otpCode: string, fullName: string): Promise<boolean> {
+    try {
+      const template = await this.loadTemplate('password-reset.template.html');
+      const htmlContent = this.replaceVariables(template, [fullName, otpCode]);
+
+      const mailOptions = {
+        from: this.configService.get<string>('MAIL_FROM', 'Zawaj <noreply@zawaj.com>'),
+        to,
+        subject: 'Password Reset Request - Zawaj-In | طلب إعادة تعيين كلمة المرور - زواج إن',
+        html: htmlContent,
+      };
+
+      const result = await this.transporter.sendMail(mailOptions);
+      this.logger.log(`Password reset email sent successfully to ${to}. Message ID: ${result.messageId}`);
+      return true;
+    } catch (error) {
+      this.logger.error(`Failed to send password reset email to ${to}:`, error);
+      return false;
+    }
+  }
+
   private async loadTemplate(templateName: string): Promise<string> {
     try {
       const templatePath = path.join(process.cwd(), 'src', 'templates', templateName);
