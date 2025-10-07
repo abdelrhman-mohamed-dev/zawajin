@@ -1,13 +1,21 @@
 import { Controller, Post, HttpCode, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { ConfigService } from '@nestjs/config';
+import * as bcrypt from 'bcrypt';
 import { SubscriptionPlan } from '../../modules/subscriptions/entities/subscription-plan.entity';
+import { User } from '../../modules/auth/entities/user.entity';
+import { Public } from '../../common/decorators/public.decorator';
 
 @Controller('seed')
+@Public()
 export class SeedController {
   constructor(
     @InjectRepository(SubscriptionPlan)
     private subscriptionPlanRepository: Repository<SubscriptionPlan>,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
+    private configService: ConfigService,
   ) {}
 
   @Post('subscription-plans')
@@ -117,6 +125,56 @@ export class SeedController {
       message: 'Subscription plans seeded successfully',
       count: savedPlans.length,
       plans: savedPlans.map((p) => ({ id: p.id, name: p.name })),
+    };
+  }
+
+  @Post('super-admin')
+  @HttpCode(HttpStatus.OK)
+  async seedSuperAdmin() {
+    // Get super admin details from environment variables
+    const email = this.configService.get<string>('SUPER_ADMIN_EMAIL', 'superadmin@zawaj.in');
+    const password = this.configService.get<string>('SUPER_ADMIN_PASSWORD', 'SuperAdmin@123');
+    const fullName = this.configService.get<string>('SUPER_ADMIN_FULL_NAME', 'Super Administrator');
+    const phone = this.configService.get<string>('SUPER_ADMIN_PHONE', '+1234567890');
+    const gender = this.configService.get<string>('SUPER_ADMIN_GENDER', 'male');
+
+    // Check if super admin already exists
+    const existingSuperAdmin = await this.userRepository.findOne({
+      where: { email },
+    });
+
+    if (existingSuperAdmin) {
+      return {
+        message: 'Super admin already exists',
+        email: email,
+      };
+    }
+
+    // Hash the password
+    const passwordHash = await bcrypt.hash(password, 12);
+
+    // Create super admin user
+    const superAdmin = this.userRepository.create({
+      fullName,
+      email,
+      phone,
+      gender,
+      passwordHash,
+      role: 'super_admin',
+      permissions: null,
+      isEmailVerified: true,
+      isPhoneVerified: true,
+      isActive: true,
+      isVerified: true,
+      verifiedAt: new Date(),
+    });
+
+    await this.userRepository.save(superAdmin);
+
+    return {
+      message: 'Super admin created successfully',
+      email: email,
+      warning: 'Please change the password after first login',
     };
   }
 }
