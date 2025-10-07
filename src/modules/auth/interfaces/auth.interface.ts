@@ -59,6 +59,16 @@ export interface ForgetPasswordResponse {
   timestamp: string;
 }
 
+export interface VerifyResetOtpResponse {
+  success: boolean;
+  message: string;
+  data: {
+    email: string;
+    isVerified: boolean;
+  };
+  timestamp: string;
+}
+
 export interface ResetPasswordResponse {
   success: boolean;
   message: string;

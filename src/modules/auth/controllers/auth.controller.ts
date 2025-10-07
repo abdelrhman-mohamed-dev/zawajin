@@ -17,9 +17,10 @@ import { LoginDto } from '../dto/login.dto';
 import { VerifyOtpDto } from '../dto/verify-otp.dto';
 import { ResendOtpDto } from '../dto/resend-otp.dto';
 import { ForgetPasswordDto } from '../dto/forget-password.dto';
+import { VerifyResetOtpDto } from '../dto/verify-reset-otp.dto';
 import { ResetPasswordDto } from '../dto/reset-password.dto';
 import { AuthService } from '../services/auth.service';
-import { RegisterResponse, VerifyResponse, ResendResponse, LoginResponse, ForgetPasswordResponse, ResetPasswordResponse } from '../interfaces/auth.interface';
+import { RegisterResponse, VerifyResponse, ResendResponse, LoginResponse, ForgetPasswordResponse, VerifyResetOtpResponse, ResetPasswordResponse } from '../interfaces/auth.interface';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { UserRepository } from '../repositories/user.repository';
 
@@ -510,35 +511,38 @@ export class AuthController {
     }
   }
 
-  @Post('reset-password')
+  @Post('verify-reset-otp')
   @HttpCode(HttpStatus.OK)
-  @Throttle({ default: { limit: 5, ttl: 3600000 } }) // 5 requests per hour
+  @Throttle({ default: { limit: 10, ttl: 3600000 } }) // 10 requests per hour
   @ApiOperation({
-    summary: 'Reset password',
-    description: 'Reset your password using the verification code sent to your email.',
+    summary: 'Verify password reset OTP',
+    description: 'Verify the OTP code sent to your email for password reset. This is step 2 of the password reset flow.',
   })
   @ApiBody({
-    type: ResetPasswordDto,
-    description: 'Email, OTP code, and new password',
+    type: VerifyResetOtpDto,
+    description: 'Email and OTP code',
     examples: {
-      resetPassword: {
-        summary: 'Reset password',
-        description: 'Provide email, OTP code, and new password to reset your password',
+      verifyResetOtp: {
+        summary: 'Verify password reset OTP',
+        description: 'Provide email and OTP code to verify before resetting password',
         value: {
           email: 'an.roooof@gmail.com',
-          code: '123456',
-          newPassword: 'NewPassword123'
+          code: '123456'
         }
       }
     }
   })
   @ApiResponse({
     status: 200,
-    description: 'Password reset successful',
+    description: 'OTP verified successfully',
     schema: {
       example: {
         success: true,
-        message: 'Password reset successful. You can now login with your new password',
+        message: 'OTP verified successfully. You can now reset your password',
+        data: {
+          email: 'an.roooof@gmail.com',
+          isVerified: true,
+        },
         timestamp: '2024-01-01T00:00:00.000Z',
       },
     },
@@ -574,15 +578,88 @@ export class AuthController {
     }
   })
   @ApiResponse({
+    status: 429,
+    description: 'Too many verification attempts',
+    schema: {
+      example: {
+        success: false,
+        message: 'Too many requests',
+        error: {
+          code: 'RATE_LIMIT_ERROR',
+          details: []
+        },
+        timestamp: '2024-01-01T00:00:00.000Z'
+      }
+    }
+  })
+  async verifyResetOtp(@Body() verifyResetOtpDto: VerifyResetOtpDto): Promise<VerifyResetOtpResponse> {
+    try {
+      this.logger.log(`Password reset OTP verification attempt for: ${verifyResetOtpDto.email}`);
+      return await this.authService.verifyResetOtp(verifyResetOtpDto.email, verifyResetOtpDto.code);
+    } catch (error) {
+      this.logger.error(`Password reset OTP verification failed for ${verifyResetOtpDto.email}:`, error.message);
+      throw error;
+    }
+  }
+
+  @Post('reset-password')
+  @HttpCode(HttpStatus.OK)
+  @Throttle({ default: { limit: 5, ttl: 3600000 } }) // 5 requests per hour
+  @ApiOperation({
+    summary: 'Reset password',
+    description: 'Reset your password with a new password. This is step 3 of the password reset flow. You must verify the OTP first using /verify-reset-otp endpoint.',
+  })
+  @ApiBody({
+    type: ResetPasswordDto,
+    description: 'Email, new password, and confirm password',
+    examples: {
+      resetPassword: {
+        summary: 'Reset password',
+        description: 'Provide email, new password, and confirm password to reset your password',
+        value: {
+          email: 'an.roooof@gmail.com',
+          newPassword: 'NewPassword123',
+          confirmPassword: 'NewPassword123'
+        }
+      }
+    }
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Password reset successful',
+    schema: {
+      example: {
+        success: true,
+        message: 'Password reset successful. You can now login with your new password',
+        timestamp: '2024-01-01T00:00:00.000Z',
+      },
+    },
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'User not found',
+    schema: {
+      example: {
+        success: false,
+        message: 'User not found',
+        error: {
+          code: 'NOT_FOUND',
+          details: []
+        },
+        timestamp: '2024-01-01T00:00:00.000Z'
+      }
+    }
+  })
+  @ApiResponse({
     status: 400,
-    description: 'Invalid input data',
+    description: 'Invalid input data or passwords do not match',
     schema: {
       example: {
         success: false,
         message: 'Validation failed',
         error: {
           code: 'VALIDATION_ERROR',
-          details: ['Password must be at least 8 characters long']
+          details: ['Password must be at least 8 characters long', 'Passwords do not match']
         },
         timestamp: '2024-01-01T00:00:00.000Z'
       }
@@ -608,7 +685,6 @@ export class AuthController {
       this.logger.log(`Password reset attempt for: ${resetPasswordDto.email}`);
       return await this.authService.resetPassword(
         resetPasswordDto.email,
-        resetPasswordDto.code,
         resetPasswordDto.newPassword
       );
     } catch (error) {

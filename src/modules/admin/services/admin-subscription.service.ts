@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { I18nService } from 'nestjs-i18n';
 import { SubscriptionPlan } from '../../subscriptions/entities/subscription-plan.entity';
-import { Subscription } from '../../subscriptions/entities/subscription.entity';
+import { Subscription, SubscriptionStatus } from '../../subscriptions/entities/subscription.entity';
 import { AdminAction } from '../entities/admin-action.entity';
 import { CreatePlanDto } from '../../subscriptions/dto/create-plan.dto';
 import { UpdatePlanDto } from '../../subscriptions/dto/update-plan.dto';
@@ -172,7 +172,7 @@ export class AdminSubscriptionService {
 
     // Check if there are active subscriptions using this plan
     const activeSubscriptionsCount = await this.subscriptionRepository.count({
-      where: { planId, status: 'active' },
+      where: { planId, status: SubscriptionStatus.ACTIVE },
     });
 
     if (activeSubscriptionsCount > 0) {

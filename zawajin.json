@@ -144,6 +144,33 @@
 					"response": []
 				},
 				{
+					"name": "Verify Reset Password OTP",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"ahmed.khan@example.com\",\n    \"code\": \"123456\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/verify-reset-otp",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"verify-reset-otp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Reset Password",
 					"request": {
 						"method": "POST",
@@ -155,7 +182,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"ahmed.khan@example.com\",\n    \"code\": \"123456\",\n    \"newPassword\": \"NewPassword123\"\n}"
+							"raw": "{\n    \"email\": \"ahmed.khan@example.com\",\n    \"newPassword\": \"NewPassword123\",\n    \"confirmPassword\": \"NewPassword123\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/auth/reset-password",

@@ -15,7 +15,7 @@ import { LoginDto } from '../dto/login.dto';
 import { UserRepository } from '../repositories/user.repository';
 import { OtpService, OtpType } from './otp.service';
 import { MailService } from '../../mail/services/mail.service';
-import { RegisterResponse, VerifyResponse, ResendResponse, LoginResponse, ForgetPasswordResponse, ResetPasswordResponse } from '../interfaces/auth.interface';
+import { RegisterResponse, VerifyResponse, ResendResponse, LoginResponse, ForgetPasswordResponse, VerifyResetOtpResponse, ResetPasswordResponse } from '../interfaces/auth.interface';
 import { User } from '../entities/user.entity';
 
 @Injectable()
@@ -307,8 +307,8 @@ export class AuthService {
     };
   }
 
-  async resetPassword(email: string, code: string, newPassword: string): Promise<ResetPasswordResponse> {
-    this.logger.log(`Password reset attempt for email: ${email}`);
+  async verifyResetOtp(email: string, code: string): Promise<VerifyResetOtpResponse> {
+    this.logger.log(`Password reset OTP verification attempt for email: ${email}`);
 
     const user = await this.userRepository.findByEmail(email);
     if (!user) {
@@ -331,11 +331,37 @@ export class AuthService {
       );
     }
 
+    this.logger.log(`Password reset OTP verified successfully for: ${email}`);
+
+    return {
+      success: true,
+      message: this.i18n.t('auth.otp_verified_successfully', { lang: I18nContext.current()?.lang }),
+      data: {
+        email,
+        isVerified: true,
+      },
+      timestamp: new Date().toISOString(),
+    };
+  }
+
+  async resetPassword(email: string, newPassword: string): Promise<ResetPasswordResponse> {
+    this.logger.log(`Password reset attempt for email: ${email}`);
+
+    const user = await this.userRepository.findByEmail(email);
+    if (!user) {
+      throw new NotFoundException(
+        this.i18n.t('auth.user_not_found', { lang: I18nContext.current()?.lang })
+      );
+    }
+
     // Hash new password
     const passwordHash = await bcrypt.hash(newPassword, this.bcryptRounds);
 
     // Update user password
     await this.userRepository.updatePassword(user.id, passwordHash);
+
+    // Delete OTP after successful password reset
+    await this.otpService.deleteOtp(email, OtpType.EMAIL);
 
     this.logger.log(`Password reset successful for user: ${user.id}`);
 
