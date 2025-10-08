@@ -37,6 +37,7 @@ export interface IMatchRecommendation {
     physicalAttributesScore: number;
     marriageTypeScore: number;
   };
+  hasLiked: boolean;
 }
 
 export interface IRecommendationsResponse {

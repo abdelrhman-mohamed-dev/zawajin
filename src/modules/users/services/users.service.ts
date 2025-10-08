@@ -3,16 +3,23 @@ import {
   NotFoundException,
   Logger,
 } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { UserRepository } from '../../auth/repositories/user.repository';
 import { UpdateProfileDto } from '../dto/update-profile.dto';
 import { GetUsersDto } from '../dto/get-users.dto';
 import { User } from '../../auth/entities/user.entity';
+import { Like } from '../../interactions/entities/like.entity';
 
 @Injectable()
 export class UsersService {
   private readonly logger = new Logger(UsersService.name);
 
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    @InjectRepository(Like)
+    private readonly likeRepository: Repository<Like>,
+  ) {}
 
   async updateProfile(userId: string, profileData: UpdateProfileDto): Promise<User> {
     this.logger.log(`Updating profile for user: ${userId}`);
@@ -51,8 +58,8 @@ export class UsersService {
     return updatedUser;
   }
 
-  async getAllUsers(queryDto: GetUsersDto): Promise<{
-    users: User[];
+  async getAllUsers(queryDto: GetUsersDto, currentUserId?: string): Promise<{
+    users: any[];
     total: number;
     page: number;
     limit: number;
@@ -62,18 +69,30 @@ export class UsersService {
 
     const result = await this.userRepository.findAllUsers(queryDto);
 
-    // Remove sensitive data from all users
-    result.users = result.users.map((user) => {
+    // Get liked user IDs if currentUserId is provided
+    const userIds = result.users.map(user => user.id);
+    const likedUserIds = currentUserId
+      ? await this.checkLikeStatus(currentUserId, userIds)
+      : new Set<string>();
+
+    // Remove sensitive data from all users and add hasLiked field
+    const usersWithLikeStatus = result.users.map((user) => {
       const { passwordHash, ...userWithoutPassword } = user;
-      return userWithoutPassword as User;
+      return {
+        ...userWithoutPassword,
+        hasLiked: likedUserIds.has(user.id),
+      };
     });
 
-    this.logger.log(`Retrieved ${result.users.length} users out of ${result.total} total`);
+    this.logger.log(`Retrieved ${usersWithLikeStatus.length} users out of ${result.total} total`);
 
-    return result;
+    return {
+      ...result,
+      users: usersWithLikeStatus,
+    };
   }
 
-  async getUserById(userId: string): Promise<User> {
+  async getUserById(userId: string, currentUserId?: string): Promise<any> {
     this.logger.log(`Fetching user by ID: ${userId}`);
 
     const user = await this.userRepository.findById(userId);
@@ -89,13 +108,21 @@ export class UsersService {
       throw new NotFoundException('User not found / المستخدم غير موجود');
     }
 
+    // Check if current user has liked this user
+    const likedUserIds = currentUserId
+      ? await this.checkLikeStatus(currentUserId, [userId])
+      : new Set<string>();
+
     // Remove sensitive data
     delete user.passwordHash;
     delete user.fcmToken;
 
     this.logger.log(`User retrieved successfully: ${userId}`);
 
-    return user;
+    return {
+      ...user,
+      hasLiked: likedUserIds.has(userId),
+    };
   }
 
   async getCurrentUser(userId: string): Promise<User> {
@@ -110,5 +137,18 @@ export class UsersService {
     delete user.passwordHash;
 
     return user;
+  }
+
+  private async checkLikeStatus(currentUserId: string, targetUserIds: string[]): Promise<Set<string>> {
+    if (!currentUserId || targetUserIds.length === 0) {
+      return new Set();
+    }
+
+    const likes = await this.likeRepository.find({
+      where: { userId: currentUserId },
+      select: ['likedUserId'],
+    });
+
+    return new Set(likes.map(like => like.likedUserId));
   }
 }

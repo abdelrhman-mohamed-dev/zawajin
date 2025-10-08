@@ -11,12 +11,15 @@ import {
   IRecommendationsResponse,
   ICompatibilityScore,
 } from '../interfaces/matching.interface';
+import { Like } from '../../interactions/entities/like.entity';
 
 @Injectable()
 export class MatchingService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Like)
+    private readonly likeRepository: Repository<Like>,
     private readonly preferencesRepository: MatchingPreferencesRepository,
   ) {}
 
@@ -118,6 +121,13 @@ export class MatchingService {
       .take(limit * 2) // Get more to filter by compatibility score
       .getMany();
 
+    // Get all likes for the current user in a single query
+    const userLikes = await this.likeRepository.find({
+      where: { userId },
+      select: ['likedUserId'],
+    });
+    const likedUserIds = new Set(userLikes.map(like => like.likedUserId));
+
     // Calculate compatibility scores for each user
     const recommendations: IMatchRecommendation[] = users
       .map((user) => {
@@ -155,6 +165,7 @@ export class MatchingService {
           acceptPolygamy: user.acceptPolygamy,
           compatibilityScore: compatibility.totalScore,
           scoreBreakdown: compatibility.breakdown,
+          hasLiked: likedUserIds.has(user.id),
         };
       })
       .filter((rec) => {

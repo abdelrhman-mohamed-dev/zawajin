@@ -53,6 +53,28 @@ export class UsersController {
     };
   }
 
+  @Get(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get user by ID' })
+  @ApiParam({ name: 'id', description: 'User ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'User retrieved successfully',
+  })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 404, description: 'User not found' })
+  async getUserById(@Request() req, @Param('id') userId: string, @I18n() i18n: I18nContext) {
+    const user = await this.usersService.getUserById(userId, req.user.sub);
+
+    return {
+      success: true,
+      message: await i18n.t('users.user_retrieved'),
+      data: user,
+      timestamp: new Date().toISOString(),
+    };
+  }
+
   @Get()
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
@@ -62,8 +84,8 @@ export class UsersController {
     description: 'Users retrieved successfully',
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async getAllUsers(@Query() getUsersDto: GetUsersDto, @I18n() i18n: I18nContext) {
-    const result = await this.usersService.getAllUsers(getUsersDto);
+  async getAllUsers(@Request() req, @Query() getUsersDto: GetUsersDto, @I18n() i18n: I18nContext) {
+    const result = await this.usersService.getAllUsers(getUsersDto, req.user.sub);
 
     return {
       success: true,
