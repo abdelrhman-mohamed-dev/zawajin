@@ -138,6 +138,75 @@ export class MatchingPreferences {
   })
   professionImportance: number;
 
+  // Physical attributes preferences
+  @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_min_height' })
+  preferredMinHeight: number;
+
+  @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_max_height' })
+  preferredMaxHeight: number;
+
+  @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_min_weight' })
+  preferredMinWeight: number;
+
+  @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_max_weight' })
+  preferredMaxWeight: number;
+
+  @Column({
+    type: 'jsonb',
+    nullable: true,
+    name: 'preferred_body_colors',
+    comment: 'Array of preferred body colors',
+  })
+  preferredBodyColors: string[];
+
+  @Column({
+    type: 'jsonb',
+    nullable: true,
+    name: 'preferred_hair_colors',
+    comment: 'Array of preferred hair colors',
+  })
+  preferredHairColors: string[];
+
+  @Column({
+    type: 'jsonb',
+    nullable: true,
+    name: 'preferred_eye_colors',
+    comment: 'Array of preferred eye colors',
+  })
+  preferredEyeColors: string[];
+
+  // Marriage preferences
+  @Column({
+    type: 'jsonb',
+    nullable: true,
+    name: 'preferred_marriage_types',
+    comment: 'Array of accepted marriage types',
+  })
+  preferredMarriageTypes: string[];
+
+  @Column({ type: 'boolean', nullable: true, name: 'accept_polygamy' })
+  acceptPolygamy: boolean;
+
+  @Column({ type: 'boolean', nullable: true, name: 'require_house' })
+  requireHouse: boolean;
+
+  // Importance weights for new attributes
+  @Column({
+    type: 'int',
+    default: 5,
+    name: 'physical_attributes_importance',
+    comment: 'Importance of physical attributes match (0-10)',
+  })
+  physicalAttributesImportance: number;
+
+  @Column({
+    type: 'int',
+    default: 7,
+    name: 'marriage_type_importance',
+    comment: 'Importance of marriage type match (0-10)',
+  })
+  marriageTypeImportance: number;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

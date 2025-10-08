@@ -7,12 +7,26 @@ export interface IMatchRecommendation {
     city: string;
     country: string;
   };
+  origin: string;
   bio: string;
   religiousPractice: string;
   sect: string;
   prayerLevel: string;
   maritalStatus: string;
   profession: string;
+  // Physical attributes
+  weight: number;
+  height: number;
+  bodyColor: string;
+  hairColor: string;
+  hairType: string;
+  eyeColor: string;
+  // Work and housing
+  houseAvailable: boolean;
+  natureOfWork: string;
+  // Marriage preferences
+  marriageType: string;
+  acceptPolygamy: boolean;
   compatibilityScore: number;
   scoreBreakdown: {
     ageScore: number;
@@ -20,6 +34,8 @@ export interface IMatchRecommendation {
     religiousScore: number;
     maritalStatusScore: number;
     professionScore: number;
+    physicalAttributesScore: number;
+    marriageTypeScore: number;
   };
 }
 
@@ -41,5 +57,7 @@ export interface ICompatibilityScore {
     religiousScore: number;
     maritalStatusScore: number;
     professionScore: number;
+    physicalAttributesScore: number;
+    marriageTypeScore: number;
   };
 }

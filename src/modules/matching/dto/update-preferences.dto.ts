@@ -180,4 +180,121 @@ export class UpdatePreferencesDto {
   @Min(0)
   @Max(10)
   professionImportance?: number;
+
+  // Physical attributes preferences
+  @ApiProperty({
+    description: 'Minimum preferred height',
+    example: 160,
+    required: false,
+  })
+  @IsOptional()
+  preferredMinHeight?: number;
+
+  @ApiProperty({
+    description: 'Maximum preferred height',
+    example: 180,
+    required: false,
+  })
+  @IsOptional()
+  preferredMaxHeight?: number;
+
+  @ApiProperty({
+    description: 'Minimum preferred weight',
+    example: 50,
+    required: false,
+  })
+  @IsOptional()
+  preferredMinWeight?: number;
+
+  @ApiProperty({
+    description: 'Maximum preferred weight',
+    example: 80,
+    required: false,
+  })
+  @IsOptional()
+  preferredMaxWeight?: number;
+
+  @ApiProperty({
+    description: 'Preferred body colors',
+    example: ['fair', 'medium'],
+    required: false,
+    type: [String],
+  })
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  preferredBodyColors?: string[];
+
+  @ApiProperty({
+    description: 'Preferred hair colors',
+    example: ['black', 'brown'],
+    required: false,
+    type: [String],
+  })
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  preferredHairColors?: string[];
+
+  @ApiProperty({
+    description: 'Preferred eye colors',
+    example: ['brown', 'black'],
+    required: false,
+    type: [String],
+  })
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  preferredEyeColors?: string[];
+
+  // Marriage preferences
+  @ApiProperty({
+    description: 'Preferred marriage types',
+    example: ['traditional', 'modern'],
+    required: false,
+    type: [String],
+  })
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  preferredMarriageTypes?: string[];
+
+  @ApiProperty({
+    description: 'Accept polygamy',
+    example: false,
+    required: false,
+  })
+  @IsOptional()
+  acceptPolygamy?: boolean;
+
+  @ApiProperty({
+    description: 'Require house availability',
+    example: true,
+    required: false,
+  })
+  @IsOptional()
+  requireHouse?: boolean;
+
+  // Importance weights
+  @ApiProperty({
+    description: 'Physical attributes importance (0-10)',
+    example: 5,
+    required: false,
+  })
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  @Max(10)
+  physicalAttributesImportance?: number;
+
+  @ApiProperty({
+    description: 'Marriage type importance (0-10)',
+    example: 7,
+    required: false,
+  })
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  @Max(10)
+  marriageTypeImportance?: number;
 }

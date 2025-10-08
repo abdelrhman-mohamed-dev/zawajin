@@ -133,12 +133,26 @@ export class MatchingService {
           age: user.age,
           gender: user.gender,
           location: user.location,
+          origin: user.origin,
           bio: user.bio,
           religiousPractice: user.religiousPractice,
           sect: user.sect,
           prayerLevel: user.prayerLevel,
           maritalStatus: user.maritalStatus,
           profession: user.profession,
+          // Physical attributes
+          weight: user.weight,
+          height: user.height,
+          bodyColor: user.bodyColor,
+          hairColor: user.hairColor,
+          hairType: user.hairType,
+          eyeColor: user.eyeColor,
+          // Work and housing
+          houseAvailable: user.houseAvailable,
+          natureOfWork: user.natureOfWork,
+          // Marriage preferences
+          marriageType: user.marriageType,
+          acceptPolygamy: user.acceptPolygamy,
           compatibilityScore: compatibility.totalScore,
           scoreBreakdown: compatibility.breakdown,
         };
@@ -176,6 +190,8 @@ export class MatchingService {
       religious: preferences?.religiousImportance || 8,
       maritalStatus: preferences?.maritalStatusImportance || 5,
       profession: preferences?.professionImportance || 3,
+      physicalAttributes: preferences?.physicalAttributesImportance || 5,
+      marriageType: preferences?.marriageTypeImportance || 7,
     };
 
     // Calculate total weight
@@ -184,7 +200,9 @@ export class MatchingService {
       weights.location +
       weights.religious +
       weights.maritalStatus +
-      weights.profession;
+      weights.profession +
+      weights.physicalAttributes +
+      weights.marriageType;
 
     // Calculate individual scores (0-100)
     const ageScore = this.calculateAgeScore(
@@ -210,6 +228,16 @@ export class MatchingService {
       targetUser.profession,
       preferences,
     );
+    const physicalAttributesScore = this.calculatePhysicalAttributesScore(
+      currentUser,
+      targetUser,
+      preferences,
+    );
+    const marriageTypeScore = this.calculateMarriageTypeScore(
+      currentUser,
+      targetUser,
+      preferences,
+    );
 
     // Calculate weighted total score
     const totalScore = Math.round(
@@ -217,7 +245,9 @@ export class MatchingService {
         locationScore * weights.location +
         religiousScore * weights.religious +
         maritalStatusScore * weights.maritalStatus +
-        professionScore * weights.profession) /
+        professionScore * weights.profession +
+        physicalAttributesScore * weights.physicalAttributes +
+        marriageTypeScore * weights.marriageType) /
         totalWeight,
     );
 
@@ -229,6 +259,8 @@ export class MatchingService {
         religiousScore: Math.round(religiousScore),
         maritalStatusScore: Math.round(maritalStatusScore),
         professionScore: Math.round(professionScore),
+        physicalAttributesScore: Math.round(physicalAttributesScore),
+        marriageTypeScore: Math.round(marriageTypeScore),
       },
     };
   }
@@ -333,5 +365,123 @@ export class MatchingService {
     }
 
     return 50; // Neutral if no preference
+  }
+
+  private calculatePhysicalAttributesScore(
+    currentUser: User,
+    targetUser: User,
+    preferences: MatchingPreferences | null,
+  ): number {
+    let score = 50; // Base score
+    let criteriaCount = 0;
+    let matchedCriteria = 0;
+
+    // Use MatchingPreferences first, fallback to User entity preferences
+    const minHeight = preferences?.preferredMinHeight || currentUser.preferredMinHeight;
+    const maxHeight = preferences?.preferredMaxHeight || currentUser.preferredMaxHeight;
+    const minWeight = preferences?.preferredMinWeight || currentUser.preferredMinWeight;
+    const maxWeight = preferences?.preferredMaxWeight || currentUser.preferredMaxWeight;
+    const bodyColors = preferences?.preferredBodyColors || currentUser.preferredBodyColors;
+    const hairColors = preferences?.preferredHairColors || currentUser.preferredHairColors;
+    const eyeColors = preferences?.preferredEyeColors || currentUser.preferredEyeColors;
+
+    // Check height preference
+    if (minHeight || maxHeight) {
+      criteriaCount++;
+      if (targetUser.height) {
+        const meetsMinHeight = !minHeight || targetUser.height >= minHeight;
+        const meetsMaxHeight = !maxHeight || targetUser.height <= maxHeight;
+        if (meetsMinHeight && meetsMaxHeight) {
+          matchedCriteria++;
+        }
+      }
+    }
+
+    // Check weight preference
+    if (minWeight || maxWeight) {
+      criteriaCount++;
+      if (targetUser.weight) {
+        const meetsMinWeight = !minWeight || targetUser.weight >= minWeight;
+        const meetsMaxWeight = !maxWeight || targetUser.weight <= maxWeight;
+        if (meetsMinWeight && meetsMaxWeight) {
+          matchedCriteria++;
+        }
+      }
+    }
+
+    // Check body color preference
+    if (bodyColors?.length > 0) {
+      criteriaCount++;
+      if (targetUser.bodyColor && bodyColors.includes(targetUser.bodyColor)) {
+        matchedCriteria++;
+      }
+    }
+
+    // Check hair color preference
+    if (hairColors?.length > 0) {
+      criteriaCount++;
+      if (targetUser.hairColor && hairColors.includes(targetUser.hairColor)) {
+        matchedCriteria++;
+      }
+    }
+
+    // Check eye color preference
+    if (eyeColors?.length > 0) {
+      criteriaCount++;
+      if (targetUser.eyeColor && eyeColors.includes(targetUser.eyeColor)) {
+        matchedCriteria++;
+      }
+    }
+
+    // Calculate score based on matched criteria
+    if (criteriaCount > 0) {
+      score = (matchedCriteria / criteriaCount) * 100;
+    }
+
+    return Math.max(0, Math.min(100, score)); // Clamp between 0-100
+  }
+
+  private calculateMarriageTypeScore(
+    currentUser: User,
+    targetUser: User,
+    preferences: MatchingPreferences | null,
+  ): number {
+    let score = 50; // Base score
+
+    // Use MatchingPreferences first, fallback to User entity preferences
+    const preferredMarriageTypes = preferences?.preferredMarriageTypes;
+    const acceptPolygamy = preferences?.acceptPolygamy !== undefined
+      ? preferences.acceptPolygamy
+      : currentUser.acceptPolygamy;
+    const requireHouse = preferences?.requireHouse;
+
+    // Check marriage type preference
+    if (preferredMarriageTypes?.length > 0) {
+      if (targetUser.marriageType && preferredMarriageTypes.includes(targetUser.marriageType)) {
+        score += 20;
+      } else if (targetUser.marriageType) {
+        score -= 15;
+      }
+    }
+
+    // Check polygamy compatibility
+    if (acceptPolygamy !== undefined && targetUser.acceptPolygamy !== undefined) {
+      if (acceptPolygamy === targetUser.acceptPolygamy) {
+        score += 20;
+      } else {
+        score -= 20;
+      }
+    }
+
+    // Check house availability requirement
+    if (requireHouse && targetUser.houseAvailable !== undefined) {
+      if (targetUser.houseAvailable) {
+        score += 10;
+      } else {
+        score -= 30; // Strong penalty if house is required but not available
+      }
+    }
+
+    return Math.max(0, Math.min(100, score)); // Clamp between 0-100
   }
 }
