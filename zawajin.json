@@ -178,6 +178,10 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
 							}
 						],
 						"body": {
@@ -241,7 +245,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"dateOfBirth\": \"1995-05-15\",\n    \"location\": {\n        \"city\": \"Dubai\",\n        \"country\": \"UAE\"\n    },\n    \"origin\": \"Pakistani\",\n    \"maritalStatus\": \"single\",\n    \"profession\": \"Software Engineer\",\n    \"weight\": 70.5,\n    \"height\": 175.5,\n    \"bodyColor\": \"medium\",\n    \"hairColor\": \"black\",\n    \"hairType\": \"straight\",\n    \"eyeColor\": \"brown\",\n    \"houseAvailable\": true,\n    \"natureOfWork\": \"Full-time office job\",\n    \"bio\": \"A kind and practicing Muslim looking for a life partner.\",\n    \"preferredMinWeight\": 50,\n    \"preferredMaxWeight\": 80,\n    \"preferredMinHeight\": 150,\n    \"preferredMaxHeight\": 180,\n    \"preferredBodyColors\": [\"fair\", \"medium\"],\n    \"preferredHairColors\": [\"black\", \"dark_brown\"],\n    \"preferredEyeColors\": [\"brown\", \"hazel\"],\n    \"partnerPreferencesBio\": \"Looking for someone kind, religious, and family-oriented.\",\n    \"marriageType\": \"religious\",\n    \"acceptPolygamy\": false\n}"
+							"raw": "{\n    \"dateOfBirth\": \"1995-05-15\",\n    \"location\": {\n        \"city\": \"Dubai\",\n        \"country\": \"UAE\"\n    },\n    \"origin\": \"Pakistani\",\n    \"maritalStatus\": \"single\",\n    \"profession\": \"Software Engineer\",\n    \"weight\": 70.5,\n    \"height\": 175.5,\n    \"bodyColor\": \"medium\",\n    \"hairColor\": \"black\",\n    \"hairType\": \"straight\",\n    \"eyeColor\": \"brown\",\n    \"houseAvailable\": true,\n    \"natureOfWork\": \"Full-time office job\",\n    \"bio\": \"A kind and practicing Muslim looking for a life partner.\",\n    \"preferredMinWeight\": 50,\n    \"preferredMaxWeight\": 80,\n    \"preferredMinHeight\": 150,\n    \"preferredMaxHeight\": 180,\n    \"preferredBodyColors\": [\"fair\", \"medium\"],\n    \"preferredHairColors\": [\"black\", \"dark_brown\"],\n    \"preferredEyeColors\": [\"brown\", \"hazel\"],\n    \"partnerPreferencesBio\": \"Looking for someone kind, religious, and family-oriented.\",\n    \"marriageType\": \"traditional\",\n    \"acceptPolygamy\": false,\n    \"religiousPractice\": \"Religious\",\n    \"sect\": \"Sunni\",\n    \"prayerLevel\": \"Prays 5 times a day\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/users/profile",
@@ -886,7 +890,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"minAge\": 25,\n    \"maxAge\": 35,\n    \"preferredCity\": \"Dubai\",\n    \"preferredCountry\": \"UAE\",\n    \"maxDistanceKm\": 100,\n    \"preferredReligiousPractices\": [\"Religious\", \"Moderate\"],\n    \"preferredSects\": [\"Sunni\"],\n    \"preferredPrayerLevels\": [\"Prays 5 times a day\", \"Sometimes\"],\n    \"preferredMaritalStatuses\": [\"single\", \"divorced\"],\n    \"preferredProfessions\": [\"Engineer\", \"Doctor\"],\n    \"lookingForGender\": \"female\",\n    \"ageImportance\": 5,\n    \"locationImportance\": 7,\n    \"religiousImportance\": 9,\n    \"maritalStatusImportance\": 6,\n    \"professionImportance\": 3\n}"
+							"raw": "{\n    \"minAge\": 25,\n    \"maxAge\": 35,\n    \"preferredCity\": \"Dubai\",\n    \"preferredCountry\": \"UAE\",\n    \"maxDistanceKm\": 100,\n    \"preferredReligiousPractices\": [\"Religious\", \"Moderate\"],\n    \"preferredSects\": [\"Sunni\"],\n    \"preferredPrayerLevels\": [\"Prays 5 times a day\", \"Sometimes\"],\n    \"preferredMaritalStatuses\": [\"single\", \"divorced\"],\n    \"preferredProfessions\": [\"Engineer\", \"Doctor\"],\n    \"lookingForGender\": \"female\",\n    \"ageImportance\": 5,\n    \"locationImportance\": 7,\n    \"religiousImportance\": 9,\n    \"maritalStatusImportance\": 6,\n    \"professionImportance\": 3,\n    \"preferredMinHeight\": 155,\n    \"preferredMaxHeight\": 175,\n    \"preferredMinWeight\": 50,\n    \"preferredMaxWeight\": 70,\n    \"preferredBodyColors\": [\"fair\", \"medium\"],\n    \"preferredHairColors\": [\"black\", \"brown\"],\n    \"preferredEyeColors\": [\"brown\", \"hazel\"],\n    \"preferredMarriageTypes\": [\"traditional\", \"modern\"],\n    \"acceptPolygamy\": false,\n    \"requireHouse\": true,\n    \"physicalAttributesImportance\": 6,\n    \"marriageTypeImportance\": 8\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/matching/preferences",

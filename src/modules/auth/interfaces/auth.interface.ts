@@ -65,6 +65,8 @@ export interface VerifyResetOtpResponse {
   data: {
     email: string;
     isVerified: boolean;
+    access_token: string;
+    refresh_token: string;
   };
   timestamp: string;
 }

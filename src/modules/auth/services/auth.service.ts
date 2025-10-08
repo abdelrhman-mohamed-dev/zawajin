@@ -331,6 +331,9 @@ export class AuthService {
       );
     }
 
+    // Generate JWT tokens for password reset
+    const tokens = await this.generateTokens(user);
+
     this.logger.log(`Password reset OTP verified successfully for: ${email}`);
 
     return {
@@ -339,6 +342,8 @@ export class AuthService {
       data: {
         email,
         isVerified: true,
+        access_token: tokens.access_token,
+        refresh_token: tokens.refresh_token,
       },
       timestamp: new Date().toISOString(),
     };

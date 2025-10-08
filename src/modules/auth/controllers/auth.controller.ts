@@ -534,7 +534,7 @@ export class AuthController {
   })
   @ApiResponse({
     status: 200,
-    description: 'OTP verified successfully',
+    description: 'OTP verified successfully. JWT tokens returned.',
     schema: {
       example: {
         success: true,
@@ -542,6 +542,8 @@ export class AuthController {
         data: {
           email: 'an.roooof@gmail.com',
           isVerified: true,
+          access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+          refresh_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
         },
         timestamp: '2024-01-01T00:00:00.000Z',
       },
@@ -603,11 +605,13 @@ export class AuthController {
   }
 
   @Post('reset-password')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @HttpCode(HttpStatus.OK)
   @Throttle({ default: { limit: 5, ttl: 3600000 } }) // 5 requests per hour
   @ApiOperation({
     summary: 'Reset password',
-    description: 'Reset your password with a new password. This is step 3 of the password reset flow. You must verify the OTP first using /verify-reset-otp endpoint.',
+    description: 'Reset your password with a new password. This is step 3 of the password reset flow. You must verify the OTP first using /verify-reset-otp endpoint to get the JWT token, then use that token in the Authorization header.',
   })
   @ApiBody({
     type: ResetPasswordDto,
@@ -666,6 +670,21 @@ export class AuthController {
     }
   })
   @ApiResponse({
+    status: 401,
+    description: 'Unauthorized - Invalid or missing JWT token',
+    schema: {
+      example: {
+        success: false,
+        message: 'Unauthorized',
+        error: {
+          code: 'UNAUTHORIZED',
+          details: []
+        },
+        timestamp: '2024-01-01T00:00:00.000Z'
+      }
+    }
+  })
+  @ApiResponse({
     status: 429,
     description: 'Too many password reset attempts',
     schema: {
@@ -680,7 +699,7 @@ export class AuthController {
       }
     }
   })
-  async resetPassword(@Body() resetPasswordDto: ResetPasswordDto): Promise<ResetPasswordResponse> {
+  async resetPassword(@Body() resetPasswordDto: ResetPasswordDto, @Request() req): Promise<ResetPasswordResponse> {
     try {
       this.logger.log(`Password reset attempt for: ${resetPasswordDto.email}`);
       return await this.authService.resetPassword(
