@@ -122,38 +122,28 @@ export class InteractionsService {
     this.logger.log(`Getting likes sent by user ${userId}`);
     const likes = await this.likeRepository.findLikesSentByUser(userId);
 
-    return likes.map((like) => ({
-      id: like.id,
-      likedUser: {
-        id: like.likedUser.id,
-        fullName: like.likedUser.fullName,
-        age: like.likedUser.age,
-        gender: like.likedUser.gender,
-        location: like.likedUser.location,
-        bio: like.likedUser.bio,
-        chartNumber: like.likedUser.chartNumber,
-      },
-      createdAt: like.createdAt,
-    }));
+    return likes.map((like) => {
+      const { passwordHash, fcmToken, ...userData } = like.likedUser;
+      return {
+        id: like.id,
+        likedUser: userData,
+        createdAt: like.createdAt,
+      };
+    });
   }
 
   async getLikesReceived(userId: string): Promise<any[]> {
     this.logger.log(`Getting likes received by user ${userId}`);
     const likes = await this.likeRepository.findLikesReceivedByUser(userId);
 
-    return likes.map((like) => ({
-      id: like.id,
-      user: {
-        id: like.user.id,
-        fullName: like.user.fullName,
-        age: like.user.age,
-        gender: like.user.gender,
-        location: like.user.location,
-        bio: like.user.bio,
-        chartNumber: like.user.chartNumber,
-      },
-      createdAt: like.createdAt,
-    }));
+    return likes.map((like) => {
+      const { passwordHash, fcmToken, ...userData } = like.user;
+      return {
+        id: like.id,
+        user: userData,
+        createdAt: like.createdAt,
+      };
+    });
   }
 
   async getBlockedUsers(userId: string): Promise<any[]> {
