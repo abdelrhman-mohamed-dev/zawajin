@@ -6,7 +6,7 @@ import { AppModule } from './app.module';
 import { getFirebaseConfig } from './config/firebase.config';
 import * as admin from 'firebase-admin';
 import { ExpressAdapter } from '@nestjs/platform-express';
-import * as express from 'express';
+const express = require('express');
 
 let cachedApp: any;
 

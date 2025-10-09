@@ -9,7 +9,7 @@ const app_module_1 = require("./app.module");
 const firebase_config_1 = require("./config/firebase.config");
 const admin = require("firebase-admin");
 const platform_express_1 = require("@nestjs/platform-express");
-const express = require("express");
+const express = require('express');
 let cachedApp;
 async function createNestApp() {
     if (cachedApp) {
