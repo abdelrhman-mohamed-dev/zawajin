@@ -114,8 +114,8 @@ dependencies:
     specifier: ^0.3.17
     version: 0.3.27(ioredis@5.8.0)(pg@8.16.3)(redis@4.7.1)(reflect-metadata@0.1.14)(ts-node@10.9.2)
   uuid:
-    specifier: ^13.0.0
-    version: 13.0.0
+    specifier: ^8.3.2
+    version: 8.3.2
 
 devDependencies:
   '@nestjs/cli':
@@ -143,8 +143,8 @@ devDependencies:
     specifier: ^8.10.2
     version: 8.15.5
   '@types/uuid':
-    specifier: ^11.0.0
-    version: 11.0.0
+    specifier: ^8.3.4
+    version: 8.3.4
   '@typescript-eslint/eslint-plugin':
     specifier: ^6.0.0
     version: 6.21.0(@typescript-eslint/parser@6.21.0)(eslint@8.57.1)(typescript@5.9.2)
@@ -2804,11 +2804,8 @@ packages:
     resolution: {integrity: sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==}
     dev: true
 
-  /@types/uuid@11.0.0:
-    resolution: {integrity: sha512-HVyk8nj2m+jcFRNazzqyVKiZezyhDKrGUA3jlEcg/nZ6Ms+qHwocba1Y/AaVaznJTAM9xpdFSh+ptbNrhOGvZA==}
-    deprecated: This is a stub types definition. uuid provides its own type definitions, so you do not need this installed.
-    dependencies:
-      uuid: 13.0.0
+  /@types/uuid@8.3.4:
+    resolution: {integrity: sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==}
     dev: true
 
   /@types/validator@13.15.3:
@@ -8031,16 +8028,11 @@ packages:
     hasBin: true
     dev: false
 
-  /uuid@13.0.0:
-    resolution: {integrity: sha512-XQegIaBTVUjSHliKqcnFqYypAd4S+WCYt5NIeRs6w/UAry7z8Y9j5ZwRRL4kzq9U3sD6v+85er9FvkEaBpji2w==}
-    hasBin: true
-
   /uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
     hasBin: true
     requiresBuild: true
     dev: false
-    optional: true
 
   /uuid@9.0.1:
     resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
