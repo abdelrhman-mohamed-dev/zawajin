@@ -1,0 +1,75 @@
+{
+  "messages": {
+    "usersFetched": "تم جلب المستخدمين بنجاح",
+    "userFetched": "تم جلب المستخدم بنجاح",
+    "userUpdated": "تم تحديث المستخدم بنجاح",
+    "userBanned": "تم حظر المستخدم بنجاح",
+    "userUnbanned": "تم إلغاء حظر المستخدم بنجاح",
+    "userDeleted": "تم تعطيل حساب المستخدم بنجاح",
+    "userVerified": "تم التحقق من المستخدم بنجاح",
+    "notificationSent": "تم إرسال الإشعار بنجاح",
+    "activityLogsFetched": "تم جلب سجل النشاطات بنجاح",
+    "adminsFetched": "تم جلب المدراء بنجاح",
+    "adminCreated": "تم إنشاء المدير بنجاح",
+    "adminRolesUpdated": "تم تحديث صلاحيات المدير بنجاح",
+    "adminPromoted": "تم ترقية المدير إلى مدير أعلى بنجاح",
+    "adminDemoted": "تم تخفيض المدير الأعلى إلى مدير بنجاح",
+    "adminRemoved": "تم إزالة صلاحيات المدير بنجاح",
+    "reportsFetched": "تم جلب البلاغات بنجاح",
+    "reportFetched": "تم جلب البلاغ بنجاح",
+    "reportReviewed": "تم وضع علامة مراجعة على البلاغ",
+    "reportResolved": "تم حل البلاغ بنجاح",
+    "reportDismissed": "تم رفض البلاغ بنجاح",
+    "subscriptionPlansFetched": "تم جلب خطط الاشتراك بنجاح",
+    "subscriptionPlanCreated": "تم إنشاء خطة الاشتراك بنجاح",
+    "subscriptionPlanUpdated": "تم تحديث خطة الاشتراك بنجاح",
+    "subscriptionPlanDeactivated": "تم تعطيل خطة الاشتراك بنجاح",
+    "planCreated": "تم إنشاء خطة الاشتراك بنجاح",
+    "planUpdated": "تم تحديث خطة الاشتراك بنجاح",
+    "planDeactivated": "تم تعطيل خطة الاشتراك بنجاح",
+    "subscriptionsFetched": "تم جلب الاشتراكات بنجاح",
+    "subscriptionUpdated": "تم تحديث الاشتراك بنجاح",
+    "analyticsFetched": "تم جلب بيانات التحليلات بنجاح"
+  },
+  "errors": {
+    "unauthorized": "وصول غير مصرح به",
+    "userNotFound": "المستخدم غير موجود",
+    "userBanned": "المستخدم محظور",
+    "userDeleted": "حساب المستخدم محذوف",
+    "insufficientPermissions": "صلاحيات غير كافية",
+    "userAlreadyBanned": "المستخدم محظور بالفعل",
+    "cannotBanAdmin": "لا يمكن حظر المدراء أو المدراء الأعلى",
+    "userNotBanned": "المستخدم غير محظور",
+    "userAlreadyDeleted": "حساب المستخدم محذوف بالفعل",
+    "cannotDeleteAdmin": "لا يمكن حذف حسابات المدراء أو المدراء الأعلى",
+    "userAlreadyVerified": "المستخدم موثق بالفعل",
+    "emailExists": "البريد الإلكتروني موجود بالفعل",
+    "cannotModifyOtherAdmins": "لا يمكن تعديل مدراء آخرين",
+    "cannotDemoteSelf": "لا يمكنك تخفيض رتبتك الخاصة",
+    "cannotRemoveSelf": "لا يمكنك إزالة صلاحياتك الإدارية الخاصة",
+    "userNotAdmin": "المستخدم ليس مديراً",
+    "userAlreadyAdmin": "المستخدم مدير بالفعل",
+    "reportNotFound": "البلاغ غير موجود",
+    "reportAlreadyResolved": "البلاغ محلول بالفعل",
+    "subscriptionPlanNotFound": "خطة الاشتراك غير موجودة",
+    "subscriptionNotFound": "الاشتراك غير موجود",
+    "planNotFound": "خطة الاشتراك غير موجودة",
+    "planAlreadyExists": "توجد خطة بهذا الاسم بالفعل",
+    "planNameExists": "توجد خطة بهذا الاسم بالفعل",
+    "planHasActiveSubscriptions": "لا يمكن إلغاء تفعيل الخطة التي تحتوي على {{count}} اشتراكات نشطة"
+  },
+  "notifications": {
+    "banned": {
+      "title": "تم تعليق الحساب",
+      "body": "تم تعليق حسابك. السبب: {{reason}}"
+    },
+    "unbanned": {
+      "title": "تم تفعيل الحساب",
+      "body": "تم تفعيل حسابك. يمكنك الآن الوصول إلى المنصة."
+    },
+    "verified": {
+      "title": "تم التحقق من الملف الشخصي",
+      "body": "تهانينا! تم التحقق من ملفك الشخصي من قبل فريقنا."
+    }
+  }
+}

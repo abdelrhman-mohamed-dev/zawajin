@@ -1,0 +1,8 @@
+{
+  "unlike_successful": "تم إلغاء الإعجاب بنجاح",
+  "user_blocked": "تم حظر المستخدم بنجاح",
+  "user_unblocked": "تم إلغاء حظر المستخدم بنجاح",
+  "likes_retrieved": "تم استرجاع الإعجابات بنجاح",
+  "blocked_users_retrieved": "تم استرجاع المستخدمين المحظورين بنجاح",
+  "user_retrieved": "تم استرجاع المستخدم بنجاح"
+}

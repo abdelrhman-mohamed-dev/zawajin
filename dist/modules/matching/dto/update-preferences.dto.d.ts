@@ -1,0 +1,30 @@
+export declare class UpdatePreferencesDto {
+    minAge?: number;
+    maxAge?: number;
+    preferredCity?: string;
+    preferredCountry?: string;
+    maxDistanceKm?: number;
+    preferredReligiousPractices?: string[];
+    preferredSects?: string[];
+    preferredPrayerLevels?: string[];
+    preferredMaritalStatuses?: string[];
+    preferredProfessions?: string[];
+    lookingForGender?: string;
+    ageImportance?: number;
+    locationImportance?: number;
+    religiousImportance?: number;
+    maritalStatusImportance?: number;
+    professionImportance?: number;
+    preferredMinHeight?: number;
+    preferredMaxHeight?: number;
+    preferredMinWeight?: number;
+    preferredMaxWeight?: number;
+    preferredBodyColors?: string[];
+    preferredHairColors?: string[];
+    preferredEyeColors?: string[];
+    preferredMarriageTypes?: string[];
+    acceptPolygamy?: boolean;
+    requireHouse?: boolean;
+    physicalAttributesImportance?: number;
+    marriageTypeImportance?: number;
+}

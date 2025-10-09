@@ -1,0 +1,9 @@
+{
+  "preferences_updated": "تم تحديث تفضيلات المطابقة بنجاح",
+  "preferences_retrieved": "تم استرجاع تفضيلات المطابقة بنجاح",
+  "preferences_not_found": "لم يتم العثور على تفضيلات المطابقة",
+  "recommendations_retrieved": "تم استرجاع توصيات المطابقة بنجاح",
+  "no_recommendations_found": "لم يتم العثور على توصيات مطابقة",
+  "invalid_age_range": "نطاق عمر غير صالح. يجب أن يكون الحد الأقصى للعمر أكبر من الحد الأدنى",
+  "invalid_compatibility_score": "درجة التوافق غير صالحة. يجب أن تكون بين 0 و 100"
+}

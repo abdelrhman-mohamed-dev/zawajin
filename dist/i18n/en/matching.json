@@ -1,0 +1,9 @@
+{
+  "preferences_updated": "Matching preferences updated successfully",
+  "preferences_retrieved": "Matching preferences retrieved successfully",
+  "preferences_not_found": "Matching preferences not found",
+  "recommendations_retrieved": "Match recommendations retrieved successfully",
+  "no_recommendations_found": "No match recommendations found",
+  "invalid_age_range": "Invalid age range. Maximum age must be greater than minimum age",
+  "invalid_compatibility_score": "Invalid compatibility score. Must be between 0 and 100"
+}
