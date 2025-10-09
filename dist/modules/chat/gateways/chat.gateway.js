@@ -16,24 +16,40 @@ exports.ChatGateway = void 0;
 const websockets_1 = require("@nestjs/websockets");
 const socket_io_1 = require("socket.io");
 const common_1 = require("@nestjs/common");
+const jwt_1 = require("@nestjs/jwt");
 const chat_service_1 = require("../services/chat.service");
 const user_presence_repository_1 = require("../repositories/user-presence.repository");
 const ws_jwt_guard_1 = require("../guards/ws-jwt.guard");
 let ChatGateway = class ChatGateway {
-    constructor(chatService, userPresenceRepository) {
+    constructor(chatService, userPresenceRepository, jwtService) {
         this.chatService = chatService;
         this.userPresenceRepository = userPresenceRepository;
+        this.jwtService = jwtService;
         this.logger = new common_1.Logger('ChatGateway');
         this.typingUsers = new Map();
     }
     async handleConnection(client) {
         try {
-            const userId = client.data.userId;
-            if (!userId) {
-                this.logger.warn(`Client ${client.id} connected without userId`);
+            const token = this.extractTokenFromHandshake(client);
+            if (!token) {
+                this.logger.warn(`Client ${client.id} connected without token`);
                 client.disconnect();
                 return;
             }
+            let payload;
+            try {
+                payload = await this.jwtService.verifyAsync(token, {
+                    secret: process.env.JWT_SECRET,
+                });
+            }
+            catch (error) {
+                this.logger.warn(`Client ${client.id} has invalid token: ${error.message}`);
+                client.disconnect();
+                return;
+            }
+            const userId = payload.sub;
+            client.data.userId = userId;
+            client.data.email = payload.email;
             this.logger.log(`Client connected: ${client.id}, User: ${userId}`);
             await this.userPresenceRepository.setUserOnline(userId, client.id);
             this.server.emit('user_online', { userId });
@@ -43,6 +59,17 @@ let ChatGateway = class ChatGateway {
             this.logger.error(`Connection error: ${error.message}`);
             client.disconnect();
         }
+    }
+    extractTokenFromHandshake(client) {
+        const authHeader = client.handshake.headers.authorization;
+        if (authHeader && authHeader.startsWith('Bearer ')) {
+            return authHeader.substring(7);
+        }
+        const token = client.handshake.auth?.token || client.handshake.query?.token;
+        if (token && typeof token === 'string') {
+            return token;
+        }
+        return null;
     }
     async handleDisconnect(client) {
         try {
@@ -245,6 +272,7 @@ exports.ChatGateway = ChatGateway = __decorate([
         path: process.env.SOCKET_IO_PATH || '/socket.io',
     }),
     __metadata("design:paramtypes", [chat_service_1.ChatService,
-        user_presence_repository_1.UserPresenceRepository])
+        user_presence_repository_1.UserPresenceRepository,
+        jwt_1.JwtService])
 ], ChatGateway);
 //# sourceMappingURL=chat.gateway.js.map

@@ -846,6 +846,31 @@
 					"response": []
 				},
 				{
+					"name": "Get User Presence",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/chat/users/{{userId}}/presence",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"chat",
+								"users",
+								"{{userId}}",
+								"presence"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Delete Message",
 					"request": {
 						"method": "DELETE",

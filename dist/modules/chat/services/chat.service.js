@@ -133,8 +133,12 @@ let ChatService = class ChatService {
             content: sendMessageDto.content,
             messageType: sendMessageDto.messageType || message_entity_1.MessageType.TEXT,
             status: message_entity_1.MessageStatus.SENT,
+            createdAt: new Date(),
+            updatedAt: new Date(),
         });
         const savedMessage = await this.messageRepository.save(message);
+        console.log('Message saved with timestamp:', savedMessage.createdAt);
+        console.log('Current server time:', new Date().toISOString());
         const preview = sendMessageDto.content.length > 100
             ? sendMessageDto.content.substring(0, 100) + '...'
             : sendMessageDto.content;
@@ -176,6 +180,21 @@ let ChatService = class ChatService {
     async getUnreadCount(userId, conversationId) {
         await this.getConversationById(userId, conversationId);
         return this.messageRepository.getUnreadCount(conversationId, userId);
+    }
+    async getUserPresence(userId) {
+        const presence = await this.userPresenceRepository.getUserPresence(userId);
+        if (!presence) {
+            return {
+                userId,
+                isOnline: false,
+                lastSeenAt: null,
+            };
+        }
+        return {
+            userId: presence.userId,
+            isOnline: presence.isOnline,
+            lastSeenAt: presence.lastSeenAt,
+        };
     }
     async checkMutualLike(userId1, userId2) {
         const like1 = await this.likeRepository.findOne({

@@ -1,16 +1,19 @@
 import { OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { JwtService } from '@nestjs/jwt';
 import { ChatService } from '../services/chat.service';
 import { UserPresenceRepository } from '../repositories/user-presence.repository';
 import { SendMessageDto } from '../dto/send-message.dto';
 export declare class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     private chatService;
     private userPresenceRepository;
+    private jwtService;
     server: Server;
     private logger;
     private typingUsers;
-    constructor(chatService: ChatService, userPresenceRepository: UserPresenceRepository);
+    constructor(chatService: ChatService, userPresenceRepository: UserPresenceRepository, jwtService: JwtService);
     handleConnection(client: Socket): Promise<void>;
+    private extractTokenFromHandshake;
     handleDisconnect(client: Socket): Promise<void>;
     handleJoinConversation(client: Socket, data: {
         conversationId: string;

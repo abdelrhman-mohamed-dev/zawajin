@@ -15,6 +15,7 @@ export const getDatabaseConfig = (
   logging: configService.get<boolean>('DB_LOGGING', false),
   ssl: configService.get<boolean>('DB_SSL', false),
   extra: {
+    timezone: 'UTC', // Force UTC timezone for PostgreSQL connection
     ssl: configService.get<boolean>('DB_SSL', false)
       ? { rejectUnauthorized: false }
       : false,

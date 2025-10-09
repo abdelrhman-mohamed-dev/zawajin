@@ -87,6 +87,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, new ExpressAdapter(expressApp));
   const configService = app.get(ConfigService);
 
+  // Set PostgreSQL timezone to UTC
+  const { DataSource } = require('typeorm');
+  const dataSource = app.get(DataSource);
+  await dataSource.query("SET timezone = 'UTC'");
+  console.log('✅ Database timezone set to UTC');
+
   // Initialize Firebase Admin SDK
   const firebaseConfig = getFirebaseConfig(configService);
   if (firebaseConfig && !admin.apps.length) {

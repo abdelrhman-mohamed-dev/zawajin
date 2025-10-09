@@ -13,6 +13,7 @@ const getDatabaseConfig = (configService) => ({
     logging: configService.get('DB_LOGGING', false),
     ssl: configService.get('DB_SSL', false),
     extra: {
+        timezone: 'UTC',
         ssl: configService.get('DB_SSL', false)
             ? { rejectUnauthorized: false }
             : false,

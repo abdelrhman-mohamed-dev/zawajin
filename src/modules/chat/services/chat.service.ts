@@ -194,9 +194,15 @@ export class ChatService {
       content: sendMessageDto.content,
       messageType: sendMessageDto.messageType || MessageType.TEXT,
       status: MessageStatus.SENT,
+      createdAt: new Date(), // Explicitly set to current UTC time
+      updatedAt: new Date(),
     });
 
     const savedMessage = await this.messageRepository.save(message);
+
+    // Log the timestamp for debugging
+    console.log('Message saved with timestamp:', savedMessage.createdAt);
+    console.log('Current server time:', new Date().toISOString());
 
     // Update conversation's last message
     const preview =
@@ -266,6 +272,22 @@ export class ChatService {
     await this.getConversationById(userId, conversationId);
 
     return this.messageRepository.getUnreadCount(conversationId, userId);
+  }
+
+  async getUserPresence(userId: string): Promise<any> {
+    const presence = await this.userPresenceRepository.getUserPresence(userId);
+    if (!presence) {
+      return {
+        userId,
+        isOnline: false,
+        lastSeenAt: null,
+      };
+    }
+    return {
+      userId: presence.userId,
+      isOnline: presence.isOnline,
+      lastSeenAt: presence.lastSeenAt,
+    };
   }
 
   private async checkMutualLike(

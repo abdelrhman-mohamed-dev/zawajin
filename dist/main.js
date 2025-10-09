@@ -67,6 +67,10 @@ async function bootstrap() {
     const expressApp = express();
     const app = await core_1.NestFactory.create(app_module_1.AppModule, new platform_express_1.ExpressAdapter(expressApp));
     const configService = app.get(config_1.ConfigService);
+    const { DataSource } = require('typeorm');
+    const dataSource = app.get(DataSource);
+    await dataSource.query("SET timezone = 'UTC'");
+    console.log('✅ Database timezone set to UTC');
     const firebaseConfig = (0, firebase_config_1.getFirebaseConfig)(configService);
     if (firebaseConfig && !admin.apps.length) {
         admin.initializeApp(firebaseConfig);

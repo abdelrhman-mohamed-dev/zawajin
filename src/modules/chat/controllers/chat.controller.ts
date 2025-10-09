@@ -173,4 +173,18 @@ export class ChatController {
     const count = await this.chatService.getUnreadCount(req.user.userId, id);
     return { count };
   }
+
+  @Get('users/:userId/presence')
+  @ApiOperation({ summary: 'Get user online/offline status' })
+  @ApiParam({ name: 'userId', description: 'User ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'User presence retrieved successfully',
+  })
+  async getUserPresence(
+    @Request() req,
+    @Param('userId', ParseUUIDPipe) userId: string,
+  ) {
+    return this.chatService.getUserPresence(userId);
+  }
 }

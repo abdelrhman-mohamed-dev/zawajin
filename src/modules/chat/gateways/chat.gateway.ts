@@ -9,6 +9,7 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { Logger, UseGuards } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { ChatService } from '../services/chat.service';
 import { UserPresenceRepository } from '../repositories/user-presence.repository';
 import { SendMessageDto } from '../dto/send-message.dto';
@@ -32,18 +33,36 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(
     private chatService: ChatService,
     private userPresenceRepository: UserPresenceRepository,
+    private jwtService: JwtService,
   ) {}
 
   async handleConnection(client: Socket) {
     try {
-      // User authentication is handled by WsJwtGuard
-      const userId = client.data.userId;
+      // Extract and verify JWT token
+      const token = this.extractTokenFromHandshake(client);
 
-      if (!userId) {
-        this.logger.warn(`Client ${client.id} connected without userId`);
+      if (!token) {
+        this.logger.warn(`Client ${client.id} connected without token`);
         client.disconnect();
         return;
       }
+
+      // Verify JWT token
+      let payload: any;
+      try {
+        payload = await this.jwtService.verifyAsync(token, {
+          secret: process.env.JWT_SECRET,
+        });
+      } catch (error) {
+        this.logger.warn(`Client ${client.id} has invalid token: ${error.message}`);
+        client.disconnect();
+        return;
+      }
+
+      // Set user data on socket
+      const userId = payload.sub;
+      client.data.userId = userId;
+      client.data.email = payload.email;
 
       this.logger.log(`Client connected: ${client.id}, User: ${userId}`);
 
@@ -59,6 +78,22 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       this.logger.error(`Connection error: ${error.message}`);
       client.disconnect();
     }
+  }
+
+  private extractTokenFromHandshake(client: Socket): string | null {
+    // Try to get token from auth header
+    const authHeader = client.handshake.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      return authHeader.substring(7);
+    }
+
+    // Try to get token from auth object (socket.io auth)
+    const token = client.handshake.auth?.token || client.handshake.query?.token;
+    if (token && typeof token === 'string') {
+      return token;
+    }
+
+    return null;
   }
 
   async handleDisconnect(client: Socket) {

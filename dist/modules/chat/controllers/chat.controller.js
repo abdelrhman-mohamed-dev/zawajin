@@ -58,6 +58,9 @@ let ChatController = class ChatController {
         const count = await this.chatService.getUnreadCount(req.user.userId, id);
         return { count };
     }
+    async getUserPresence(req, userId) {
+        return this.chatService.getUserPresence(userId);
+    }
 };
 exports.ChatController = ChatController;
 __decorate([
@@ -183,6 +186,20 @@ __decorate([
     __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], ChatController.prototype, "getUnreadCount", null);
+__decorate([
+    (0, common_1.Get)('users/:userId/presence'),
+    (0, swagger_1.ApiOperation)({ summary: 'Get user online/offline status' }),
+    (0, swagger_1.ApiParam)({ name: 'userId', description: 'User ID' }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'User presence retrieved successfully',
+    }),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Param)('userId', common_1.ParseUUIDPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", Promise)
+], ChatController.prototype, "getUserPresence", null);
 exports.ChatController = ChatController = __decorate([
     (0, swagger_1.ApiTags)('Chat'),
     (0, swagger_1.ApiBearerAuth)(),

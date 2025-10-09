@@ -31,4 +31,5 @@ export declare class ChatController {
     getUnreadCount(req: any, id: string): Promise<{
         count: number;
     }>;
+    getUserPresence(req: any, userId: string): Promise<any>;
 }
