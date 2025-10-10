@@ -152,18 +152,100 @@ let UserRepository = class UserRepository {
             queryBuilder.andWhere('user.age <= :maxAge', { maxAge: filters.maxAge });
         }
         if (filters.city) {
-            queryBuilder.andWhere("user.location->>'city' = :city", {
+            queryBuilder.andWhere("\"user\".\"location\" IS NOT NULL");
+            queryBuilder.andWhere("\"user\".\"location\"::jsonb->>'city' = :city", {
                 city: filters.city,
             });
         }
         if (filters.country) {
-            queryBuilder.andWhere("user.location->>'country' = :country", {
+            queryBuilder.andWhere("\"user\".\"location\" IS NOT NULL");
+            queryBuilder.andWhere("\"user\".\"location\"::jsonb->>'country' = :country", {
                 country: filters.country,
+            });
+        }
+        if (filters.origin) {
+            queryBuilder.andWhere('user.origin = :origin', {
+                origin: filters.origin,
             });
         }
         if (filters.religiousPractice) {
             queryBuilder.andWhere('user.religiousPractice = :religiousPractice', {
                 religiousPractice: filters.religiousPractice,
+            });
+        }
+        if (filters.sect) {
+            queryBuilder.andWhere('user.sect = :sect', {
+                sect: filters.sect,
+            });
+        }
+        if (filters.prayerLevel) {
+            queryBuilder.andWhere('user.prayerLevel = :prayerLevel', {
+                prayerLevel: filters.prayerLevel,
+            });
+        }
+        if (filters.profession) {
+            queryBuilder.andWhere('user.profession = :profession', {
+                profession: filters.profession,
+            });
+        }
+        if (filters.natureOfWork) {
+            queryBuilder.andWhere('user.natureOfWork = :natureOfWork', {
+                natureOfWork: filters.natureOfWork,
+            });
+        }
+        if (filters.minHeight) {
+            queryBuilder.andWhere('user.height >= :minHeight', {
+                minHeight: filters.minHeight,
+            });
+        }
+        if (filters.maxHeight) {
+            queryBuilder.andWhere('user.height <= :maxHeight', {
+                maxHeight: filters.maxHeight,
+            });
+        }
+        if (filters.minWeight) {
+            queryBuilder.andWhere('user.weight >= :minWeight', {
+                minWeight: filters.minWeight,
+            });
+        }
+        if (filters.maxWeight) {
+            queryBuilder.andWhere('user.weight <= :maxWeight', {
+                maxWeight: filters.maxWeight,
+            });
+        }
+        if (filters.bodyColor) {
+            queryBuilder.andWhere('user.bodyColor = :bodyColor', {
+                bodyColor: filters.bodyColor,
+            });
+        }
+        if (filters.hairColor) {
+            queryBuilder.andWhere('user.hairColor = :hairColor', {
+                hairColor: filters.hairColor,
+            });
+        }
+        if (filters.hairType) {
+            queryBuilder.andWhere('user.hairType = :hairType', {
+                hairType: filters.hairType,
+            });
+        }
+        if (filters.eyeColor) {
+            queryBuilder.andWhere('user.eyeColor = :eyeColor', {
+                eyeColor: filters.eyeColor,
+            });
+        }
+        if (filters.marriageType) {
+            queryBuilder.andWhere('user.marriageType = :marriageType', {
+                marriageType: filters.marriageType,
+            });
+        }
+        if (filters.houseAvailable !== undefined) {
+            queryBuilder.andWhere('user.houseAvailable = :houseAvailable', {
+                houseAvailable: filters.houseAvailable,
+            });
+        }
+        if (filters.acceptPolygamy !== undefined) {
+            queryBuilder.andWhere('user.acceptPolygamy = :acceptPolygamy', {
+                acceptPolygamy: filters.acceptPolygamy,
             });
         }
         const total = await queryBuilder.getCount();
@@ -176,12 +258,24 @@ let UserRepository = class UserRepository {
             'user.chartNumber',
             'user.bio',
             'user.age',
+            'user.dateOfBirth',
             'user.location',
+            'user.origin',
             'user.religiousPractice',
             'user.sect',
             'user.prayerLevel',
             'user.maritalStatus',
             'user.profession',
+            'user.weight',
+            'user.height',
+            'user.bodyColor',
+            'user.hairColor',
+            'user.hairType',
+            'user.eyeColor',
+            'user.houseAvailable',
+            'user.natureOfWork',
+            'user.marriageType',
+            'user.acceptPolygamy',
             'user.createdAt',
         ])
             .skip(skip)

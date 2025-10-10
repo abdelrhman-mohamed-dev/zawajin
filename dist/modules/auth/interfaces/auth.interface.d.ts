@@ -79,3 +79,8 @@ export interface ApiErrorResponse {
     };
     timestamp: string;
 }
+export interface ProfileCompletion {
+    percentage: number;
+    completedFields: string[];
+    missingFields: string[];
+}

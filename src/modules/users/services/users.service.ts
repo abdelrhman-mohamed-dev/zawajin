@@ -108,10 +108,27 @@ export class UsersService {
       throw new NotFoundException('User not found / المستخدم غير موجود');
     }
 
-    // Check if current user has liked this user
-    const likedUserIds = currentUserId
-      ? await this.checkLikeStatus(currentUserId, [userId])
-      : new Set<string>();
+    // Get like relationship information
+    let likedme = false;
+    let isliked = false;
+    let matching = false;
+
+    if (currentUserId) {
+      // Check if the target user liked the current user (likedme)
+      const targetLikedCurrent = await this.likeRepository.findOne({
+        where: { userId: userId, likedUserId: currentUserId },
+      });
+      likedme = !!targetLikedCurrent;
+
+      // Check if current user liked the target user (isliked)
+      const currentLikedTarget = await this.likeRepository.findOne({
+        where: { userId: currentUserId, likedUserId: userId },
+      });
+      isliked = !!currentLikedTarget;
+
+      // Both liked each other = matching
+      matching = likedme && isliked;
+    }
 
     // Remove sensitive data
     delete user.passwordHash;
@@ -121,7 +138,9 @@ export class UsersService {
 
     return {
       ...user,
-      hasLiked: likedUserIds.has(userId),
+      likedme,
+      isliked,
+      matching,
     };
   }
 

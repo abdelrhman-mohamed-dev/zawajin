@@ -101,13 +101,15 @@ export class MatchingService {
     }
 
     if (preferences?.preferredCity) {
-      queryBuilder.andWhere("user.location->>'city' = :city", {
+      queryBuilder.andWhere("\"user\".\"location\" IS NOT NULL");
+      queryBuilder.andWhere("\"user\".\"location\"::jsonb->>'city' = :city", {
         city: preferences.preferredCity,
       });
     }
 
     if (preferences?.preferredCountry) {
-      queryBuilder.andWhere("user.location->>'country' = :country", {
+      queryBuilder.andWhere("\"user\".\"location\" IS NOT NULL");
+      queryBuilder.andWhere("\"user\".\"location\"::jsonb->>'country' = :country", {
         country: preferences.preferredCountry,
       });
     }

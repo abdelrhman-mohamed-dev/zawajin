@@ -717,12 +717,12 @@ export class AuthController {
   @ApiBearerAuth()
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
-    summary: 'Get current authenticated user',
-    description: 'Get the profile information of the currently authenticated user using JWT token.',
+    summary: 'Get current authenticated user with profile completion',
+    description: 'Get the profile information of the currently authenticated user using JWT token. Returns user data along with profile completion percentage, completed fields, and missing fields to help users complete their profile.',
   })
   @ApiResponse({
     status: 200,
-    description: 'User profile retrieved successfully',
+    description: 'User profile retrieved successfully with profile completion percentage and missing fields',
     schema: {
       example: {
         success: true,
@@ -748,7 +748,42 @@ export class AuthController {
           maritalStatus: 'single',
           profession: 'Software Engineer',
           createdAt: '2024-01-01T00:00:00.000Z',
-          updatedAt: '2024-01-01T00:00:00.000Z'
+          updatedAt: '2024-01-01T00:00:00.000Z',
+          profileCompletion: {
+            percentage: 47,
+            completedFields: [
+              'Age',
+              'Location',
+              'Marital Status',
+              'Profession',
+              'Bio',
+              'Religious Practice',
+              'Sect',
+              'Prayer Level'
+            ],
+            missingFields: [
+              'Date of Birth',
+              'Origin',
+              'Weight',
+              'Height',
+              'Body Color',
+              'Hair Color',
+              'Hair Type',
+              'Eye Color',
+              'House Available',
+              'Nature of Work',
+              'Preferred Min Weight',
+              'Preferred Max Weight',
+              'Preferred Min Height',
+              'Preferred Max Height',
+              'Preferred Body Colors',
+              'Preferred Hair Colors',
+              'Preferred Eye Colors',
+              'Partner Preferences Bio',
+              'Marriage Type',
+              'Accept Polygamy'
+            ]
+          }
         },
         timestamp: '2024-01-01T00:00:00.000Z',
       },
@@ -774,13 +809,19 @@ export class AuthController {
       this.logger.log(`Get current user request for: ${req.user.sub}`);
       const user = await this.userRepository.findById(req.user.sub);
 
+      // Calculate profile completion
+      const profileCompletion = this.authService.calculateProfileCompletion(user);
+
       // Remove sensitive data
       const { passwordHash, fcmToken, ...userWithoutSensitiveData } = user;
 
       return {
         success: true,
         message: await i18n.t('auth.user_profile_retrieved'),
-        data: userWithoutSensitiveData,
+        data: {
+          ...userWithoutSensitiveData,
+          profileCompletion,
+        },
         timestamp: new Date().toISOString(),
       };
     } catch (error) {

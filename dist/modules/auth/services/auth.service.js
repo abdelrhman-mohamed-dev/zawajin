@@ -246,6 +246,76 @@ let AuthService = AuthService_1 = class AuthService {
             timestamp: new Date().toISOString(),
         };
     }
+    calculateProfileCompletion(user) {
+        const profileFields = [
+            { key: 'dateOfBirth', label: 'Date of Birth' },
+            { key: 'age', label: 'Age' },
+            { key: 'location', label: 'Location' },
+            { key: 'origin', label: 'Origin' },
+            { key: 'maritalStatus', label: 'Marital Status' },
+            { key: 'profession', label: 'Profession' },
+            { key: 'weight', label: 'Weight' },
+            { key: 'height', label: 'Height' },
+            { key: 'bodyColor', label: 'Body Color' },
+            { key: 'hairColor', label: 'Hair Color' },
+            { key: 'hairType', label: 'Hair Type' },
+            { key: 'eyeColor', label: 'Eye Color' },
+            { key: 'houseAvailable', label: 'House Available' },
+            { key: 'natureOfWork', label: 'Nature of Work' },
+            { key: 'bio', label: 'Bio' },
+            { key: 'religiousPractice', label: 'Religious Practice' },
+            { key: 'sect', label: 'Sect' },
+            { key: 'prayerLevel', label: 'Prayer Level' },
+            { key: 'preferredMinWeight', label: 'Preferred Min Weight' },
+            { key: 'preferredMaxWeight', label: 'Preferred Max Weight' },
+            { key: 'preferredMinHeight', label: 'Preferred Min Height' },
+            { key: 'preferredMaxHeight', label: 'Preferred Max Height' },
+            { key: 'preferredBodyColors', label: 'Preferred Body Colors' },
+            { key: 'preferredHairColors', label: 'Preferred Hair Colors' },
+            { key: 'preferredEyeColors', label: 'Preferred Eye Colors' },
+            { key: 'partnerPreferencesBio', label: 'Partner Preferences Bio' },
+            { key: 'marriageType', label: 'Marriage Type' },
+            { key: 'acceptPolygamy', label: 'Accept Polygamy' },
+        ];
+        const completedFields = [];
+        const missingFields = [];
+        profileFields.forEach(field => {
+            const value = user[field.key];
+            if (value !== null && value !== undefined && value !== '') {
+                if (Array.isArray(value)) {
+                    if (value.length > 0) {
+                        completedFields.push(field.label);
+                    }
+                    else {
+                        missingFields.push(field.label);
+                    }
+                }
+                else if (typeof value === 'object') {
+                    const hasValues = Object.values(value).some(v => v !== null && v !== undefined && v !== '');
+                    if (hasValues) {
+                        completedFields.push(field.label);
+                    }
+                    else {
+                        missingFields.push(field.label);
+                    }
+                }
+                else {
+                    completedFields.push(field.label);
+                }
+            }
+            else {
+                missingFields.push(field.label);
+            }
+        });
+        const totalFields = profileFields.length;
+        const completedCount = completedFields.length;
+        const percentage = Math.round((completedCount / totalFields) * 100);
+        return {
+            percentage,
+            completedFields,
+            missingFields,
+        };
+    }
     async generateTokens(user) {
         const payload = {
             sub: user.id,

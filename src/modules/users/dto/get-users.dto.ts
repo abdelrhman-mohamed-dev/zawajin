@@ -1,5 +1,5 @@
-import { IsOptional, IsInt, Min, IsEnum, IsString } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsOptional, IsInt, Min, IsEnum, IsString, IsBoolean, IsNumber, Max } from 'class-validator';
+import { Type, Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class GetUsersDto {
@@ -27,6 +27,7 @@ export class GetUsersDto {
   @Min(1)
   limit?: number = 10;
 
+  // Basic filters
   @ApiProperty({
     example: 'male',
     description: 'Filter by gender',
@@ -69,6 +70,7 @@ export class GetUsersDto {
   @Min(18)
   maxAge?: number;
 
+  // Location filters
   @ApiProperty({
     example: 'Dubai',
     description: 'Filter by city',
@@ -88,6 +90,16 @@ export class GetUsersDto {
   country?: string;
 
   @ApiProperty({
+    example: 'Egyptian',
+    description: 'Filter by origin',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  origin?: string;
+
+  // Religious filters
+  @ApiProperty({
     example: 'Religious',
     description: 'Filter by religious practice',
     required: false,
@@ -95,4 +107,152 @@ export class GetUsersDto {
   @IsOptional()
   @IsString()
   religiousPractice?: string;
+
+  @ApiProperty({
+    example: 'Sunni',
+    description: 'Filter by sect',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  sect?: string;
+
+  @ApiProperty({
+    example: 'Prays 5 times a day',
+    description: 'Filter by prayer level',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  prayerLevel?: string;
+
+  // Professional filters
+  @ApiProperty({
+    example: 'Engineer',
+    description: 'Filter by profession',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  profession?: string;
+
+  // Physical attributes filters
+  @ApiProperty({
+    example: 165,
+    description: 'Minimum height (cm)',
+    required: false,
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  @Min(100)
+  minHeight?: number;
+
+  @ApiProperty({
+    example: 180,
+    description: 'Maximum height (cm)',
+    required: false,
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  @Min(100)
+  maxHeight?: number;
+
+  @ApiProperty({
+    example: 50,
+    description: 'Minimum weight (kg)',
+    required: false,
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  @Min(30)
+  minWeight?: number;
+
+  @ApiProperty({
+    example: 80,
+    description: 'Maximum weight (kg)',
+    required: false,
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  @Min(30)
+  maxWeight?: number;
+
+  @ApiProperty({
+    example: 'fair',
+    description: 'Filter by body color',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  bodyColor?: string;
+
+  @ApiProperty({
+    example: 'black',
+    description: 'Filter by hair color',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  hairColor?: string;
+
+  @ApiProperty({
+    example: 'straight',
+    description: 'Filter by hair type',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  hairType?: string;
+
+  @ApiProperty({
+    example: 'brown',
+    description: 'Filter by eye color',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  eyeColor?: string;
+
+  // Marriage preferences filters
+  @ApiProperty({
+    example: 'religious',
+    description: 'Filter by marriage type',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  marriageType?: string;
+
+  @ApiProperty({
+    example: true,
+    description: 'Filter by house availability',
+    required: false,
+  })
+  @IsOptional()
+  @Transform(({ value }) => value === 'true' || value === true)
+  @IsBoolean()
+  houseAvailable?: boolean;
+
+  @ApiProperty({
+    example: false,
+    description: 'Filter by polygamy acceptance',
+    required: false,
+  })
+  @IsOptional()
+  @Transform(({ value }) => value === 'true' || value === true)
+  @IsBoolean()
+  acceptPolygamy?: boolean;
+
+  @ApiProperty({
+    example: 'Full-time office job',
+    description: 'Filter by nature of work',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  natureOfWork?: string;
 }

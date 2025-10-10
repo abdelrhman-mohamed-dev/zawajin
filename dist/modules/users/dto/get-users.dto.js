@@ -114,6 +114,16 @@ __decorate([
 ], GetUsersDto.prototype, "country", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
+        example: 'Egyptian',
+        description: 'Filter by origin',
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], GetUsersDto.prototype, "origin", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
         example: 'Religious',
         description: 'Filter by religious practice',
         required: false,
@@ -122,4 +132,164 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], GetUsersDto.prototype, "religiousPractice", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Sunni',
+        description: 'Filter by sect',
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], GetUsersDto.prototype, "sect", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Prays 5 times a day',
+        description: 'Filter by prayer level',
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], GetUsersDto.prototype, "prayerLevel", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Engineer',
+        description: 'Filter by profession',
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], GetUsersDto.prototype, "profession", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 165,
+        description: 'Minimum height (cm)',
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_transformer_1.Type)(() => Number),
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.Min)(100),
+    __metadata("design:type", Number)
+], GetUsersDto.prototype, "minHeight", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 180,
+        description: 'Maximum height (cm)',
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_transformer_1.Type)(() => Number),
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.Min)(100),
+    __metadata("design:type", Number)
+], GetUsersDto.prototype, "maxHeight", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 50,
+        description: 'Minimum weight (kg)',
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_transformer_1.Type)(() => Number),
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.Min)(30),
+    __metadata("design:type", Number)
+], GetUsersDto.prototype, "minWeight", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 80,
+        description: 'Maximum weight (kg)',
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_transformer_1.Type)(() => Number),
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.Min)(30),
+    __metadata("design:type", Number)
+], GetUsersDto.prototype, "maxWeight", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'fair',
+        description: 'Filter by body color',
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], GetUsersDto.prototype, "bodyColor", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'black',
+        description: 'Filter by hair color',
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], GetUsersDto.prototype, "hairColor", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'straight',
+        description: 'Filter by hair type',
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], GetUsersDto.prototype, "hairType", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'brown',
+        description: 'Filter by eye color',
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], GetUsersDto.prototype, "eyeColor", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'religious',
+        description: 'Filter by marriage type',
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], GetUsersDto.prototype, "marriageType", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: true,
+        description: 'Filter by house availability',
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_transformer_1.Transform)(({ value }) => value === 'true' || value === true),
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], GetUsersDto.prototype, "houseAvailable", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: false,
+        description: 'Filter by polygamy acceptance',
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_transformer_1.Transform)(({ value }) => value === 'true' || value === true),
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], GetUsersDto.prototype, "acceptPolygamy", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Full-time office job',
+        description: 'Filter by nature of work',
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], GetUsersDto.prototype, "natureOfWork", void 0);
 //# sourceMappingURL=get-users.dto.js.map

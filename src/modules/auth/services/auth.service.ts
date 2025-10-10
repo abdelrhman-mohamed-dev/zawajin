@@ -377,6 +377,97 @@ export class AuthService {
     };
   }
 
+  calculateProfileCompletion(user: User): {
+    percentage: number;
+    completedFields: string[];
+    missingFields: string[];
+  } {
+    // Define all profile fields that should be filled
+    const profileFields = [
+      // Basic Info
+      { key: 'dateOfBirth', label: 'Date of Birth' },
+      { key: 'age', label: 'Age' },
+      { key: 'location', label: 'Location' },
+      { key: 'origin', label: 'Origin' },
+      { key: 'maritalStatus', label: 'Marital Status' },
+      { key: 'profession', label: 'Profession' },
+
+      // Physical Attributes
+      { key: 'weight', label: 'Weight' },
+      { key: 'height', label: 'Height' },
+      { key: 'bodyColor', label: 'Body Color' },
+      { key: 'hairColor', label: 'Hair Color' },
+      { key: 'hairType', label: 'Hair Type' },
+      { key: 'eyeColor', label: 'Eye Color' },
+      { key: 'houseAvailable', label: 'House Available' },
+      { key: 'natureOfWork', label: 'Nature of Work' },
+      { key: 'bio', label: 'Bio' },
+
+      // Religious Info
+      { key: 'religiousPractice', label: 'Religious Practice' },
+      { key: 'sect', label: 'Sect' },
+      { key: 'prayerLevel', label: 'Prayer Level' },
+
+      // Partner Preferences
+      { key: 'preferredMinWeight', label: 'Preferred Min Weight' },
+      { key: 'preferredMaxWeight', label: 'Preferred Max Weight' },
+      { key: 'preferredMinHeight', label: 'Preferred Min Height' },
+      { key: 'preferredMaxHeight', label: 'Preferred Max Height' },
+      { key: 'preferredBodyColors', label: 'Preferred Body Colors' },
+      { key: 'preferredHairColors', label: 'Preferred Hair Colors' },
+      { key: 'preferredEyeColors', label: 'Preferred Eye Colors' },
+      { key: 'partnerPreferencesBio', label: 'Partner Preferences Bio' },
+
+      // Marriage Preferences
+      { key: 'marriageType', label: 'Marriage Type' },
+      { key: 'acceptPolygamy', label: 'Accept Polygamy' },
+    ];
+
+    const completedFields: string[] = [];
+    const missingFields: string[] = [];
+
+    profileFields.forEach(field => {
+      const value = user[field.key];
+
+      // Check if field is filled
+      if (value !== null && value !== undefined && value !== '') {
+        // For arrays, check if they have at least one element
+        if (Array.isArray(value)) {
+          if (value.length > 0) {
+            completedFields.push(field.label);
+          } else {
+            missingFields.push(field.label);
+          }
+        }
+        // For objects (like location), check if they have properties
+        else if (typeof value === 'object') {
+          const hasValues = Object.values(value).some(v => v !== null && v !== undefined && v !== '');
+          if (hasValues) {
+            completedFields.push(field.label);
+          } else {
+            missingFields.push(field.label);
+          }
+        }
+        // For primitive values
+        else {
+          completedFields.push(field.label);
+        }
+      } else {
+        missingFields.push(field.label);
+      }
+    });
+
+    const totalFields = profileFields.length;
+    const completedCount = completedFields.length;
+    const percentage = Math.round((completedCount / totalFields) * 100);
+
+    return {
+      percentage,
+      completedFields,
+      missingFields,
+    };
+  }
+
   private async generateTokens(user: User): Promise<{ access_token: string; refresh_token: string }> {
     const payload = {
       sub: user.id,

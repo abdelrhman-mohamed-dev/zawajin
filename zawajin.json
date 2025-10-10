@@ -225,9 +225,44 @@
 								"auth",
 								"me"
 							]
-						}
+						},
+						"description": "Get the current authenticated user's profile with profile completion percentage and missing fields"
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Success Response with Profile Completion",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authToken}}"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/auth/me",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"auth",
+										"me"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"User profile retrieved successfully\",\n    \"data\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"fullName\": \"Ahmed Khan\",\n        \"email\": \"ahmed.khan@example.com\",\n        \"gender\": \"male\",\n        \"phone\": \"1234567890\",\n        \"chartNumber\": \"ZX-545654\",\n        \"isEmailVerified\": true,\n        \"isPhoneVerified\": false,\n        \"isActive\": true,\n        \"dateOfBirth\": \"1995-05-15\",\n        \"age\": 30,\n        \"location\": {\n            \"city\": \"Dubai\",\n            \"country\": \"UAE\"\n        },\n        \"origin\": null,\n        \"maritalStatus\": \"single\",\n        \"profession\": \"Software Engineer\",\n        \"weight\": 70.5,\n        \"height\": 175.5,\n        \"bodyColor\": \"medium\",\n        \"hairColor\": \"black\",\n        \"hairType\": \"straight\",\n        \"eyeColor\": \"brown\",\n        \"houseAvailable\": true,\n        \"natureOfWork\": \"Full-time office job\",\n        \"bio\": \"A kind and practicing Muslim looking for a life partner.\",\n        \"preferredMinWeight\": null,\n        \"preferredMaxWeight\": null,\n        \"preferredMinHeight\": null,\n        \"preferredMaxHeight\": null,\n        \"preferredBodyColors\": null,\n        \"preferredHairColors\": null,\n        \"preferredEyeColors\": null,\n        \"partnerPreferencesBio\": null,\n        \"marriageType\": null,\n        \"acceptPolygamy\": null,\n        \"religiousPractice\": \"Religious\",\n        \"sect\": \"Sunni\",\n        \"prayerLevel\": \"Prays 5 times a day\",\n        \"role\": \"user\",\n        \"permissions\": null,\n        \"isBanned\": false,\n        \"banType\": null,\n        \"bannedAt\": null,\n        \"bannedUntil\": null,\n        \"bannedReason\": null,\n        \"bannedBy\": null,\n        \"isVerified\": false,\n        \"verifiedAt\": null,\n        \"verifiedBy\": null,\n        \"isDeleted\": false,\n        \"deletedAt\": null,\n        \"roleAssignedBy\": null,\n        \"roleAssignedAt\": null,\n        \"createdAt\": \"2024-01-01T00:00:00.000Z\",\n        \"updatedAt\": \"2024-01-01T00:00:00.000Z\",\n        \"profileCompletion\": {\n            \"percentage\": 57,\n            \"completedFields\": [\n                \"Date of Birth\",\n                \"Age\",\n                \"Location\",\n                \"Marital Status\",\n                \"Profession\",\n                \"Weight\",\n                \"Height\",\n                \"Body Color\",\n                \"Hair Color\",\n                \"Hair Type\",\n                \"Eye Color\",\n                \"House Available\",\n                \"Nature of Work\",\n                \"Bio\",\n                \"Religious Practice\",\n                \"Sect\",\n                \"Prayer Level\"\n            ],\n            \"missingFields\": [\n                \"Origin\",\n                \"Preferred Min Weight\",\n                \"Preferred Max Weight\",\n                \"Preferred Min Height\",\n                \"Preferred Max Height\",\n                \"Preferred Body Colors\",\n                \"Preferred Hair Colors\",\n                \"Preferred Eye Colors\",\n                \"Partner Preferences Bio\",\n                \"Marriage Type\",\n                \"Accept Polygamy\"\n            ]\n        }\n    },\n    \"timestamp\": \"2024-01-01T00:00:00.000Z\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Update User Profile",
@@ -271,12 +306,137 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/users",
+							"raw": "{{baseUrl}}/users?page=1&limit=10&gender=female&maritalStatus=single&minAge=25&maxAge=35&city=Dubai&country=UAE&origin=Egyptian&religiousPractice=Religious&sect=Sunni&prayerLevel=Prays 5 times a day&profession=Engineer&minHeight=160&maxHeight=175&minWeight=50&maxWeight=70&bodyColor=fair&hairColor=black&hairType=straight&eyeColor=brown&marriageType=religious&houseAvailable=true&acceptPolygamy=false&natureOfWork=Full-time office job",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "gender",
+									"value": "female",
+									"disabled": true
+								},
+								{
+									"key": "maritalStatus",
+									"value": "single",
+									"disabled": true
+								},
+								{
+									"key": "minAge",
+									"value": "25",
+									"disabled": true
+								},
+								{
+									"key": "maxAge",
+									"value": "35",
+									"disabled": true
+								},
+								{
+									"key": "city",
+									"value": "Dubai",
+									"disabled": true
+								},
+								{
+									"key": "country",
+									"value": "UAE",
+									"disabled": true
+								},
+								{
+									"key": "origin",
+									"value": "Egyptian",
+									"disabled": true
+								},
+								{
+									"key": "religiousPractice",
+									"value": "Religious",
+									"disabled": true
+								},
+								{
+									"key": "sect",
+									"value": "Sunni",
+									"disabled": true
+								},
+								{
+									"key": "prayerLevel",
+									"value": "Prays 5 times a day",
+									"disabled": true
+								},
+								{
+									"key": "profession",
+									"value": "Engineer",
+									"disabled": true
+								},
+								{
+									"key": "minHeight",
+									"value": "160",
+									"disabled": true
+								},
+								{
+									"key": "maxHeight",
+									"value": "175",
+									"disabled": true
+								},
+								{
+									"key": "minWeight",
+									"value": "50",
+									"disabled": true
+								},
+								{
+									"key": "maxWeight",
+									"value": "70",
+									"disabled": true
+								},
+								{
+									"key": "bodyColor",
+									"value": "fair",
+									"disabled": true
+								},
+								{
+									"key": "hairColor",
+									"value": "black",
+									"disabled": true
+								},
+								{
+									"key": "hairType",
+									"value": "straight",
+									"disabled": true
+								},
+								{
+									"key": "eyeColor",
+									"value": "brown",
+									"disabled": true
+								},
+								{
+									"key": "marriageType",
+									"value": "religious",
+									"disabled": true
+								},
+								{
+									"key": "houseAvailable",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "acceptPolygamy",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "natureOfWork",
+									"value": "Full-time office job",
+									"disabled": true
+								}
 							]
 						}
 					},

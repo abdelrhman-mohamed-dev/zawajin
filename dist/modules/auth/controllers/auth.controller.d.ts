@@ -25,6 +25,11 @@ export declare class AuthController {
         success: boolean;
         message: string;
         data: {
+            profileCompletion: {
+                percentage: number;
+                completedFields: string[];
+                missingFields: string[];
+            };
             id: string;
             fullName: string;
             email: string;

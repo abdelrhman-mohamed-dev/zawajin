@@ -9,7 +9,23 @@ export interface GetUsersQueryDto {
     maxAge?: number;
     city?: string;
     country?: string;
+    origin?: string;
     religiousPractice?: string;
+    sect?: string;
+    prayerLevel?: string;
+    profession?: string;
+    minHeight?: number;
+    maxHeight?: number;
+    minWeight?: number;
+    maxWeight?: number;
+    bodyColor?: string;
+    hairColor?: string;
+    hairType?: string;
+    eyeColor?: string;
+    marriageType?: string;
+    houseAvailable?: boolean;
+    acceptPolygamy?: boolean;
+    natureOfWork?: string;
 }
 export declare class UserRepository {
     private readonly userRepo;

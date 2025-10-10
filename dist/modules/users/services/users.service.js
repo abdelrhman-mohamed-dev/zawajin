@@ -80,15 +80,28 @@ let UsersService = UsersService_1 = class UsersService {
         if (!user.isEmailVerified) {
             throw new common_1.NotFoundException('User not found / المستخدم غير موجود');
         }
-        const likedUserIds = currentUserId
-            ? await this.checkLikeStatus(currentUserId, [userId])
-            : new Set();
+        let likedme = false;
+        let isliked = false;
+        let matching = false;
+        if (currentUserId) {
+            const targetLikedCurrent = await this.likeRepository.findOne({
+                where: { userId: userId, likedUserId: currentUserId },
+            });
+            likedme = !!targetLikedCurrent;
+            const currentLikedTarget = await this.likeRepository.findOne({
+                where: { userId: currentUserId, likedUserId: userId },
+            });
+            isliked = !!currentLikedTarget;
+            matching = likedme && isliked;
+        }
         delete user.passwordHash;
         delete user.fcmToken;
         this.logger.log(`User retrieved successfully: ${userId}`);
         return {
             ...user,
-            hasLiked: likedUserIds.has(userId),
+            likedme,
+            isliked,
+            matching,
         };
     }
     async getCurrentUser(userId) {

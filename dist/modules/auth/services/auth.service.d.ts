@@ -7,6 +7,7 @@ import { UserRepository } from '../repositories/user.repository';
 import { OtpService } from './otp.service';
 import { MailService } from '../../mail/services/mail.service';
 import { RegisterResponse, VerifyResponse, ResendResponse, LoginResponse, ForgetPasswordResponse, VerifyResetOtpResponse, ResetPasswordResponse } from '../interfaces/auth.interface';
+import { User } from '../entities/user.entity';
 export declare class AuthService {
     private readonly userRepository;
     private readonly otpService;
@@ -24,5 +25,10 @@ export declare class AuthService {
     forgetPassword(email: string): Promise<ForgetPasswordResponse>;
     verifyResetOtp(email: string, code: string): Promise<VerifyResetOtpResponse>;
     resetPassword(email: string, newPassword: string): Promise<ResetPasswordResponse>;
+    calculateProfileCompletion(user: User): {
+        percentage: number;
+        completedFields: string[];
+        missingFields: string[];
+    };
     private generateTokens;
 }
