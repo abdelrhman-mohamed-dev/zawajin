@@ -193,6 +193,8 @@ export class ChatService {
       senderId: userId,
       content: sendMessageDto.content,
       messageType: sendMessageDto.messageType || MessageType.TEXT,
+      fileUrl: sendMessageDto.fileUrl || null,
+      audioDuration: sendMessageDto.audioDuration || null,
       status: MessageStatus.SENT,
       createdAt: new Date(), // Explicitly set to current UTC time
       updatedAt: new Date(),
@@ -262,6 +264,26 @@ export class ChatService {
     }
 
     await this.messageRepository.softDeleteMessage(messageId);
+  }
+
+  async deleteConversation(
+    userId: string,
+    conversationId: string,
+  ): Promise<void> {
+    // Verify user has access to conversation
+    const conversation = await this.getConversationById(userId, conversationId);
+
+    // Delete all messages in the conversation
+    await this.messageRepository.delete({ conversationId });
+
+    // Update conversation to clear last message info
+    await this.conversationRepository.update(
+      { id: conversationId },
+      {
+        lastMessagePreview: null,
+        lastMessageAt: null,
+      },
+    );
   }
 
   async getUnreadCount(

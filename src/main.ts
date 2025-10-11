@@ -114,6 +114,24 @@ async function bootstrap() {
     credentials: true,
   });
 
+  // Serve static files for uploads
+  const path = require('path');
+  const serveStatic = express.static(path.join(__dirname, '..', 'uploads'), {
+    setHeaders: (res, filePath) => {
+      // Set correct MIME type for audio files
+      if (filePath.endsWith('.webm')) {
+        res.setHeader('Content-Type', 'audio/webm');
+      } else if (filePath.endsWith('.mp3')) {
+        res.setHeader('Content-Type', 'audio/mpeg');
+      } else if (filePath.endsWith('.wav')) {
+        res.setHeader('Content-Type', 'audio/wav');
+      } else if (filePath.endsWith('.ogg')) {
+        res.setHeader('Content-Type', 'audio/ogg');
+      }
+    },
+  });
+  app.use('/uploads', serveStatic);
+
   // Swagger configuration
   const config = new DocumentBuilder()
     .setTitle('Zawaj-In API')

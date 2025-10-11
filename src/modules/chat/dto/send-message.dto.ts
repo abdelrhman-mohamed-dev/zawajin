@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, MaxLength, IsEnum, IsOptional } from 'class-validator';
+import { IsString, IsNotEmpty, MaxLength, IsEnum, IsOptional, IsUrl, IsInt, Min } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { MessageType } from '../entities/message.entity';
 
@@ -24,4 +24,23 @@ export class SendMessageDto {
   @IsEnum(MessageType)
   @IsOptional()
   messageType?: MessageType;
+
+  @ApiProperty({
+    description: 'URL to the file (for audio/image messages)',
+    required: false,
+    example: 'https://storage.example.com/audio/message.mp3',
+  })
+  @IsUrl()
+  @IsOptional()
+  fileUrl?: string;
+
+  @ApiProperty({
+    description: 'Duration of audio in seconds (for audio messages)',
+    required: false,
+    example: 45,
+  })
+  @IsInt()
+  @Min(1)
+  @IsOptional()
+  audioDuration?: number;
 }

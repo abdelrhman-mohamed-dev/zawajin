@@ -40,4 +40,25 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], SendMessageDto.prototype, "messageType", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'URL to the file (for audio/image messages)',
+        required: false,
+        example: 'https://storage.example.com/audio/message.mp3',
+    }),
+    (0, class_validator_1.IsUrl)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], SendMessageDto.prototype, "fileUrl", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'Duration of audio in seconds (for audio messages)',
+        required: false,
+        example: 45,
+    }),
+    (0, class_validator_1.IsInt)(),
+    (0, class_validator_1.Min)(1),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], SendMessageDto.prototype, "audioDuration", void 0);
 //# sourceMappingURL=send-message.dto.js.map

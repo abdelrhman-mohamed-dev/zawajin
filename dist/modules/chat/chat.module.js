@@ -10,7 +10,9 @@ exports.ChatModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const jwt_1 = require("@nestjs/jwt");
+const platform_express_1 = require("@nestjs/platform-express");
 const chat_controller_1 = require("./controllers/chat.controller");
+const upload_controller_1 = require("./controllers/upload.controller");
 const chat_service_1 = require("./services/chat.service");
 const chat_gateway_1 = require("./gateways/chat.gateway");
 const conversation_entity_1 = require("./entities/conversation.entity");
@@ -39,8 +41,11 @@ exports.ChatModule = ChatModule = __decorate([
                 secret: process.env.JWT_SECRET,
                 signOptions: { expiresIn: '7d' },
             }),
+            platform_express_1.MulterModule.register({
+                dest: './uploads',
+            }),
         ],
-        controllers: [chat_controller_1.ChatController],
+        controllers: [chat_controller_1.ChatController, upload_controller_1.UploadController],
         providers: [
             chat_service_1.ChatService,
             chat_gateway_1.ChatGateway,

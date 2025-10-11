@@ -32,6 +32,7 @@ export declare class ChatService {
     sendMessage(userId: string, conversationId: string, sendMessageDto: SendMessageDto): Promise<Message>;
     markMessagesAsRead(userId: string, conversationId: string): Promise<void>;
     deleteMessage(userId: string, messageId: string): Promise<void>;
+    deleteConversation(userId: string, conversationId: string): Promise<void>;
     getUnreadCount(userId: string, conversationId: string): Promise<number>;
     getUserPresence(userId: string): Promise<any>;
     private checkMutualLike;

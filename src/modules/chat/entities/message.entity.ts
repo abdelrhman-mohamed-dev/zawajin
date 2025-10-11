@@ -14,6 +14,7 @@ import { User } from '../../auth/entities/user.entity';
 export enum MessageType {
   TEXT = 'text',
   IMAGE = 'image',
+  AUDIO = 'audio',
   SYSTEM = 'system',
 }
 
@@ -55,6 +56,12 @@ export class Message {
     default: MessageType.TEXT,
   })
   messageType: MessageType;
+
+  @Column({ type: 'text', nullable: true, name: 'fileUrl' })
+  fileUrl: string;
+
+  @Column({ type: 'integer', nullable: true, name: 'audioDuration' })
+  audioDuration: number; // in seconds
 
   @Column({
     type: 'enum',

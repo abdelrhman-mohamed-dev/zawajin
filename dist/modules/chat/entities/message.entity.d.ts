@@ -3,6 +3,7 @@ import { User } from '../../auth/entities/user.entity';
 export declare enum MessageType {
     TEXT = "text",
     IMAGE = "image",
+    AUDIO = "audio",
     SYSTEM = "system"
 }
 export declare enum MessageStatus {
@@ -18,6 +19,8 @@ export declare class Message {
     sender: User;
     content: string;
     messageType: MessageType;
+    fileUrl: string;
+    audioDuration: number;
     status: MessageStatus;
     isDeleted: boolean;
     deletedAt: Date;

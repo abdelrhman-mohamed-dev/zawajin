@@ -84,6 +84,24 @@ async function bootstrap() {
         origin: true,
         credentials: true,
     });
+    const path = require('path');
+    const serveStatic = express.static(path.join(__dirname, '..', 'uploads'), {
+        setHeaders: (res, filePath) => {
+            if (filePath.endsWith('.webm')) {
+                res.setHeader('Content-Type', 'audio/webm');
+            }
+            else if (filePath.endsWith('.mp3')) {
+                res.setHeader('Content-Type', 'audio/mpeg');
+            }
+            else if (filePath.endsWith('.wav')) {
+                res.setHeader('Content-Type', 'audio/wav');
+            }
+            else if (filePath.endsWith('.ogg')) {
+                res.setHeader('Content-Type', 'audio/ogg');
+            }
+        },
+    });
+    app.use('/uploads', serveStatic);
     const config = new swagger_1.DocumentBuilder()
         .setTitle('Zawaj-In API')
         .setDescription('Zawaj-In matrimonial platform API with user registration and email OTP verification')

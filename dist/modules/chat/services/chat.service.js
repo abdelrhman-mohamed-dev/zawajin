@@ -132,6 +132,8 @@ let ChatService = class ChatService {
             senderId: userId,
             content: sendMessageDto.content,
             messageType: sendMessageDto.messageType || message_entity_1.MessageType.TEXT,
+            fileUrl: sendMessageDto.fileUrl || null,
+            audioDuration: sendMessageDto.audioDuration || null,
             status: message_entity_1.MessageStatus.SENT,
             createdAt: new Date(),
             updatedAt: new Date(),
@@ -176,6 +178,14 @@ let ChatService = class ChatService {
             });
         }
         await this.messageRepository.softDeleteMessage(messageId);
+    }
+    async deleteConversation(userId, conversationId) {
+        const conversation = await this.getConversationById(userId, conversationId);
+        await this.messageRepository.delete({ conversationId });
+        await this.conversationRepository.update({ id: conversationId }, {
+            lastMessagePreview: null,
+            lastMessageAt: null,
+        });
     }
     async getUnreadCount(userId, conversationId) {
         await this.getConversationById(userId, conversationId);

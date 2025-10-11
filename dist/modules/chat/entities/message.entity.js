@@ -17,6 +17,7 @@ var MessageType;
 (function (MessageType) {
     MessageType["TEXT"] = "text";
     MessageType["IMAGE"] = "image";
+    MessageType["AUDIO"] = "audio";
     MessageType["SYSTEM"] = "system";
 })(MessageType || (exports.MessageType = MessageType = {}));
 var MessageStatus;
@@ -64,6 +65,14 @@ __decorate([
     }),
     __metadata("design:type", String)
 ], Message.prototype, "messageType", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'text', nullable: true, name: 'fileUrl' }),
+    __metadata("design:type", String)
+], Message.prototype, "fileUrl", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'integer', nullable: true, name: 'audioDuration' }),
+    __metadata("design:type", Number)
+], Message.prototype, "audioDuration", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         type: 'enum',

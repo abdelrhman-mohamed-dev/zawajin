@@ -54,6 +54,13 @@ let ChatController = class ChatController {
             messageAr: 'تم حذف الرسالة بنجاح',
         };
     }
+    async deleteConversation(req, id) {
+        await this.chatService.deleteConversation(req.user.userId, id);
+        return {
+            message: 'All messages deleted successfully',
+            messageAr: 'تم حذف جميع الرسائل بنجاح',
+        };
+    }
     async getUnreadCount(req, id) {
         const count = await this.chatService.getUnreadCount(req.user.userId, id);
         return { count };
@@ -172,6 +179,22 @@ __decorate([
     __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], ChatController.prototype, "deleteMessage", null);
+__decorate([
+    (0, common_1.Delete)('conversations/:id'),
+    (0, swagger_1.ApiOperation)({ summary: 'Delete all messages in a conversation (clears chat history)' }),
+    (0, swagger_1.ApiParam)({ name: 'id', description: 'Conversation ID' }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'All messages deleted successfully',
+    }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: 'Conversation not found' }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: 'Not a participant in this conversation' }),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", Promise)
+], ChatController.prototype, "deleteConversation", null);
 __decorate([
     (0, common_1.Get)('conversations/:id/unread-count'),
     (0, swagger_1.ApiOperation)({ summary: 'Get unread message count for a conversation' }),

@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
+import { MulterModule } from '@nestjs/platform-express';
 import { ChatController } from './controllers/chat.controller';
+import { UploadController } from './controllers/upload.controller';
 import { ChatService } from './services/chat.service';
 import { ChatGateway } from './gateways/chat.gateway';
 import { Conversation } from './entities/conversation.entity';
@@ -27,8 +29,11 @@ import { WsJwtGuard } from './guards/ws-jwt.guard';
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '7d' },
     }),
+    MulterModule.register({
+      dest: './uploads',
+    }),
   ],
-  controllers: [ChatController],
+  controllers: [ChatController, UploadController],
   providers: [
     ChatService,
     ChatGateway,

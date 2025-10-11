@@ -28,6 +28,10 @@ export declare class ChatController {
         message: string;
         messageAr: string;
     }>;
+    deleteConversation(req: any, id: string): Promise<{
+        message: string;
+        messageAr: string;
+    }>;
     getUnreadCount(req: any, id: string): Promise<{
         count: number;
     }>;

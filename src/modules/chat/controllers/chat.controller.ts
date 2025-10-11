@@ -159,6 +159,26 @@ export class ChatController {
     };
   }
 
+  @Delete('conversations/:id')
+  @ApiOperation({ summary: 'Delete all messages in a conversation (clears chat history)' })
+  @ApiParam({ name: 'id', description: 'Conversation ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'All messages deleted successfully',
+  })
+  @ApiResponse({ status: 404, description: 'Conversation not found' })
+  @ApiResponse({ status: 403, description: 'Not a participant in this conversation' })
+  async deleteConversation(
+    @Request() req,
+    @Param('id', ParseUUIDPipe) id: string,
+  ) {
+    await this.chatService.deleteConversation(req.user.userId, id);
+    return {
+      message: 'All messages deleted successfully',
+      messageAr: 'تم حذف جميع الرسائل بنجاح',
+    };
+  }
+
   @Get('conversations/:id/unread-count')
   @ApiOperation({ summary: 'Get unread message count for a conversation' })
   @ApiParam({ name: 'id', description: 'Conversation ID' })
