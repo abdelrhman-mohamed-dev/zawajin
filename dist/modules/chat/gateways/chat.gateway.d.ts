@@ -4,6 +4,8 @@ import { JwtService } from '@nestjs/jwt';
 import { ChatService } from '../services/chat.service';
 import { UserPresenceRepository } from '../repositories/user-presence.repository';
 import { SendMessageDto } from '../dto/send-message.dto';
+import { SendEngagementDto } from '../dto/send-engagement.dto';
+import { RespondEngagementDto } from '../dto/respond-engagement.dto';
 export declare class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     private chatService;
     private userPresenceRepository;
@@ -69,6 +71,37 @@ export declare class ChatGateway implements OnGatewayConnection, OnGatewayDiscon
     }>;
     handleMessageRead(client: Socket, data: {
         conversationId: string;
+    }): Promise<{
+        success: boolean;
+        error?: undefined;
+    } | {
+        success: boolean;
+        error: any;
+    }>;
+    handleSendEngagementRequest(client: Socket, data: SendEngagementDto): Promise<{
+        success: boolean;
+        request: import("../entities/engagement-request.entity").EngagementRequest;
+        error?: undefined;
+    } | {
+        success: boolean;
+        error: any;
+        request?: undefined;
+    }>;
+    handleRespondEngagementRequest(client: Socket, data: {
+        requestId: string;
+        response: RespondEngagementDto;
+    }): Promise<{
+        success: boolean;
+        request: import("../entities/engagement-request.entity").EngagementRequest;
+        error?: undefined;
+    } | {
+        success: boolean;
+        error: any;
+        request?: undefined;
+    }>;
+    handleCancelEngagementRequest(client: Socket, data: {
+        requestId: string;
+        recipientId: string;
     }): Promise<{
         success: boolean;
         error?: undefined;

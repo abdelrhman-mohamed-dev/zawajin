@@ -19,14 +19,17 @@ const typeorm_2 = require("typeorm");
 const conversation_repository_1 = require("../repositories/conversation.repository");
 const message_repository_1 = require("../repositories/message.repository");
 const user_presence_repository_1 = require("../repositories/user-presence.repository");
+const engagement_request_repository_1 = require("../repositories/engagement-request.repository");
 const message_entity_1 = require("../entities/message.entity");
+const engagement_request_entity_1 = require("../entities/engagement-request.entity");
 const like_entity_1 = require("../../interactions/entities/like.entity");
 const block_entity_1 = require("../../interactions/entities/block.entity");
 let ChatService = class ChatService {
-    constructor(conversationRepository, messageRepository, userPresenceRepository, likeRepository, blockRepository) {
+    constructor(conversationRepository, messageRepository, userPresenceRepository, engagementRequestRepository, likeRepository, blockRepository) {
         this.conversationRepository = conversationRepository;
         this.messageRepository = messageRepository;
         this.userPresenceRepository = userPresenceRepository;
+        this.engagementRequestRepository = engagementRequestRepository;
         this.likeRepository = likeRepository;
         this.blockRepository = blockRepository;
     }
@@ -215,15 +218,152 @@ let ChatService = class ChatService {
         });
         return like1 && like2 ? like1 : null;
     }
+    async sendEngagementRequest(userId, sendEngagementDto) {
+        const { recipientId, conversationId, message } = sendEngagementDto;
+        if (userId === recipientId) {
+            throw new common_1.BadRequestException({
+                message: 'Cannot send engagement request to yourself',
+                messageAr: 'لا يمكن إرسال طلب خطوبة لنفسك',
+            });
+        }
+        const conversation = await this.getConversationById(userId, conversationId);
+        const otherParticipantId = conversation.getOtherParticipantId(userId);
+        if (otherParticipantId !== recipientId) {
+            throw new common_1.BadRequestException({
+                message: 'Recipient must be the other participant in the conversation',
+                messageAr: 'يجب أن يكون المستلم هو المشارك الآخر في المحادثة',
+            });
+        }
+        const isBlocked = await this.blockRepository.findOne({
+            where: [
+                { blockerId: userId, blockedId: recipientId },
+                { blockerId: recipientId, blockedId: userId },
+            ],
+        });
+        if (isBlocked) {
+            throw new common_1.ForbiddenException({
+                message: 'Cannot send engagement request to blocked user',
+                messageAr: 'لا يمكن إرسال طلب خطوبة إلى مستخدم محظور',
+            });
+        }
+        const existingRequest = await this.engagementRequestRepository.findPendingRequestBetweenUsers(userId, recipientId);
+        if (existingRequest) {
+            throw new common_1.ConflictException({
+                message: 'You already have a pending engagement request with this user',
+                messageAr: 'لديك بالفعل طلب خطوبة معلق مع هذا المستخدم',
+            });
+        }
+        const recipientRequest = await this.engagementRequestRepository.findPendingRequestBetweenUsers(recipientId, userId);
+        if (recipientRequest) {
+            throw new common_1.ConflictException({
+                message: 'This user has already sent you an engagement request',
+                messageAr: 'أرسل لك هذا المستخدم بالفعل طلب خطوبة',
+            });
+        }
+        const engagementRequest = this.engagementRequestRepository.create({
+            senderId: userId,
+            recipientId,
+            conversationId,
+            message,
+            status: engagement_request_entity_1.EngagementStatus.PENDING,
+        });
+        return this.engagementRequestRepository.save(engagementRequest);
+    }
+    async respondToEngagementRequest(userId, requestId, respondDto) {
+        const request = await this.engagementRequestRepository.findRequestById(requestId, userId);
+        if (!request) {
+            throw new common_1.NotFoundException({
+                message: 'Engagement request not found',
+                messageAr: 'طلب الخطوبة غير موجود',
+            });
+        }
+        if (request.recipientId !== userId) {
+            throw new common_1.ForbiddenException({
+                message: 'Only the recipient can respond to this request',
+                messageAr: 'يمكن للمستلم فقط الرد على هذا الطلب',
+            });
+        }
+        if (request.status !== engagement_request_entity_1.EngagementStatus.PENDING) {
+            throw new common_1.BadRequestException({
+                message: 'This engagement request has already been responded to',
+                messageAr: 'تم الرد على طلب الخطوبة هذا بالفعل',
+            });
+        }
+        request.status = respondDto.status;
+        request.respondedAt = new Date();
+        return this.engagementRequestRepository.save(request);
+    }
+    async cancelEngagementRequest(userId, requestId) {
+        const request = await this.engagementRequestRepository.findRequestById(requestId, userId);
+        if (!request) {
+            throw new common_1.NotFoundException({
+                message: 'Engagement request not found',
+                messageAr: 'طلب الخطوبة غير موجود',
+            });
+        }
+        if (request.senderId !== userId) {
+            throw new common_1.ForbiddenException({
+                message: 'Only the sender can cancel this request',
+                messageAr: 'يمكن للمرسل فقط إلغاء هذا الطلب',
+            });
+        }
+        if (request.status !== engagement_request_entity_1.EngagementStatus.PENDING) {
+            throw new common_1.BadRequestException({
+                message: 'Can only cancel pending engagement requests',
+                messageAr: 'يمكن فقط إلغاء طلبات الخطوبة المعلقة',
+            });
+        }
+        request.status = engagement_request_entity_1.EngagementStatus.CANCELLED;
+        await this.engagementRequestRepository.save(request);
+    }
+    async getSentEngagementRequests(userId, page = 1, limit = 20) {
+        const [requests, total] = await this.engagementRequestRepository.findUserSentRequests(userId, page, limit);
+        return {
+            requests,
+            total,
+            page,
+            totalPages: Math.ceil(total / limit),
+        };
+    }
+    async getReceivedEngagementRequests(userId, page = 1, limit = 20) {
+        const [requests, total] = await this.engagementRequestRepository.findUserReceivedRequests(userId, page, limit);
+        return {
+            requests,
+            total,
+            page,
+            totalPages: Math.ceil(total / limit),
+        };
+    }
+    async getPendingEngagementRequests(userId) {
+        return this.engagementRequestRepository.findPendingReceivedRequests(userId);
+    }
+    async getEngagementRequestById(userId, requestId) {
+        const request = await this.engagementRequestRepository.findRequestById(requestId, userId);
+        if (!request) {
+            throw new common_1.NotFoundException({
+                message: 'Engagement request not found',
+                messageAr: 'طلب الخطوبة غير موجود',
+            });
+        }
+        return request;
+    }
+    async getConversationEngagementRequests(userId, conversationId) {
+        await this.getConversationById(userId, conversationId);
+        return this.engagementRequestRepository.findByConversation(conversationId);
+    }
+    async getPendingEngagementCount(userId) {
+        return this.engagementRequestRepository.countPendingReceivedRequests(userId);
+    }
 };
 exports.ChatService = ChatService;
 exports.ChatService = ChatService = __decorate([
     (0, common_1.Injectable)(),
-    __param(3, (0, typeorm_1.InjectRepository)(like_entity_1.Like)),
-    __param(4, (0, typeorm_1.InjectRepository)(block_entity_1.Block)),
+    __param(4, (0, typeorm_1.InjectRepository)(like_entity_1.Like)),
+    __param(5, (0, typeorm_1.InjectRepository)(block_entity_1.Block)),
     __metadata("design:paramtypes", [conversation_repository_1.ConversationRepository,
         message_repository_1.MessageRepository,
         user_presence_repository_1.UserPresenceRepository,
+        engagement_request_repository_1.EngagementRequestRepository,
         typeorm_2.Repository,
         typeorm_2.Repository])
 ], ChatService);

@@ -9,9 +9,11 @@ import { ChatGateway } from './gateways/chat.gateway';
 import { Conversation } from './entities/conversation.entity';
 import { Message } from './entities/message.entity';
 import { UserPresence } from './entities/user-presence.entity';
+import { EngagementRequest } from './entities/engagement-request.entity';
 import { ConversationRepository } from './repositories/conversation.repository';
 import { MessageRepository } from './repositories/message.repository';
 import { UserPresenceRepository } from './repositories/user-presence.repository';
+import { EngagementRequestRepository } from './repositories/engagement-request.repository';
 import { Like } from '../interactions/entities/like.entity';
 import { Block } from '../interactions/entities/block.entity';
 import { WsJwtGuard } from './guards/ws-jwt.guard';
@@ -22,6 +24,7 @@ import { WsJwtGuard } from './guards/ws-jwt.guard';
       Conversation,
       Message,
       UserPresence,
+      EngagementRequest,
       Like,
       Block,
     ]),
@@ -40,6 +43,7 @@ import { WsJwtGuard } from './guards/ws-jwt.guard';
     ConversationRepository,
     MessageRepository,
     UserPresenceRepository,
+    EngagementRequestRepository,
     WsJwtGuard,
   ],
   exports: [ChatService],
