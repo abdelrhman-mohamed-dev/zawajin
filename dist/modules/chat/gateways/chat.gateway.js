@@ -19,6 +19,7 @@ const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const chat_service_1 = require("../services/chat.service");
 const user_presence_repository_1 = require("../repositories/user-presence.repository");
+const send_engagement_dto_1 = require("../dto/send-engagement.dto");
 const ws_jwt_guard_1 = require("../guards/ws-jwt.guard");
 let ChatGateway = class ChatGateway {
     constructor(chatService, userPresenceRepository, jwtService) {
@@ -203,6 +204,65 @@ let ChatGateway = class ChatGateway {
             return { success: false, error: error.message };
         }
     }
+    async handleSendEngagementRequest(client, data) {
+        try {
+            const userId = client.data.userId;
+            const engagementRequest = await this.chatService.sendEngagementRequest(userId, data);
+            this.server.to(`user:${data.recipientId}`).emit('engagement_request_received', {
+                request: engagementRequest,
+            });
+            client.emit('engagement_request_sent', {
+                request: engagementRequest,
+            });
+            this.logger.log(`Engagement request sent from ${userId} to ${data.recipientId}`);
+            return { success: true, request: engagementRequest };
+        }
+        catch (error) {
+            this.logger.error(`Send engagement request error: ${error.message}`);
+            return { success: false, error: error.message };
+        }
+    }
+    async handleRespondEngagementRequest(client, data) {
+        try {
+            const userId = client.data.userId;
+            const { requestId, response } = data;
+            const updatedRequest = await this.chatService.respondToEngagementRequest(userId, requestId, response);
+            this.server.to(`user:${updatedRequest.senderId}`).emit('engagement_request_responded', {
+                request: updatedRequest,
+                status: response.status,
+            });
+            client.emit('engagement_response_sent', {
+                request: updatedRequest,
+                status: response.status,
+            });
+            this.logger.log(`Engagement request ${requestId} responded by ${userId} with status ${response.status}`);
+            return { success: true, request: updatedRequest };
+        }
+        catch (error) {
+            this.logger.error(`Respond engagement request error: ${error.message}`);
+            return { success: false, error: error.message };
+        }
+    }
+    async handleCancelEngagementRequest(client, data) {
+        try {
+            const userId = client.data.userId;
+            const { requestId, recipientId } = data;
+            await this.chatService.cancelEngagementRequest(userId, requestId);
+            this.server.to(`user:${recipientId}`).emit('engagement_request_cancelled', {
+                requestId,
+                senderId: userId,
+            });
+            client.emit('engagement_request_cancel_confirmed', {
+                requestId,
+            });
+            this.logger.log(`Engagement request ${requestId} cancelled by ${userId}`);
+            return { success: true };
+        }
+        catch (error) {
+            this.logger.error(`Cancel engagement request error: ${error.message}`);
+            return { success: false, error: error.message };
+        }
+    }
 };
 exports.ChatGateway = ChatGateway;
 __decorate([
@@ -263,6 +323,34 @@ __decorate([
     __metadata("design:paramtypes", [socket_io_1.Socket, Object]),
     __metadata("design:returntype", Promise)
 ], ChatGateway.prototype, "handleMessageRead", null);
+__decorate([
+    (0, common_1.UseGuards)(ws_jwt_guard_1.WsJwtGuard),
+    (0, websockets_1.SubscribeMessage)('send_engagement_request'),
+    __param(0, (0, websockets_1.ConnectedSocket)()),
+    __param(1, (0, websockets_1.MessageBody)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [socket_io_1.Socket,
+        send_engagement_dto_1.SendEngagementDto]),
+    __metadata("design:returntype", Promise)
+], ChatGateway.prototype, "handleSendEngagementRequest", null);
+__decorate([
+    (0, common_1.UseGuards)(ws_jwt_guard_1.WsJwtGuard),
+    (0, websockets_1.SubscribeMessage)('respond_engagement_request'),
+    __param(0, (0, websockets_1.ConnectedSocket)()),
+    __param(1, (0, websockets_1.MessageBody)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [socket_io_1.Socket, Object]),
+    __metadata("design:returntype", Promise)
+], ChatGateway.prototype, "handleRespondEngagementRequest", null);
+__decorate([
+    (0, common_1.UseGuards)(ws_jwt_guard_1.WsJwtGuard),
+    (0, websockets_1.SubscribeMessage)('cancel_engagement_request'),
+    __param(0, (0, websockets_1.ConnectedSocket)()),
+    __param(1, (0, websockets_1.MessageBody)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [socket_io_1.Socket, Object]),
+    __metadata("design:returntype", Promise)
+], ChatGateway.prototype, "handleCancelEngagementRequest", null);
 exports.ChatGateway = ChatGateway = __decorate([
     (0, websockets_1.WebSocketGateway)({
         cors: {

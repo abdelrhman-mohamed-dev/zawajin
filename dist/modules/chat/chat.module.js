@@ -18,9 +18,11 @@ const chat_gateway_1 = require("./gateways/chat.gateway");
 const conversation_entity_1 = require("./entities/conversation.entity");
 const message_entity_1 = require("./entities/message.entity");
 const user_presence_entity_1 = require("./entities/user-presence.entity");
+const engagement_request_entity_1 = require("./entities/engagement-request.entity");
 const conversation_repository_1 = require("./repositories/conversation.repository");
 const message_repository_1 = require("./repositories/message.repository");
 const user_presence_repository_1 = require("./repositories/user-presence.repository");
+const engagement_request_repository_1 = require("./repositories/engagement-request.repository");
 const like_entity_1 = require("../interactions/entities/like.entity");
 const block_entity_1 = require("../interactions/entities/block.entity");
 const ws_jwt_guard_1 = require("./guards/ws-jwt.guard");
@@ -34,6 +36,7 @@ exports.ChatModule = ChatModule = __decorate([
                 conversation_entity_1.Conversation,
                 message_entity_1.Message,
                 user_presence_entity_1.UserPresence,
+                engagement_request_entity_1.EngagementRequest,
                 like_entity_1.Like,
                 block_entity_1.Block,
             ]),
@@ -52,6 +55,7 @@ exports.ChatModule = ChatModule = __decorate([
             conversation_repository_1.ConversationRepository,
             message_repository_1.MessageRepository,
             user_presence_repository_1.UserPresenceRepository,
+            engagement_request_repository_1.EngagementRequestRepository,
             ws_jwt_guard_1.WsJwtGuard,
         ],
         exports: [chat_service_1.ChatService],

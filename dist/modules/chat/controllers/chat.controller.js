@@ -19,6 +19,8 @@ const jwt_auth_guard_1 = require("../../auth/guards/jwt-auth.guard");
 const chat_service_1 = require("../services/chat.service");
 const create_conversation_dto_1 = require("../dto/create-conversation.dto");
 const send_message_dto_1 = require("../dto/send-message.dto");
+const send_engagement_dto_1 = require("../dto/send-engagement.dto");
+const respond_engagement_dto_1 = require("../dto/respond-engagement.dto");
 const pagination_dto_1 = require("../dto/pagination.dto");
 const throttler_1 = require("@nestjs/throttler");
 let ChatController = class ChatController {
@@ -67,6 +69,38 @@ let ChatController = class ChatController {
     }
     async getUserPresence(req, userId) {
         return this.chatService.getUserPresence(userId);
+    }
+    async sendEngagementRequest(req, sendEngagementDto) {
+        return this.chatService.sendEngagementRequest(req.user.userId, sendEngagementDto);
+    }
+    async respondToEngagementRequest(req, id, respondDto) {
+        return this.chatService.respondToEngagementRequest(req.user.userId, id, respondDto);
+    }
+    async cancelEngagementRequest(req, id) {
+        await this.chatService.cancelEngagementRequest(req.user.userId, id);
+        return {
+            message: 'Engagement request cancelled successfully',
+            messageAr: 'تم إلغاء طلب الخطوبة بنجاح',
+        };
+    }
+    async getSentEngagementRequests(req, paginationDto) {
+        return this.chatService.getSentEngagementRequests(req.user.userId, paginationDto.page, paginationDto.limit);
+    }
+    async getReceivedEngagementRequests(req, paginationDto) {
+        return this.chatService.getReceivedEngagementRequests(req.user.userId, paginationDto.page, paginationDto.limit);
+    }
+    async getPendingEngagementRequests(req) {
+        return this.chatService.getPendingEngagementRequests(req.user.userId);
+    }
+    async getPendingEngagementCount(req) {
+        const count = await this.chatService.getPendingEngagementCount(req.user.userId);
+        return { count };
+    }
+    async getEngagementRequestById(req, id) {
+        return this.chatService.getEngagementRequestById(req.user.userId, id);
+    }
+    async getConversationEngagementRequests(req, id) {
+        return this.chatService.getConversationEngagementRequests(req.user.userId, id);
     }
 };
 exports.ChatController = ChatController;
@@ -223,6 +257,134 @@ __decorate([
     __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], ChatController.prototype, "getUserPresence", null);
+__decorate([
+    (0, common_1.Post)('engagement-requests'),
+    (0, throttler_1.Throttle)({ default: { limit: 5, ttl: 3600000 } }),
+    (0, swagger_1.ApiOperation)({ summary: 'Send an engagement request to a user' }),
+    (0, swagger_1.ApiResponse)({
+        status: 201,
+        description: 'Engagement request sent successfully',
+    }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: 'Cannot send engagement request to blocked user' }),
+    (0, swagger_1.ApiResponse)({ status: 409, description: 'Engagement request already exists' }),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, send_engagement_dto_1.SendEngagementDto]),
+    __metadata("design:returntype", Promise)
+], ChatController.prototype, "sendEngagementRequest", null);
+__decorate([
+    (0, common_1.Put)('engagement-requests/:id/respond'),
+    (0, swagger_1.ApiOperation)({ summary: 'Accept or refuse an engagement request' }),
+    (0, swagger_1.ApiParam)({ name: 'id', description: 'Engagement request ID' }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Engagement request responded successfully',
+    }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: 'Engagement request not found' }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: 'Only recipient can respond' }),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
+    __param(2, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String, respond_engagement_dto_1.RespondEngagementDto]),
+    __metadata("design:returntype", Promise)
+], ChatController.prototype, "respondToEngagementRequest", null);
+__decorate([
+    (0, common_1.Delete)('engagement-requests/:id'),
+    (0, swagger_1.ApiOperation)({ summary: 'Cancel an engagement request (sender only)' }),
+    (0, swagger_1.ApiParam)({ name: 'id', description: 'Engagement request ID' }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Engagement request cancelled successfully',
+    }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: 'Engagement request not found' }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: 'Only sender can cancel' }),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", Promise)
+], ChatController.prototype, "cancelEngagementRequest", null);
+__decorate([
+    (0, common_1.Get)('engagement-requests/sent'),
+    (0, swagger_1.ApiOperation)({ summary: 'Get all engagement requests sent by current user' }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Sent engagement requests retrieved successfully',
+    }),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, pagination_dto_1.PaginationDto]),
+    __metadata("design:returntype", Promise)
+], ChatController.prototype, "getSentEngagementRequests", null);
+__decorate([
+    (0, common_1.Get)('engagement-requests/received'),
+    (0, swagger_1.ApiOperation)({ summary: 'Get all engagement requests received by current user' }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Received engagement requests retrieved successfully',
+    }),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, pagination_dto_1.PaginationDto]),
+    __metadata("design:returntype", Promise)
+], ChatController.prototype, "getReceivedEngagementRequests", null);
+__decorate([
+    (0, common_1.Get)('engagement-requests/pending'),
+    (0, swagger_1.ApiOperation)({ summary: 'Get all pending engagement requests received by current user' }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Pending engagement requests retrieved successfully',
+    }),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], ChatController.prototype, "getPendingEngagementRequests", null);
+__decorate([
+    (0, common_1.Get)('engagement-requests/pending/count'),
+    (0, swagger_1.ApiOperation)({ summary: 'Get count of pending engagement requests' }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Pending engagement count retrieved successfully',
+    }),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], ChatController.prototype, "getPendingEngagementCount", null);
+__decorate([
+    (0, common_1.Get)('engagement-requests/:id'),
+    (0, swagger_1.ApiOperation)({ summary: 'Get engagement request details by ID' }),
+    (0, swagger_1.ApiParam)({ name: 'id', description: 'Engagement request ID' }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Engagement request details retrieved successfully',
+    }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: 'Engagement request not found' }),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", Promise)
+], ChatController.prototype, "getEngagementRequestById", null);
+__decorate([
+    (0, common_1.Get)('conversations/:id/engagement-requests'),
+    (0, swagger_1.ApiOperation)({ summary: 'Get all engagement requests for a conversation' }),
+    (0, swagger_1.ApiParam)({ name: 'id', description: 'Conversation ID' }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Conversation engagement requests retrieved successfully',
+    }),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Param)('id', common_1.ParseUUIDPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", Promise)
+], ChatController.prototype, "getConversationEngagementRequests", null);
 exports.ChatController = ChatController = __decorate([
     (0, swagger_1.ApiTags)('Chat'),
     (0, swagger_1.ApiBearerAuth)(),

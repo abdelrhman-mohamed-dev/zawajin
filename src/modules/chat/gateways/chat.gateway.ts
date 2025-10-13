@@ -13,6 +13,8 @@ import { JwtService } from '@nestjs/jwt';
 import { ChatService } from '../services/chat.service';
 import { UserPresenceRepository } from '../repositories/user-presence.repository';
 import { SendMessageDto } from '../dto/send-message.dto';
+import { SendEngagementDto } from '../dto/send-engagement.dto';
+import { RespondEngagementDto } from '../dto/respond-engagement.dto';
 import { WsJwtGuard } from '../guards/ws-jwt.guard';
 import { MessageStatus } from '../entities/message.entity';
 
@@ -322,6 +324,119 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       return { success: true };
     } catch (error) {
       this.logger.error(`Message read error: ${error.message}`);
+      return { success: false, error: error.message };
+    }
+  }
+
+  // ======================== ENGAGEMENT WEBSOCKET EVENTS ========================
+
+  @UseGuards(WsJwtGuard)
+  @SubscribeMessage('send_engagement_request')
+  async handleSendEngagementRequest(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: SendEngagementDto,
+  ) {
+    try {
+      const userId = client.data.userId;
+
+      // Send engagement request through service
+      const engagementRequest = await this.chatService.sendEngagementRequest(
+        userId,
+        data,
+      );
+
+      // Notify recipient about the engagement request
+      this.server.to(`user:${data.recipientId}`).emit('engagement_request_received', {
+        request: engagementRequest,
+      });
+
+      // Confirm to sender
+      client.emit('engagement_request_sent', {
+        request: engagementRequest,
+      });
+
+      this.logger.log(
+        `Engagement request sent from ${userId} to ${data.recipientId}`,
+      );
+
+      return { success: true, request: engagementRequest };
+    } catch (error) {
+      this.logger.error(`Send engagement request error: ${error.message}`);
+      return { success: false, error: error.message };
+    }
+  }
+
+  @UseGuards(WsJwtGuard)
+  @SubscribeMessage('respond_engagement_request')
+  async handleRespondEngagementRequest(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: { requestId: string; response: RespondEngagementDto },
+  ) {
+    try {
+      const userId = client.data.userId;
+      const { requestId, response } = data;
+
+      // Respond to engagement request through service
+      const updatedRequest = await this.chatService.respondToEngagementRequest(
+        userId,
+        requestId,
+        response,
+      );
+
+      // Notify sender about the response
+      this.server.to(`user:${updatedRequest.senderId}`).emit('engagement_request_responded', {
+        request: updatedRequest,
+        status: response.status,
+      });
+
+      // Confirm to recipient
+      client.emit('engagement_response_sent', {
+        request: updatedRequest,
+        status: response.status,
+      });
+
+      this.logger.log(
+        `Engagement request ${requestId} responded by ${userId} with status ${response.status}`,
+      );
+
+      return { success: true, request: updatedRequest };
+    } catch (error) {
+      this.logger.error(`Respond engagement request error: ${error.message}`);
+      return { success: false, error: error.message };
+    }
+  }
+
+  @UseGuards(WsJwtGuard)
+  @SubscribeMessage('cancel_engagement_request')
+  async handleCancelEngagementRequest(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: { requestId: string; recipientId: string },
+  ) {
+    try {
+      const userId = client.data.userId;
+      const { requestId, recipientId } = data;
+
+      // Cancel engagement request through service
+      await this.chatService.cancelEngagementRequest(userId, requestId);
+
+      // Notify recipient that request was cancelled
+      this.server.to(`user:${recipientId}`).emit('engagement_request_cancelled', {
+        requestId,
+        senderId: userId,
+      });
+
+      // Confirm to sender
+      client.emit('engagement_request_cancel_confirmed', {
+        requestId,
+      });
+
+      this.logger.log(
+        `Engagement request ${requestId} cancelled by ${userId}`,
+      );
+
+      return { success: true };
+    } catch (error) {
+      this.logger.error(`Cancel engagement request error: ${error.message}`);
       return { success: false, error: error.message };
     }
   }

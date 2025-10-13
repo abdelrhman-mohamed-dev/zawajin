@@ -1053,6 +1053,260 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Send Engagement Request",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"recipientId\": \"{{userId}}\",\n    \"conversationId\": \"{{conversationId}}\",\n    \"message\": \"Will you be engaged with me?\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/chat/engagement-requests",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"chat",
+								"engagement-requests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Respond to Engagement Request",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"accepted\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/chat/engagement-requests/{{engagementRequestId}}/respond",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"chat",
+								"engagement-requests",
+								"{{engagementRequestId}}",
+								"respond"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Engagement Request",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/chat/engagement-requests/{{engagementRequestId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"chat",
+								"engagement-requests",
+								"{{engagementRequestId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Sent Engagement Requests",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/chat/engagement-requests/sent?page=1&limit=20",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"chat",
+								"engagement-requests",
+								"sent"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Received Engagement Requests",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/chat/engagement-requests/received?page=1&limit=20",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"chat",
+								"engagement-requests",
+								"received"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Pending Engagement Requests",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/chat/engagement-requests/pending",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"chat",
+								"engagement-requests",
+								"pending"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Pending Engagement Count",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/chat/engagement-requests/pending/count",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"chat",
+								"engagement-requests",
+								"pending",
+								"count"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Engagement Request Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/chat/engagement-requests/{{engagementRequestId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"chat",
+								"engagement-requests",
+								"{{engagementRequestId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Conversation Engagement Requests",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/chat/conversations/{{conversationId}}/engagement-requests",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"chat",
+								"conversations",
+								"{{conversationId}}",
+								"engagement-requests"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -2139,6 +2393,10 @@
 		},
 		{
 			"key": "planId",
+			"value": ""
+		},
+		{
+			"key": "engagementRequestId",
 			"value": ""
 		}
 	]
