@@ -97,7 +97,7 @@ export class UploadController {
     }
 
     // Construct file URL (you may want to use environment variable for base URL)
-    const fileUrl = `${process.env.APP_URL || 'http://localhost:3001'}/uploads/audio/${file.filename}`;
+    const fileUrl = `${process.env.APP_URL || 'https://zwajin.com/api'}/uploads/audio/${file.filename}`;
 
     return {
       fileUrl,
@@ -177,7 +177,7 @@ export class UploadController {
     }
 
     // Construct file URL (you may want to use environment variable for base URL)
-    const fileUrl = `${process.env.APP_URL || 'http://localhost:3001'}/uploads/images/${file.filename}`;
+    const fileUrl = `${process.env.APP_URL || 'https://zwajin.com/api'}/uploads/images/${file.filename}`;
 
     return {
       fileUrl,

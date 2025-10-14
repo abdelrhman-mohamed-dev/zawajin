@@ -28,7 +28,7 @@ let UploadController = class UploadController {
                 messageAr: 'لم يتم تقديم أي ملف',
             });
         }
-        const fileUrl = `${process.env.APP_URL || 'http://localhost:3001'}/uploads/audio/${file.filename}`;
+        const fileUrl = `${process.env.APP_URL || 'https://zwajin.com/api'}/uploads/audio/${file.filename}`;
         return {
             fileUrl,
             fileName: file.filename,
@@ -43,7 +43,7 @@ let UploadController = class UploadController {
                 messageAr: 'لم يتم تقديم أي ملف',
             });
         }
-        const fileUrl = `${process.env.APP_URL || 'http://localhost:3001'}/uploads/images/${file.filename}`;
+        const fileUrl = `${process.env.APP_URL || 'https://zwajin.com/api'}/uploads/images/${file.filename}`;
         return {
             fileUrl,
             fileName: file.filename,
