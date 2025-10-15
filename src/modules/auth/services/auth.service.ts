@@ -36,16 +36,74 @@ export class AuthService {
     this.logger.log(`Registration attempt for email: ${dto.email}`);
 
     // Check if email already exists
-    const emailExists = await this.userRepository.isEmailExists(dto.email);
-    if (emailExists) {
-      throw new ConflictException(
-        this.i18n.t('auth.email_already_exists', { lang: I18nContext.current()?.lang })
-      );
+    const existingUser = await this.userRepository.findByEmail(dto.email);
+
+    if (existingUser) {
+      // If email is verified, don't allow re-registration
+      if (existingUser.isEmailVerified) {
+        throw new ConflictException(
+          this.i18n.t('auth.email_already_exists', { lang: I18nContext.current()?.lang })
+        );
+      }
+
+      // If email is not verified, update the user data and resend OTP
+      this.logger.log(`Updating unverified user data for email: ${dto.email}`);
+
+      // Check if phone already exists for a different user
+      if (dto.phone !== existingUser.phone) {
+        const phoneUser = await this.userRepository.findByPhone(dto.phone);
+        if (phoneUser && phoneUser.id !== existingUser.id) {
+          throw new ConflictException(
+            this.i18n.t('auth.phone_already_exists', { lang: I18nContext.current()?.lang })
+          );
+        }
+      }
+
+      // Hash new password
+      const passwordHash = await bcrypt.hash(dto.password, this.bcryptRounds);
+
+      // Update user with new data
+      const updatedUserData: Partial<User> = {
+        fullName: dto.fullName,
+        gender: dto.gender,
+        passwordHash,
+        phone: dto.phone,
+        isEmailVerified: false,
+        isPhoneVerified: false,
+        isActive: true,
+      };
+
+      await this.userRepository.update(existingUser.id, updatedUserData);
+
+      // Delete existing OTP if any
+      await this.otpService.deleteOtp(dto.email, OtpType.EMAIL);
+
+      // Generate and send new OTP
+      const otpCode = await this.otpService.generateOtp(existingUser.id, dto.email, OtpType.EMAIL);
+      const emailSent = await this.mailService.sendOtpEmail(dto.email, otpCode);
+
+      if (!emailSent) {
+        this.logger.error(`Failed to send OTP email to ${dto.email}`);
+        throw new BadRequestException(
+          this.i18n.t('auth.failed_send_verification_email', { lang: I18nContext.current()?.lang })
+        );
+      }
+
+      this.logger.log(`User data updated and OTP resent for: ${existingUser.id}`);
+
+      return {
+        success: true,
+        message: this.i18n.t('auth.registration_successful', { lang: I18nContext.current()?.lang }),
+        data: {
+          userId: existingUser.id,
+          email: dto.email,
+          chartNumber: existingUser.chartNumber,
+        },
+        timestamp: new Date().toISOString(),
+      };
     }
 
-
-
-    // Check if phone already exists
+    // Check if phone already exists for new registrations
     const phoneExists = await this.userRepository.isPhoneExists(dto.phone);
     if (phoneExists) {
       throw new ConflictException(
