@@ -123,6 +123,16 @@ let UsersService = UsersService_1 = class UsersService {
         });
         return new Set(likes.map(like => like.likedUserId));
     }
+    async getLatestUsers(limit = 10) {
+        this.logger.log(`Fetching latest ${limit} joined users`);
+        const users = await this.userRepository.findLatestUsers(limit);
+        const sanitizedUsers = users.map((user) => {
+            const { passwordHash, fcmToken, ...userWithoutSensitiveData } = user;
+            return userWithoutSensitiveData;
+        });
+        this.logger.log(`Retrieved ${sanitizedUsers.length} latest users`);
+        return sanitizedUsers;
+    }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = UsersService_1 = __decorate([

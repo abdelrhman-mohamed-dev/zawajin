@@ -33,8 +33,17 @@ let UsersController = class UsersController {
             timestamp: new Date().toISOString(),
         };
     }
-    async getUserById(req, userId, i18n) {
-        const user = await this.usersService.getUserById(userId, req.user.sub);
+    async getLatestUsers(i18n, limit) {
+        const users = await this.usersService.getLatestUsers(limit || 10);
+        return {
+            success: true,
+            message: await i18n.t('users.users_retrieved'),
+            data: users,
+            timestamp: new Date().toISOString(),
+        };
+    }
+    async getUserById(userId, i18n) {
+        const user = await this.usersService.getUserById(userId);
         return {
             success: true,
             message: await i18n.t('users.user_retrieved'),
@@ -81,22 +90,31 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "updateProfile", null);
 __decorate([
+    (0, common_1.Get)('latest'),
+    (0, swagger_1.ApiOperation)({ summary: 'Get latest joined users (Public)' }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Latest users retrieved successfully',
+    }),
+    __param(0, (0, nestjs_i18n_1.I18n)()),
+    __param(1, (0, common_1.Query)('limit')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [nestjs_i18n_1.I18nContext, Number]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "getLatestUsers", null);
+__decorate([
     (0, common_1.Get)(':id'),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, swagger_1.ApiBearerAuth)(),
-    (0, swagger_1.ApiOperation)({ summary: 'Get user by ID' }),
+    (0, swagger_1.ApiOperation)({ summary: 'Get user by ID (Public)' }),
     (0, swagger_1.ApiParam)({ name: 'id', description: 'User ID' }),
     (0, swagger_1.ApiResponse)({
         status: 200,
         description: 'User retrieved successfully',
     }),
-    (0, swagger_1.ApiResponse)({ status: 401, description: 'Unauthorized' }),
     (0, swagger_1.ApiResponse)({ status: 404, description: 'User not found' }),
-    __param(0, (0, common_1.Request)()),
-    __param(1, (0, common_1.Param)('id')),
-    __param(2, (0, nestjs_i18n_1.I18n)()),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, nestjs_i18n_1.I18n)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String, nestjs_i18n_1.I18nContext]),
+    __metadata("design:paramtypes", [String, nestjs_i18n_1.I18nContext]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "getUserById", null);
 __decorate([

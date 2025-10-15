@@ -53,19 +53,33 @@ export class UsersController {
     };
   }
 
+  @Get('latest')
+  @ApiOperation({ summary: 'Get latest joined users (Public)' })
+  @ApiResponse({
+    status: 200,
+    description: 'Latest users retrieved successfully',
+  })
+  async getLatestUsers(@I18n() i18n: I18nContext, @Query('limit') limit?: number) {
+    const users = await this.usersService.getLatestUsers(limit || 10);
+
+    return {
+      success: true,
+      message: await i18n.t('users.users_retrieved'),
+      data: users,
+      timestamp: new Date().toISOString(),
+    };
+  }
+
   @Get(':id')
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get user by ID' })
+  @ApiOperation({ summary: 'Get user by ID (Public)' })
   @ApiParam({ name: 'id', description: 'User ID' })
   @ApiResponse({
     status: 200,
     description: 'User retrieved successfully',
   })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 404, description: 'User not found' })
-  async getUserById(@Request() req, @Param('id') userId: string, @I18n() i18n: I18nContext) {
-    const user = await this.usersService.getUserById(userId, req.user.sub);
+  async getUserById(@Param('id') userId: string, @I18n() i18n: I18nContext) {
+    const user = await this.usersService.getUserById(userId);
 
     return {
       success: true,

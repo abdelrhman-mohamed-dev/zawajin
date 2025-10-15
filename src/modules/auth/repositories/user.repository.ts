@@ -400,4 +400,44 @@ export class UserRepository {
   async delete(id: string): Promise<void> {
     await this.userRepo.delete(id);
   }
+
+  async findLatestUsers(limit: number = 10): Promise<User[]> {
+    return await this.userRepo
+      .createQueryBuilder('user')
+      .where('user.isActive = :isActive', { isActive: true })
+      .andWhere('user.isEmailVerified = :isEmailVerified', {
+        isEmailVerified: true,
+      })
+      .select([
+        'user.id',
+        'user.fullName',
+        'user.email',
+        'user.gender',
+        'user.chartNumber',
+        'user.bio',
+        'user.age',
+        'user.dateOfBirth',
+        'user.location',
+        'user.origin',
+        'user.religiousPractice',
+        'user.sect',
+        'user.prayerLevel',
+        'user.maritalStatus',
+        'user.profession',
+        'user.weight',
+        'user.height',
+        'user.bodyColor',
+        'user.hairColor',
+        'user.hairType',
+        'user.eyeColor',
+        'user.houseAvailable',
+        'user.natureOfWork',
+        'user.marriageType',
+        'user.acceptPolygamy',
+        'user.createdAt',
+      ])
+      .orderBy('user.createdAt', 'DESC')
+      .take(limit)
+      .getMany();
+  }
 }

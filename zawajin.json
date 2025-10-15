@@ -443,15 +443,36 @@
 					"response": []
 				},
 				{
-					"name": "Get User By ID",
+					"name": "Get Latest Joined Users (Public)",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/latest?limit=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"latest"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "Number of latest users to retrieve (default: 10)"
+								}
+							]
+						},
+						"description": "Get the latest joined users without authentication. Returns only active and email-verified users."
+					},
+					"response": []
+				},
+				{
+					"name": "Get User By ID (Public)",
+					"request": {
+						"method": "GET",
+						"header": [],
 						"url": {
 							"raw": "{{baseUrl}}/users/615c8a9b4f7d4e3e4c8b4567",
 							"host": [
@@ -461,7 +482,8 @@
 								"users",
 								"615c8a9b4f7d4e3e4c8b4567"
 							]
-						}
+						},
+						"description": "Get user by ID without authentication. Returns user profile data without like status information."
 					},
 					"response": []
 				},

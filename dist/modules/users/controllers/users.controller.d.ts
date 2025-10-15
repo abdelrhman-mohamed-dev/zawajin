@@ -11,7 +11,13 @@ export declare class UsersController {
         data: import("../../auth/entities/user.entity").User;
         timestamp: string;
     }>;
-    getUserById(req: any, userId: string, i18n: I18nContext): Promise<{
+    getLatestUsers(i18n: I18nContext, limit?: number): Promise<{
+        success: boolean;
+        message: string;
+        data: any[];
+        timestamp: string;
+    }>;
+    getUserById(userId: string, i18n: I18nContext): Promise<{
         success: boolean;
         message: string;
         data: any;

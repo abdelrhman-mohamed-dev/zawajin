@@ -59,4 +59,5 @@ export declare class UserRepository {
     }>;
     save(user: User): Promise<User>;
     delete(id: string): Promise<void>;
+    findLatestUsers(limit?: number): Promise<User[]>;
 }

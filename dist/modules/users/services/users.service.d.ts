@@ -20,4 +20,5 @@ export declare class UsersService {
     getUserById(userId: string, currentUserId?: string): Promise<any>;
     getCurrentUser(userId: string): Promise<User>;
     private checkLikeStatus;
+    getLatestUsers(limit?: number): Promise<any[]>;
 }
