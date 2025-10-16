@@ -80,17 +80,117 @@ __decorate([
 ], UpdateProfileDto.prototype, "origin", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
-        example: 'single',
-        description: 'Marital status',
-        enum: ['single', 'divorced', 'widowed'],
+        example: 'john_doe',
+        description: 'Username',
         required: false,
     }),
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsEnum)(['single', 'divorced', 'widowed'], {
-        message: 'Marital status must be one of: single, divorced, widowed',
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(100),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "username", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Saudi',
+        description: 'User nationality',
+        required: false,
     }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(100),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "nationality", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Riyadh',
+        description: 'Place of residence',
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(100),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "placeOfResidence", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: profile_enums_1.Tribe.TRIBAL,
+        description: 'Tribe status',
+        enum: profile_enums_1.Tribe,
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(profile_enums_1.Tribe),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "tribe", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: profile_enums_1.MaritalStatus.SINGLE,
+        description: 'Marital status (use appropriate value based on gender)',
+        enum: profile_enums_1.MaritalStatus,
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(profile_enums_1.MaritalStatus),
     __metadata("design:type", String)
 ], UpdateProfileDto.prototype, "maritalStatus", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 0,
+        description: 'Number of children',
+        minimum: 0,
+        maximum: 20,
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsInt)(),
+    (0, class_validator_1.Min)(0),
+    (0, class_validator_1.Max)(20),
+    __metadata("design:type", Number)
+], UpdateProfileDto.prototype, "numberOfChildren", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: profile_enums_1.EducationLevel.UNIVERSITY,
+        description: 'Educational level',
+        enum: profile_enums_1.EducationLevel,
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(profile_enums_1.EducationLevel),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "educationLevel", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: profile_enums_1.FinancialStatus.GOOD,
+        description: 'Financial status',
+        enum: profile_enums_1.FinancialStatus,
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(profile_enums_1.FinancialStatus),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "financialStatus", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: profile_enums_1.HealthStatus.HEALTHY,
+        description: 'Health status',
+        enum: profile_enums_1.HealthStatus,
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(profile_enums_1.HealthStatus),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "healthStatus", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: profile_enums_1.ReligiosityLevel.COMMITTED,
+        description: 'Level of religiosity',
+        enum: profile_enums_1.ReligiosityLevel,
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(profile_enums_1.ReligiosityLevel),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "religiosityLevel", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
         example: 'Software Engineer',
@@ -126,6 +226,28 @@ __decorate([
     (0, class_validator_1.Max)(250),
     __metadata("design:type", Number)
 ], UpdateProfileDto.prototype, "height", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: profile_enums_1.SkinColor.WHITE,
+        description: 'Skin color',
+        enum: profile_enums_1.SkinColor,
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(profile_enums_1.SkinColor),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "skinColor", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: profile_enums_1.Beauty.AVERAGE,
+        description: 'Beauty/appearance rating (use appropriate values based on gender)',
+        enum: profile_enums_1.Beauty,
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(profile_enums_1.Beauty),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "beauty", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
         example: profile_enums_1.BodyColor.MEDIUM,
@@ -182,13 +304,13 @@ __decorate([
 ], UpdateProfileDto.prototype, "houseAvailable", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
-        example: 'Full-time office job',
+        example: profile_enums_1.EmploymentType.EMPLOYED,
         description: 'Nature or type of work',
+        enum: profile_enums_1.EmploymentType,
         required: false,
     }),
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.MaxLength)(100),
+    (0, class_validator_1.IsEnum)(profile_enums_1.EmploymentType),
     __metadata("design:type", String)
 ], UpdateProfileDto.prototype, "natureOfWork", void 0);
 __decorate([
@@ -202,6 +324,34 @@ __decorate([
     (0, class_validator_1.MaxLength)(1000),
     __metadata("design:type", String)
 ], UpdateProfileDto.prototype, "bio", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 25,
+        description: 'Preferred minimum age for partner',
+        minimum: 18,
+        maximum: 100,
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsInt)(),
+    (0, class_validator_1.Min)(18),
+    (0, class_validator_1.Max)(100),
+    __metadata("design:type", Number)
+], UpdateProfileDto.prototype, "preferredAgeFrom", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 35,
+        description: 'Preferred maximum age for partner',
+        minimum: 18,
+        maximum: 100,
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsInt)(),
+    (0, class_validator_1.Min)(18),
+    (0, class_validator_1.Max)(100),
+    __metadata("design:type", Number)
+], UpdateProfileDto.prototype, "preferredAgeTo", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
         example: 50,
@@ -250,6 +400,150 @@ __decorate([
     (0, class_validator_1.Max)(250),
     __metadata("design:type", Number)
 ], UpdateProfileDto.prototype, "preferredMaxHeight", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Saudi',
+        description: 'Preferred nationality for partner',
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(100),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "preferredNationality", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Riyadh',
+        description: 'Preferred residence place for partner',
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(100),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "preferredResidencePlace", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: profile_enums_1.EducationLevel.UNIVERSITY,
+        description: 'Preferred education level for partner',
+        enum: profile_enums_1.EducationLevel,
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(profile_enums_1.EducationLevel),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "preferredEducationLevel", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: profile_enums_1.EmploymentType.EMPLOYED,
+        description: 'Preferred work nature for partner',
+        enum: profile_enums_1.EmploymentType,
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(profile_enums_1.EmploymentType),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "preferredWorkNature", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: profile_enums_1.MaritalStatus.SINGLE,
+        description: 'Preferred marital status for partner',
+        enum: profile_enums_1.MaritalStatus,
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(profile_enums_1.MaritalStatus),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "preferredMaritalStatus", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: profile_enums_1.FinancialStatus.GOOD,
+        description: 'Preferred financial status for partner',
+        enum: profile_enums_1.FinancialStatus,
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(profile_enums_1.FinancialStatus),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "preferredFinancialStatus", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: true,
+        description: 'Whether partner should have a house',
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], UpdateProfileDto.prototype, "preferredHasHouse", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: profile_enums_1.HealthStatus.HEALTHY,
+        description: 'Preferred health status for partner',
+        enum: profile_enums_1.HealthStatus,
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(profile_enums_1.HealthStatus),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "preferredHealthStatus", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: profile_enums_1.Beauty.AVERAGE,
+        description: 'Preferred beauty/appearance for partner',
+        enum: profile_enums_1.Beauty,
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(profile_enums_1.Beauty),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "preferredBeauty", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: profile_enums_1.SkinColor.WHITE,
+        description: 'Preferred skin color for partner',
+        enum: profile_enums_1.SkinColor,
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(profile_enums_1.SkinColor),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "preferredSkinColor", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: profile_enums_1.ReligiosityLevel.COMMITTED,
+        description: 'Preferred religiosity level for partner',
+        enum: profile_enums_1.ReligiosityLevel,
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(profile_enums_1.ReligiosityLevel),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "preferredReligiosityLevel", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'yes',
+        description: 'Whether accepts polygamy for partner (males only)',
+        enum: ['yes', 'no'],
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(['yes', 'no'], {
+        message: 'preferredAcceptPolygamy must be either yes or no',
+    }),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "preferredAcceptPolygamy", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: profile_enums_1.MarriageType.RELIGIOUS,
+        description: 'Preferred marriage type for partner',
+        enum: profile_enums_1.MarriageType,
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(profile_enums_1.MarriageType),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "preferredMarriageType", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
         example: [profile_enums_1.BodyColor.FAIR, profile_enums_1.BodyColor.MEDIUM],
@@ -321,6 +615,29 @@ __decorate([
     (0, class_validator_1.IsBoolean)(),
     __metadata("design:type", Boolean)
 ], UpdateProfileDto.prototype, "acceptPolygamy", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: profile_enums_1.PolygamyStatus.NO,
+        description: 'Polygamy status (for women) or polygamy intention (for men)',
+        enum: profile_enums_1.PolygamyStatus,
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(profile_enums_1.PolygamyStatus),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "polygamyStatus", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Looking for a serious relationship...',
+        description: 'Detailed profile description (no phone numbers or contact info allowed)',
+        maxLength: 2000,
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(2000),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "detailedProfile", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
         example: 'male',

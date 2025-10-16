@@ -11,7 +11,7 @@ export declare class UsersController {
         data: import("../../auth/entities/user.entity").User;
         timestamp: string;
     }>;
-    getLatestUsers(i18n: I18nContext, limit?: number): Promise<{
+    getLatestUsers(i18n: I18nContext, getUsersDto: GetUsersDto): Promise<{
         success: boolean;
         message: string;
         data: any[];

@@ -1,2425 +1,2652 @@
 {
-	"info": {
-		"_postman_id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
-		"name": "Zawajin Matrimonial API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "Authentication",
-			"item": [
-				{
-					"name": "Register New User",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"fullName\": \"Ahmed Khan\",\n    \"gender\": \"male\",\n    \"email\": \"ahmed.khan@example.com\",\n    \"phone\": \"1234567890\",\n    \"password\": \"password123\",\n    \"confirmPassword\": \"password123\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/auth/register",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"auth",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Verify Email OTP",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"ahmed.khan@example.com\",\n    \"code\": \"123456\",\n    \"fcmToken\": \"optional-fcm-token\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/auth/verify-email",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"auth",
-								"verify-email"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Resend OTP",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"ahmed.khan@example.com\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/auth/resend-otp",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"auth",
-								"resend-otp"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Login User",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"ahmed.khan@example.com\",\n    \"password\": \"password123\",\n    \"fcmToken\": \"optional-fcm-token\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/auth/login",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"auth",
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Forget Password",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"ahmed.khan@example.com\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/auth/forget-password",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"auth",
-								"forget-password"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Verify Reset Password OTP",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"ahmed.khan@example.com\",\n    \"code\": \"123456\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/auth/verify-reset-otp",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"auth",
-								"verify-reset-otp"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Reset Password",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"ahmed.khan@example.com\",\n    \"newPassword\": \"NewPassword123\",\n    \"confirmPassword\": \"NewPassword123\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/auth/reset-password",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"auth",
-								"reset-password"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Users & Profiles",
-			"item": [
-				{
-					"name": "Get Current User (Me)",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/auth/me",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"auth",
-								"me"
-							]
-						},
-						"description": "Get the current authenticated user's profile with profile completion percentage and missing fields"
-					},
-					"response": [
-						{
-							"name": "Success Response with Profile Completion",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/auth/me",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"auth",
-										"me"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"success\": true,\n    \"message\": \"User profile retrieved successfully\",\n    \"data\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"fullName\": \"Ahmed Khan\",\n        \"email\": \"ahmed.khan@example.com\",\n        \"gender\": \"male\",\n        \"phone\": \"1234567890\",\n        \"chartNumber\": \"ZX-545654\",\n        \"isEmailVerified\": true,\n        \"isPhoneVerified\": false,\n        \"isActive\": true,\n        \"dateOfBirth\": \"1995-05-15\",\n        \"age\": 30,\n        \"location\": {\n            \"city\": \"Dubai\",\n            \"country\": \"UAE\"\n        },\n        \"origin\": null,\n        \"maritalStatus\": \"single\",\n        \"profession\": \"Software Engineer\",\n        \"weight\": 70.5,\n        \"height\": 175.5,\n        \"bodyColor\": \"medium\",\n        \"hairColor\": \"black\",\n        \"hairType\": \"straight\",\n        \"eyeColor\": \"brown\",\n        \"houseAvailable\": true,\n        \"natureOfWork\": \"Full-time office job\",\n        \"bio\": \"A kind and practicing Muslim looking for a life partner.\",\n        \"preferredMinWeight\": null,\n        \"preferredMaxWeight\": null,\n        \"preferredMinHeight\": null,\n        \"preferredMaxHeight\": null,\n        \"preferredBodyColors\": null,\n        \"preferredHairColors\": null,\n        \"preferredEyeColors\": null,\n        \"partnerPreferencesBio\": null,\n        \"marriageType\": null,\n        \"acceptPolygamy\": null,\n        \"religiousPractice\": \"Religious\",\n        \"sect\": \"Sunni\",\n        \"prayerLevel\": \"Prays 5 times a day\",\n        \"role\": \"user\",\n        \"permissions\": null,\n        \"isBanned\": false,\n        \"banType\": null,\n        \"bannedAt\": null,\n        \"bannedUntil\": null,\n        \"bannedReason\": null,\n        \"bannedBy\": null,\n        \"isVerified\": false,\n        \"verifiedAt\": null,\n        \"verifiedBy\": null,\n        \"isDeleted\": false,\n        \"deletedAt\": null,\n        \"roleAssignedBy\": null,\n        \"roleAssignedAt\": null,\n        \"createdAt\": \"2024-01-01T00:00:00.000Z\",\n        \"updatedAt\": \"2024-01-01T00:00:00.000Z\",\n        \"profileCompletion\": {\n            \"percentage\": 57,\n            \"completedFields\": [\n                \"Date of Birth\",\n                \"Age\",\n                \"Location\",\n                \"Marital Status\",\n                \"Profession\",\n                \"Weight\",\n                \"Height\",\n                \"Body Color\",\n                \"Hair Color\",\n                \"Hair Type\",\n                \"Eye Color\",\n                \"House Available\",\n                \"Nature of Work\",\n                \"Bio\",\n                \"Religious Practice\",\n                \"Sect\",\n                \"Prayer Level\"\n            ],\n            \"missingFields\": [\n                \"Origin\",\n                \"Preferred Min Weight\",\n                \"Preferred Max Weight\",\n                \"Preferred Min Height\",\n                \"Preferred Max Height\",\n                \"Preferred Body Colors\",\n                \"Preferred Hair Colors\",\n                \"Preferred Eye Colors\",\n                \"Partner Preferences Bio\",\n                \"Marriage Type\",\n                \"Accept Polygamy\"\n            ]\n        }\n    },\n    \"timestamp\": \"2024-01-01T00:00:00.000Z\"\n}"
-						}
-					]
-				},
-				{
-					"name": "Update User Profile",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"dateOfBirth\": \"1995-05-15\",\n    \"location\": {\n        \"city\": \"Dubai\",\n        \"country\": \"UAE\"\n    },\n    \"origin\": \"Pakistani\",\n    \"maritalStatus\": \"single\",\n    \"profession\": \"Software Engineer\",\n    \"weight\": 70.5,\n    \"height\": 175.5,\n    \"bodyColor\": \"medium\",\n    \"hairColor\": \"black\",\n    \"hairType\": \"straight\",\n    \"eyeColor\": \"brown\",\n    \"houseAvailable\": true,\n    \"natureOfWork\": \"Full-time office job\",\n    \"bio\": \"A kind and practicing Muslim looking for a life partner.\",\n    \"preferredMinWeight\": 50,\n    \"preferredMaxWeight\": 80,\n    \"preferredMinHeight\": 150,\n    \"preferredMaxHeight\": 180,\n    \"preferredBodyColors\": [\"fair\", \"medium\"],\n    \"preferredHairColors\": [\"black\", \"dark_brown\"],\n    \"preferredEyeColors\": [\"brown\", \"hazel\"],\n    \"partnerPreferencesBio\": \"Looking for someone kind, religious, and family-oriented.\",\n    \"marriageType\": \"traditional\",\n    \"acceptPolygamy\": false,\n    \"religiousPractice\": \"Religious\",\n    \"sect\": \"Sunni\",\n    \"prayerLevel\": \"Prays 5 times a day\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/users/profile",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"users",
-								"profile"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Users",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/users?page=1&limit=10&gender=female&maritalStatus=single&minAge=25&maxAge=35&city=Dubai&country=UAE&origin=Egyptian&religiousPractice=Religious&sect=Sunni&prayerLevel=Prays 5 times a day&profession=Engineer&minHeight=160&maxHeight=175&minWeight=50&maxWeight=70&bodyColor=fair&hairColor=black&hairType=straight&eyeColor=brown&marriageType=religious&houseAvailable=true&acceptPolygamy=false&natureOfWork=Full-time office job",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"users"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "limit",
-									"value": "10"
-								},
-								{
-									"key": "gender",
-									"value": "female",
-									"disabled": true
-								},
-								{
-									"key": "maritalStatus",
-									"value": "single",
-									"disabled": true
-								},
-								{
-									"key": "minAge",
-									"value": "25",
-									"disabled": true
-								},
-								{
-									"key": "maxAge",
-									"value": "35",
-									"disabled": true
-								},
-								{
-									"key": "city",
-									"value": "Dubai",
-									"disabled": true
-								},
-								{
-									"key": "country",
-									"value": "UAE",
-									"disabled": true
-								},
-								{
-									"key": "origin",
-									"value": "Egyptian",
-									"disabled": true
-								},
-								{
-									"key": "religiousPractice",
-									"value": "Religious",
-									"disabled": true
-								},
-								{
-									"key": "sect",
-									"value": "Sunni",
-									"disabled": true
-								},
-								{
-									"key": "prayerLevel",
-									"value": "Prays 5 times a day",
-									"disabled": true
-								},
-								{
-									"key": "profession",
-									"value": "Engineer",
-									"disabled": true
-								},
-								{
-									"key": "minHeight",
-									"value": "160",
-									"disabled": true
-								},
-								{
-									"key": "maxHeight",
-									"value": "175",
-									"disabled": true
-								},
-								{
-									"key": "minWeight",
-									"value": "50",
-									"disabled": true
-								},
-								{
-									"key": "maxWeight",
-									"value": "70",
-									"disabled": true
-								},
-								{
-									"key": "bodyColor",
-									"value": "fair",
-									"disabled": true
-								},
-								{
-									"key": "hairColor",
-									"value": "black",
-									"disabled": true
-								},
-								{
-									"key": "hairType",
-									"value": "straight",
-									"disabled": true
-								},
-								{
-									"key": "eyeColor",
-									"value": "brown",
-									"disabled": true
-								},
-								{
-									"key": "marriageType",
-									"value": "religious",
-									"disabled": true
-								},
-								{
-									"key": "houseAvailable",
-									"value": "true",
-									"disabled": true
-								},
-								{
-									"key": "acceptPolygamy",
-									"value": "false",
-									"disabled": true
-								},
-								{
-									"key": "natureOfWork",
-									"value": "Full-time office job",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Latest Joined Users (Public)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/users/latest?limit=10",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"users",
-								"latest"
-							],
-							"query": [
-								{
-									"key": "limit",
-									"value": "10",
-									"description": "Number of latest users to retrieve (default: 10)"
-								}
-							]
-						},
-						"description": "Get the latest joined users without authentication. Returns only active and email-verified users."
-					},
-					"response": []
-				},
-				{
-					"name": "Get User By ID (Public)",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/users/615c8a9b4f7d4e3e4c8b4567",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"users",
-								"615c8a9b4f7d4e3e4c8b4567"
-							]
-						},
-						"description": "Get user by ID without authentication. Returns user profile data without like status information."
-					},
-					"response": []
-				},
-				{
-					"name": "Like a User",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/users/615c8a9b4f7d4e3e4c8b4567/like",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"users",
-								"615c8a9b4f7d4e3e4c8b4567",
-								"like"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Unlike a User",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/users/615c8a9b4f7d4e3e4c8b4567/like",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"users",
-								"615c8a9b4f7d4e3e4c8b4567",
-								"like"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Block a User",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"reason\": \"Inappropriate behavior\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/users/615c8a9b4f7d4e3e4c8b4567/block",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"users",
-								"615c8a9b4f7d4e3e4c8b4567",
-								"block"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Unblock a User",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/users/615c8a9b4f7d4e3e4c8b4567/block",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"users",
-								"615c8a9b4f7d4e3e4c8b4567",
-								"block"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Likes Sent",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/users/likes/sent",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"users",
-								"likes",
-								"sent"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Likes Received",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/users/likes/received",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"users",
-								"likes",
-								"received"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Blocked Users",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/users/blocks",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"users",
-								"blocks"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Subscriptions",
-			"item": [
-				{
-					"name": "Get Plans",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/subscriptions/plans",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"subscriptions",
-								"plans"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get My Subscription",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/subscriptions/my-subscription",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"subscriptions",
-								"my-subscription"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create Subscription",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"planId\": \"plan-uuid-here\",\n    \"billingCycle\": \"monthly\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/subscriptions/create-subscription",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"subscriptions",
-								"create-subscription"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Upgrade Subscription",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"newPlanId\": \"new-plan-uuid-here\",\n    \"billingCycle\": \"yearly\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/subscriptions/upgrade",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"subscriptions",
-								"upgrade"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Cancel Subscription",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/subscriptions/cancel",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"subscriptions",
-								"cancel"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Subscription History",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/subscriptions/history",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"subscriptions",
-								"history"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Chat & Messaging",
-			"item": [
-				{
-					"name": "Create Conversation",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"recipientId\": \"recipient-user-uuid-here\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/chat/conversations",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"chat",
-								"conversations"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Conversations",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/chat/conversations?page=1&limit=20",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"chat",
-								"conversations"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "limit",
-									"value": "20"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Conversation Details",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/chat/conversations/{{conversationId}}",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"chat",
-								"conversations",
-								"{{conversationId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Conversation Messages",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/chat/conversations/{{conversationId}}/messages?page=1&limit=50",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"chat",
-								"conversations",
-								"{{conversationId}}",
-								"messages"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "limit",
-									"value": "50"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Send Message (REST)",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"content\": \"Hello! How are you?\",\n    \"messageType\": \"text\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/chat/conversations/{{conversationId}}/messages",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"chat",
-								"conversations",
-								"{{conversationId}}",
-								"messages"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Mark Messages as Read",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/chat/conversations/{{conversationId}}/read",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"chat",
-								"conversations",
-								"{{conversationId}}",
-								"read"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Unread Message Count",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/chat/conversations/{{conversationId}}/unread-count",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"chat",
-								"conversations",
-								"{{conversationId}}",
-								"unread-count"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get User Presence",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/chat/users/{{userId}}/presence",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"chat",
-								"users",
-								"{{userId}}",
-								"presence"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Message",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/chat/messages/{{messageId}}",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"chat",
-								"messages",
-								"{{messageId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Send Engagement Request",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"recipientId\": \"{{userId}}\",\n    \"conversationId\": \"{{conversationId}}\",\n    \"message\": \"Will you be engaged with me?\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/chat/engagement-requests",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"chat",
-								"engagement-requests"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Respond to Engagement Request",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"status\": \"accepted\"\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/chat/engagement-requests/{{engagementRequestId}}/respond",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"chat",
-								"engagement-requests",
-								"{{engagementRequestId}}",
-								"respond"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Cancel Engagement Request",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/chat/engagement-requests/{{engagementRequestId}}",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"chat",
-								"engagement-requests",
-								"{{engagementRequestId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Sent Engagement Requests",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/chat/engagement-requests/sent?page=1&limit=20",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"chat",
-								"engagement-requests",
-								"sent"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "limit",
-									"value": "20"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Received Engagement Requests",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/chat/engagement-requests/received?page=1&limit=20",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"chat",
-								"engagement-requests",
-								"received"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "limit",
-									"value": "20"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Pending Engagement Requests",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/chat/engagement-requests/pending",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"chat",
-								"engagement-requests",
-								"pending"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Pending Engagement Count",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/chat/engagement-requests/pending/count",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"chat",
-								"engagement-requests",
-								"pending",
-								"count"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Engagement Request Details",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/chat/engagement-requests/{{engagementRequestId}}",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"chat",
-								"engagement-requests",
-								"{{engagementRequestId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Conversation Engagement Requests",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/chat/conversations/{{conversationId}}/engagement-requests",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"chat",
-								"conversations",
-								"{{conversationId}}",
-								"engagement-requests"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Matching & Recommendations",
-			"item": [
-				{
-					"name": "Update Matching Preferences",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"minAge\": 25,\n    \"maxAge\": 35,\n    \"preferredCity\": \"Dubai\",\n    \"preferredCountry\": \"UAE\",\n    \"maxDistanceKm\": 100,\n    \"preferredReligiousPractices\": [\"Religious\", \"Moderate\"],\n    \"preferredSects\": [\"Sunni\"],\n    \"preferredPrayerLevels\": [\"Prays 5 times a day\", \"Sometimes\"],\n    \"preferredMaritalStatuses\": [\"single\", \"divorced\"],\n    \"preferredProfessions\": [\"Engineer\", \"Doctor\"],\n    \"lookingForGender\": \"female\",\n    \"ageImportance\": 5,\n    \"locationImportance\": 7,\n    \"religiousImportance\": 9,\n    \"maritalStatusImportance\": 6,\n    \"professionImportance\": 3,\n    \"preferredMinHeight\": 155,\n    \"preferredMaxHeight\": 175,\n    \"preferredMinWeight\": 50,\n    \"preferredMaxWeight\": 70,\n    \"preferredBodyColors\": [\"fair\", \"medium\"],\n    \"preferredHairColors\": [\"black\", \"brown\"],\n    \"preferredEyeColors\": [\"brown\", \"hazel\"],\n    \"preferredMarriageTypes\": [\"traditional\", \"modern\"],\n    \"acceptPolygamy\": false,\n    \"requireHouse\": true,\n    \"physicalAttributesImportance\": 6,\n    \"marriageTypeImportance\": 8\n}"
-						},
-						"url": {
-							"raw": "{{baseUrl}}/matching/preferences",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"matching",
-								"preferences"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Matching Preferences",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/matching/preferences",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"matching",
-								"preferences"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Match Recommendations",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/matching/recommendations?page=1&limit=10&minCompatibilityScore=60",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"matching",
-								"recommendations"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "limit",
-									"value": "10"
-								},
-								{
-									"key": "minCompatibilityScore",
-									"value": "60"
-								},
-								{
-									"key": "gender",
-									"value": "female",
-									"disabled": true
-								},
-								{
-									"key": "maritalStatus",
-									"value": "single",
-									"disabled": true
-								},
-								{
-									"key": "minAge",
-									"value": "25",
-									"disabled": true
-								},
-								{
-									"key": "maxAge",
-									"value": "35",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Admin",
-			"item": [
-				{
-					"name": "User Management",
-					"item": [
-						{
-							"name": "Get All Users (Admin)",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/admin/users?page=1&limit=20",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"users"
-									],
-									"query": [
-										{
-											"key": "page",
-											"value": "1"
-										},
-										{
-											"key": "limit",
-											"value": "20"
-										},
-										{
-											"key": "search",
-											"value": "",
-											"disabled": true
-										},
-										{
-											"key": "role",
-											"value": "",
-											"disabled": true
-										},
-										{
-											"key": "isBanned",
-											"value": "",
-											"disabled": true
-										},
-										{
-											"key": "isVerified",
-											"value": "",
-											"disabled": true
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get User By ID (Admin)",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/admin/users/{{userId}}",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"users",
-										"{{userId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Update User (Admin)",
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									},
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"fullName\": \"Updated Name\",\n    \"isActive\": true,\n    \"isEmailVerified\": true\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/admin/users/{{userId}}",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"users",
-										"{{userId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Ban User",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									},
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"banType\": \"temporary\",\n    \"reason\": \"Violating community guidelines\",\n    \"bannedUntil\": \"2025-12-31T23:59:59.000Z\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/admin/users/{{userId}}/ban",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"users",
-										"{{userId}}",
-										"ban"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Unban User",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/admin/users/{{userId}}/unban",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"users",
-										"{{userId}}",
-										"unban"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Delete User (Soft Delete)",
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/admin/users/{{userId}}",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"users",
-										"{{userId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Verify User",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/admin/users/{{userId}}/verify",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"users",
-										"{{userId}}",
-										"verify"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Send Notification to User",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									},
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"subject\": \"Important Update\",\n    \"message\": \"Your profile has been verified successfully.\",\n    \"notificationType\": \"email\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/admin/users/{{userId}}/send-notification",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"users",
-										"{{userId}}",
-										"send-notification"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Send Email to User",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									},
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"subject\": \"Account Update\",\n    \"message\": \"Your account status has been updated.\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/admin/users/{{userId}}/send-email",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"users",
-										"{{userId}}",
-										"send-email"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get User Activity Logs",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/admin/users/{{userId}}/activity-logs?page=1&limit=50",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"users",
-										"{{userId}}",
-										"activity-logs"
-									],
-									"query": [
-										{
-											"key": "page",
-											"value": "1"
-										},
-										{
-											"key": "limit",
-											"value": "50"
-										}
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Admin Role Management (Super Admin)",
-					"item": [
-						{
-							"name": "Get All Admins",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/admin/admins?page=1&limit=20",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"admins"
-									],
-									"query": [
-										{
-											"key": "page",
-											"value": "1"
-										},
-										{
-											"key": "limit",
-											"value": "20"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Create Admin User",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									},
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"fullName\": \"Admin User\",\n    \"email\": \"admin@zawaj.in\",\n    \"phone\": \"+1234567890\",\n    \"gender\": \"male\",\n    \"password\": \"Admin@123\",\n    \"permissions\": [\"manage_users\", \"manage_reports\", \"view_analytics\"]\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/admin/admins",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"admins"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Update Admin Roles/Permissions",
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									},
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"permissions\": [\"manage_users\", \"manage_reports\", \"view_analytics\", \"send_notifications\"]\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/admin/admins/{{adminId}}/roles",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"admins",
-										"{{adminId}}",
-										"roles"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Promote to Super Admin",
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/admin/admins/{{adminId}}/promote",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"admins",
-										"{{adminId}}",
-										"promote"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Demote to Admin",
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/admin/admins/{{adminId}}/demote",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"admins",
-										"{{adminId}}",
-										"demote"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Remove Admin Privileges",
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/admin/admins/{{adminId}}",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"admins",
-										"{{adminId}}"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Reports Management",
-					"item": [
-						{
-							"name": "Get All Reports",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/admin/reports?page=1&limit=20",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"reports"
-									],
-									"query": [
-										{
-											"key": "page",
-											"value": "1"
-										},
-										{
-											"key": "limit",
-											"value": "20"
-										},
-										{
-											"key": "status",
-											"value": "pending",
-											"disabled": true
-										},
-										{
-											"key": "priority",
-											"value": "high",
-											"disabled": true
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get Report Details",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/admin/reports/{{reportId}}",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"reports",
-										"{{reportId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Review Report",
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/admin/reports/{{reportId}}/review",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"reports",
-										"{{reportId}}",
-										"review"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Resolve Report",
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									},
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"resolution\": \"User has been warned and content removed\",\n    \"actionTaken\": \"warning_sent\"\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/admin/reports/{{reportId}}/resolve",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"reports",
-										"{{reportId}}",
-										"resolve"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Dismiss Report",
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/admin/reports/{{reportId}}/dismiss",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"reports",
-										"{{reportId}}",
-										"dismiss"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Subscription Management",
-					"item": [
-						{
-							"name": "Get All Subscription Plans (Admin)",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/admin/subscriptions/plans",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"subscriptions",
-										"plans"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Create Subscription Plan",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									},
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"name\": \"Platinum\",\n    \"priceMonthly\": 39.99,\n    \"priceYearly\": 399.99,\n    \"features\": [\n        \"Everything in Gold\",\n        \"Unlimited likes\",\n        \"VIP support\",\n        \"Priority matching\"\n    ],\n    \"maxLikesPerDay\": null,\n    \"canSendMessages\": true,\n    \"canViewLikes\": true,\n    \"canSeeWhoLikedYou\": true,\n    \"prioritySupport\": true,\n    \"profileBadge\": \"Platinum Member\",\n    \"displayOrder\": 5\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/admin/subscriptions/plans",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"subscriptions",
-										"plans"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Update Subscription Plan",
-							"request": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									},
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"priceMonthly\": 34.99,\n    \"priceYearly\": 349.99,\n    \"features\": [\n        \"Everything in Gold\",\n        \"Unlimited likes\",\n        \"24/7 VIP support\",\n        \"Priority matching\",\n        \"Profile verification\"\n    ]\n}"
-								},
-								"url": {
-									"raw": "{{baseUrl}}/admin/subscriptions/plans/{{planId}}",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"subscriptions",
-										"plans",
-										"{{planId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Deactivate Subscription Plan",
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/admin/subscriptions/plans/{{planId}}",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"subscriptions",
-										"plans",
-										"{{planId}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get All Subscriptions",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/admin/subscriptions?page=1&limit=20",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"subscriptions"
-									],
-									"query": [
-										{
-											"key": "page",
-											"value": "1"
-										},
-										{
-											"key": "limit",
-											"value": "20"
-										}
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Analytics",
-					"item": [
-						{
-							"name": "Get Overview Analytics",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/admin/analytics/overview",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"analytics",
-										"overview"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get User Analytics",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/admin/analytics/users",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"analytics",
-										"users"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get Match Analytics",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/admin/analytics/matches",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"analytics",
-										"matches"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get Message Analytics",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/admin/analytics/messages",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"analytics",
-										"messages"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get Subscription Analytics",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{authToken}}"
-									}
-								],
-								"url": {
-									"raw": "{{baseUrl}}/admin/analytics/subscriptions",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"admin",
-										"analytics",
-										"subscriptions"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				}
-			]
-		}
-	],
-	"variable": [
-		{
-			"key": "baseUrl",
-			"value": "http://localhost:5000/api"
-		},
-		{
-			"key": "authToken",
-			"value": ""
-		},
-		{
-			"key": "conversationId",
-			"value": ""
-		},
-		{
-			"key": "messageId",
-			"value": ""
-		},
-		{
-			"key": "userId",
-			"value": ""
-		},
-		{
-			"key": "adminId",
-			"value": ""
-		},
-		{
-			"key": "reportId",
-			"value": ""
-		},
-		{
-			"key": "planId",
-			"value": ""
-		},
-		{
-			"key": "engagementRequestId",
-			"value": ""
-		}
-	]
+  "info": {
+    "_postman_id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "name": "Zawajin Matrimonial API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register New User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"fullName\": \"Ahmed Khan\",\n    \"gender\": \"male\",\n    \"email\": \"ahmed.khan@example.com\",\n    \"phone\": \"1234567890\",\n    \"password\": \"password123\",\n    \"confirmPassword\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verify Email OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"ahmed.khan@example.com\",\n    \"code\": \"123456\",\n    \"fcmToken\": \"optional-fcm-token\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/verify-email",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "verify-email"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Resend OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"ahmed.khan@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/resend-otp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "resend-otp"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"ahmed.khan@example.com\",\n    \"password\": \"password123\",\n    \"fcmToken\": \"optional-fcm-token\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Forget Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"ahmed.khan@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/forget-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "forget-password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verify Reset Password OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"ahmed.khan@example.com\",\n    \"code\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/verify-reset-otp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "verify-reset-otp"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"ahmed.khan@example.com\",\n    \"newPassword\": \"NewPassword123\",\n    \"confirmPassword\": \"NewPassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/reset-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "reset-password"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Users & Profiles",
+      "item": [
+        {
+          "name": "Get Current User (Me)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            },
+            "description": "Get the current authenticated user's profile with profile completion percentage and missing fields"
+          },
+          "response": [
+            {
+              "name": "Success Response with Profile Completion",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/auth/me",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "me"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"User profile retrieved successfully\",\n    \"data\": {\n        \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"fullName\": \"Ahmed Khan\",\n        \"email\": \"ahmed.khan@example.com\",\n        \"gender\": \"male\",\n        \"phone\": \"1234567890\",\n        \"chartNumber\": \"ZX-545654\",\n        \"isEmailVerified\": true,\n        \"isPhoneVerified\": false,\n        \"isActive\": true,\n        \"dateOfBirth\": \"1995-05-15\",\n        \"age\": 30,\n        \"location\": {\n            \"city\": \"Dubai\",\n            \"country\": \"UAE\"\n        },\n        \"origin\": null,\n        \"maritalStatus\": \"single\",\n        \"profession\": \"Software Engineer\",\n        \"weight\": 70.5,\n        \"height\": 175.5,\n        \"bodyColor\": \"medium\",\n        \"hairColor\": \"black\",\n        \"hairType\": \"straight\",\n        \"eyeColor\": \"brown\",\n        \"houseAvailable\": true,\n        \"natureOfWork\": \"Full-time office job\",\n        \"bio\": \"A kind and practicing Muslim looking for a life partner.\",\n        \"preferredMinWeight\": null,\n        \"preferredMaxWeight\": null,\n        \"preferredMinHeight\": null,\n        \"preferredMaxHeight\": null,\n        \"preferredBodyColors\": null,\n        \"preferredHairColors\": null,\n        \"preferredEyeColors\": null,\n        \"partnerPreferencesBio\": null,\n        \"marriageType\": null,\n        \"acceptPolygamy\": null,\n        \"religiousPractice\": \"Religious\",\n        \"sect\": \"Sunni\",\n        \"prayerLevel\": \"Prays 5 times a day\",\n        \"role\": \"user\",\n        \"permissions\": null,\n        \"isBanned\": false,\n        \"banType\": null,\n        \"bannedAt\": null,\n        \"bannedUntil\": null,\n        \"bannedReason\": null,\n        \"bannedBy\": null,\n        \"isVerified\": false,\n        \"verifiedAt\": null,\n        \"verifiedBy\": null,\n        \"isDeleted\": false,\n        \"deletedAt\": null,\n        \"roleAssignedBy\": null,\n        \"roleAssignedAt\": null,\n        \"createdAt\": \"2024-01-01T00:00:00.000Z\",\n        \"updatedAt\": \"2024-01-01T00:00:00.000Z\",\n        \"profileCompletion\": {\n            \"percentage\": 57,\n            \"completedFields\": [\n                \"Date of Birth\",\n                \"Age\",\n                \"Location\",\n                \"Marital Status\",\n                \"Profession\",\n                \"Weight\",\n                \"Height\",\n                \"Body Color\",\n                \"Hair Color\",\n                \"Hair Type\",\n                \"Eye Color\",\n                \"House Available\",\n                \"Nature of Work\",\n                \"Bio\",\n                \"Religious Practice\",\n                \"Sect\",\n                \"Prayer Level\"\n            ],\n            \"missingFields\": [\n                \"Origin\",\n                \"Preferred Min Weight\",\n                \"Preferred Max Weight\",\n                \"Preferred Min Height\",\n                \"Preferred Max Height\",\n                \"Preferred Body Colors\",\n                \"Preferred Hair Colors\",\n                \"Preferred Eye Colors\",\n                \"Partner Preferences Bio\",\n                \"Marriage Type\",\n                \"Accept Polygamy\"\n            ]\n        }\n    },\n    \"timestamp\": \"2024-01-01T00:00:00.000Z\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update User Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"ahmed_khan\",\n    \"dateOfBirth\": \"1995-05-15\",\n    \"age\": 30,\n    \"location\": {\n        \"city\": \"Dubai\",\n        \"country\": \"UAE\"\n    },\n    \"origin\": \"Pakistani\",\n    \"nationality\": \"Saudi\",\n    \"placeOfResidence\": \"Riyadh\",\n    \"tribe\": \"tribal\",\n    \"maritalStatus\": \"single\",\n    \"numberOfChildren\": 0,\n    \"profession\": \"Software Engineer\",\n    \"educationLevel\": \"university\",\n    \"natureOfWork\": \"employed\",\n    \"financialStatus\": \"good\",\n    \"healthStatus\": \"healthy\",\n    \"religiosityLevel\": \"committed\",\n    \"weight\": 70.5,\n    \"height\": 175.5,\n    \"skinColor\": \"white\",\n    \"beauty\": \"handsome\",\n    \"bodyColor\": \"medium\",\n    \"hairColor\": \"black\",\n    \"hairType\": \"straight\",\n    \"eyeColor\": \"brown\",\n    \"houseAvailable\": true,\n    \"bio\": \"A kind and practicing Muslim looking for a life partner.\",\n    \"detailedProfile\": \"Looking for a serious relationship that leads to marriage. I value family and faith.\",\n    \"preferredMinWeight\": 50,\n    \"preferredMaxWeight\": 80,\n    \"preferredMinHeight\": 150,\n    \"preferredMaxHeight\": 180,\n    \"preferredBodyColors\": [\n        \"fair\",\n        \"medium\"\n    ],\n    \"preferredHairColors\": [\n        \"black\",\n        \"dark_brown\"\n    ],\n    \"preferredEyeColors\": [\n        \"brown\",\n        \"hazel\"\n    ],\n    \"partnerPreferencesBio\": \"Looking for someone who is kind, religious, and family-oriented.\",\n    \"marriageType\": \"traditional\",\n    \"acceptPolygamy\": false,\n    \"polygamyStatus\": \"no\",\n    \"religiousPractice\": \"Religious\",\n    \"sect\": \"Sunni\",\n    \"prayerLevel\": \"Prays 5 times a day\",\n    \"preferredAgeFrom\": 25,\n    \"preferredAgeTo\": 35,\n    \"preferredNationality\": \"Saudi\",\n    \"preferredResidencePlace\": \"Riyadh\",\n    \"preferredEducationLevel\": \"university\",\n    \"preferredWorkNature\": \"employed\",\n    \"preferredMaritalStatus\": \"single\",\n    \"preferredFinancialStatus\": \"good\",\n    \"preferredHasHouse\": true,\n    \"preferredHealthStatus\": \"healthy\",\n    \"preferredBeauty\": \"average\",\n    \"preferredSkinColor\": \"white\",\n    \"preferredReligiosityLevel\": \"committed\",\n    \"preferredAcceptPolygamy\": \"no\",\n    \"preferredMarriageType\": \"religious\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "profile"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users?page=1&limit=10&gender=female&maritalStatus=single&minAge=25&maxAge=35&city=Dubai&country=UAE&origin=Egyptian&nationality=Saudi&placeOfResidence=Riyadh&tribe=tribal&numberOfChildren=0&educationLevel=university&financialStatus=good&healthStatus=healthy&religiosityLevel=committed&skinColor=white&beauty=beautiful&religiousPractice=Religious&sect=Sunni&prayerLevel=Prays 5 times a day&profession=Engineer&minHeight=160&maxHeight=175&minWeight=50&maxWeight=70&bodyColor=fair&hairColor=black&hairType=straight&eyeColor=brown&marriageType=traditional&houseAvailable=true&acceptPolygamy=false&polygamyStatus=thinking&natureOfWork=employed",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Number of users per page"
+                },
+                {
+                  "key": "gender",
+                  "value": "female",
+                  "description": "Filter by gender (male/female)"
+                },
+                {
+                  "key": "maritalStatus",
+                  "value": "single",
+                  "description": "Filter by marital status"
+                },
+                {
+                  "key": "minAge",
+                  "value": "25",
+                  "description": "Minimum age"
+                },
+                {
+                  "key": "maxAge",
+                  "value": "35",
+                  "description": "Maximum age"
+                },
+                {
+                  "key": "city",
+                  "value": "Dubai",
+                  "description": "Filter by city"
+                },
+                {
+                  "key": "country",
+                  "value": "UAE",
+                  "description": "Filter by country"
+                },
+                {
+                  "key": "origin",
+                  "value": "Egyptian",
+                  "description": "Filter by origin"
+                },
+                {
+                  "key": "nationality",
+                  "value": "Saudi",
+                  "description": "Filter by nationality"
+                },
+                {
+                  "key": "placeOfResidence",
+                  "value": "Riyadh",
+                  "description": "Filter by place of residence"
+                },
+                {
+                  "key": "tribe",
+                  "value": "tribal",
+                  "description": "Filter by tribe (tribal/non_tribal/other)"
+                },
+                {
+                  "key": "numberOfChildren",
+                  "value": "0",
+                  "description": "Filter by number of children"
+                },
+                {
+                  "key": "educationLevel",
+                  "value": "university",
+                  "description": "Filter by education level"
+                },
+                {
+                  "key": "financialStatus",
+                  "value": "good",
+                  "description": "Filter by financial status"
+                },
+                {
+                  "key": "healthStatus",
+                  "value": "healthy",
+                  "description": "Filter by health status"
+                },
+                {
+                  "key": "religiosityLevel",
+                  "value": "committed",
+                  "description": "Filter by religiosity level"
+                },
+                {
+                  "key": "skinColor",
+                  "value": "white",
+                  "description": "Filter by skin color"
+                },
+                {
+                  "key": "beauty",
+                  "value": "beautiful",
+                  "description": "Filter by beauty/appearance"
+                },
+                {
+                  "key": "religiousPractice",
+                  "value": "Religious",
+                  "description": "Filter by religious practice"
+                },
+                {
+                  "key": "sect",
+                  "value": "Sunni",
+                  "description": "Filter by sect"
+                },
+                {
+                  "key": "prayerLevel",
+                  "value": "Prays 5 times a day",
+                  "description": "Filter by prayer level"
+                },
+                {
+                  "key": "profession",
+                  "value": "Engineer",
+                  "description": "Filter by profession"
+                },
+                {
+                  "key": "minHeight",
+                  "value": "160",
+                  "description": "Minimum height in cm"
+                },
+                {
+                  "key": "maxHeight",
+                  "value": "175",
+                  "description": "Maximum height in cm"
+                },
+                {
+                  "key": "minWeight",
+                  "value": "50",
+                  "description": "Minimum weight in kg"
+                },
+                {
+                  "key": "maxWeight",
+                  "value": "70",
+                  "description": "Maximum weight in kg"
+                },
+                {
+                  "key": "bodyColor",
+                  "value": "fair",
+                  "description": "Filter by body color"
+                },
+                {
+                  "key": "hairColor",
+                  "value": "black",
+                  "description": "Filter by hair color"
+                },
+                {
+                  "key": "hairType",
+                  "value": "straight",
+                  "description": "Filter by hair type"
+                },
+                {
+                  "key": "eyeColor",
+                  "value": "brown",
+                  "description": "Filter by eye color"
+                },
+                {
+                  "key": "marriageType",
+                  "value": "traditional",
+                  "description": "Filter by marriage type"
+                },
+                {
+                  "key": "houseAvailable",
+                  "value": "true",
+                  "description": "Filter by house availability"
+                },
+                {
+                  "key": "acceptPolygamy",
+                  "value": "false",
+                  "description": "Filter by polygamy acceptance"
+                },
+                {
+                  "key": "polygamyStatus",
+                  "value": "thinking",
+                  "description": "Filter by polygamy status"
+                },
+                {
+                  "key": "natureOfWork",
+                  "value": "employed",
+                  "description": "Filter by nature of work"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Latest Joined Users (Public)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/latest?limit=10&gender=male&maritalStatus=single&minAge=25&maxAge=35&city=Dubai&country=UAE&origin=Egyptian&nationality=Saudi&placeOfResidence=Riyadh&tribe=tribal&numberOfChildren=0&educationLevel=university&financialStatus=good&healthStatus=healthy&religiosityLevel=committed&skinColor=white&beauty=handsome&religiousPractice=Religious&sect=Sunni&prayerLevel=Prays 5 times a day&profession=Engineer&minHeight=165&maxHeight=180&minWeight=60&maxWeight=80&bodyColor=fair&hairColor=black&hairType=straight&eyeColor=brown&marriageType=traditional&houseAvailable=true&acceptPolygamy=false&polygamyStatus=no&natureOfWork=employed",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "latest"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Number of users to return"
+                },
+                {
+                  "key": "gender",
+                  "value": "male",
+                  "description": "Filter by gender (male/female)"
+                },
+                {
+                  "key": "maritalStatus",
+                  "value": "single",
+                  "description": "Filter by marital status"
+                },
+                {
+                  "key": "minAge",
+                  "value": "25",
+                  "description": "Minimum age"
+                },
+                {
+                  "key": "maxAge",
+                  "value": "35",
+                  "description": "Maximum age"
+                },
+                {
+                  "key": "city",
+                  "value": "Dubai",
+                  "description": "Filter by city"
+                },
+                {
+                  "key": "country",
+                  "value": "UAE",
+                  "description": "Filter by country"
+                },
+                {
+                  "key": "origin",
+                  "value": "Egyptian",
+                  "description": "Filter by origin"
+                },
+                {
+                  "key": "nationality",
+                  "value": "Saudi",
+                  "description": "Filter by nationality"
+                },
+                {
+                  "key": "placeOfResidence",
+                  "value": "Riyadh",
+                  "description": "Filter by place of residence"
+                },
+                {
+                  "key": "tribe",
+                  "value": "tribal",
+                  "description": "Filter by tribe (tribal/non_tribal/other)"
+                },
+                {
+                  "key": "numberOfChildren",
+                  "value": "0",
+                  "description": "Filter by number of children"
+                },
+                {
+                  "key": "educationLevel",
+                  "value": "university",
+                  "description": "Filter by education level"
+                },
+                {
+                  "key": "financialStatus",
+                  "value": "good",
+                  "description": "Filter by financial status"
+                },
+                {
+                  "key": "healthStatus",
+                  "value": "healthy",
+                  "description": "Filter by health status"
+                },
+                {
+                  "key": "religiosityLevel",
+                  "value": "committed",
+                  "description": "Filter by religiosity level"
+                },
+                {
+                  "key": "skinColor",
+                  "value": "white",
+                  "description": "Filter by skin color"
+                },
+                {
+                  "key": "beauty",
+                  "value": "handsome",
+                  "description": "Filter by beauty/appearance"
+                },
+                {
+                  "key": "religiousPractice",
+                  "value": "Religious",
+                  "description": "Filter by religious practice"
+                },
+                {
+                  "key": "sect",
+                  "value": "Sunni",
+                  "description": "Filter by sect"
+                },
+                {
+                  "key": "prayerLevel",
+                  "value": "Prays 5 times a day",
+                  "description": "Filter by prayer level"
+                },
+                {
+                  "key": "profession",
+                  "value": "Engineer",
+                  "description": "Filter by profession"
+                },
+                {
+                  "key": "minHeight",
+                  "value": "165",
+                  "description": "Minimum height in cm"
+                },
+                {
+                  "key": "maxHeight",
+                  "value": "180",
+                  "description": "Maximum height in cm"
+                },
+                {
+                  "key": "minWeight",
+                  "value": "60",
+                  "description": "Minimum weight in kg"
+                },
+                {
+                  "key": "maxWeight",
+                  "value": "80",
+                  "description": "Maximum weight in kg"
+                },
+                {
+                  "key": "bodyColor",
+                  "value": "fair",
+                  "description": "Filter by body color"
+                },
+                {
+                  "key": "hairColor",
+                  "value": "black",
+                  "description": "Filter by hair color"
+                },
+                {
+                  "key": "hairType",
+                  "value": "straight",
+                  "description": "Filter by hair type"
+                },
+                {
+                  "key": "eyeColor",
+                  "value": "brown",
+                  "description": "Filter by eye color"
+                },
+                {
+                  "key": "marriageType",
+                  "value": "traditional",
+                  "description": "Filter by marriage type"
+                },
+                {
+                  "key": "houseAvailable",
+                  "value": "true",
+                  "description": "Filter by house availability"
+                },
+                {
+                  "key": "acceptPolygamy",
+                  "value": "false",
+                  "description": "Filter by polygamy acceptance"
+                },
+                {
+                  "key": "polygamyStatus",
+                  "value": "no",
+                  "description": "Filter by polygamy status"
+                },
+                {
+                  "key": "natureOfWork",
+                  "value": "employed",
+                  "description": "Filter by nature of work"
+                }
+              ]
+            },
+            "description": "Get the latest joined users without authentication. Returns only active and email-verified users."
+          },
+          "response": []
+        },
+        {
+          "name": "Get User By ID (Public)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/615c8a9b4f7d4e3e4c8b4567",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "615c8a9b4f7d4e3e4c8b4567"
+              ]
+            },
+            "description": "Get user by ID without authentication. Returns user profile data without like status information."
+          },
+          "response": []
+        },
+        {
+          "name": "Like a User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/615c8a9b4f7d4e3e4c8b4567/like",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "615c8a9b4f7d4e3e4c8b4567",
+                "like"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Unlike a User",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/615c8a9b4f7d4e3e4c8b4567/like",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "615c8a9b4f7d4e3e4c8b4567",
+                "like"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Block a User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"reason\": \"Inappropriate behavior\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/615c8a9b4f7d4e3e4c8b4567/block",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "615c8a9b4f7d4e3e4c8b4567",
+                "block"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Unblock a User",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/615c8a9b4f7d4e3e4c8b4567/block",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "615c8a9b4f7d4e3e4c8b4567",
+                "block"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Likes Sent",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/likes/sent",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "likes",
+                "sent"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Likes Received",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/likes/received",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "likes",
+                "received"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Blocked Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/blocks",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "blocks"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Subscriptions",
+      "item": [
+        {
+          "name": "Get Plans",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/subscriptions/plans",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "subscriptions",
+                "plans"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Subscription",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/subscriptions/my-subscription",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "subscriptions",
+                "my-subscription"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Subscription",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"planId\": \"plan-uuid-here\",\n    \"billingCycle\": \"monthly\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/subscriptions/create-subscription",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "subscriptions",
+                "create-subscription"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Upgrade Subscription",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"newPlanId\": \"new-plan-uuid-here\",\n    \"billingCycle\": \"yearly\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/subscriptions/upgrade",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "subscriptions",
+                "upgrade"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Subscription",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/subscriptions/cancel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "subscriptions",
+                "cancel"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Subscription History",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/subscriptions/history",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "subscriptions",
+                "history"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Chat & Messaging",
+      "item": [
+        {
+          "name": "Create Conversation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"recipientId\": \"recipient-user-uuid-here\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/chat/conversations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "chat",
+                "conversations"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Conversations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/chat/conversations?page=1&limit=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "chat",
+                "conversations"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Conversation Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/chat/conversations/{{conversationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "chat",
+                "conversations",
+                "{{conversationId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Conversation Messages",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/chat/conversations/{{conversationId}}/messages?page=1&limit=50",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "chat",
+                "conversations",
+                "{{conversationId}}",
+                "messages"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "50"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Send Message (REST)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"content\": \"Hello! How are you?\",\n    \"messageType\": \"text\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/chat/conversations/{{conversationId}}/messages",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "chat",
+                "conversations",
+                "{{conversationId}}",
+                "messages"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Mark Messages as Read",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/chat/conversations/{{conversationId}}/read",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "chat",
+                "conversations",
+                "{{conversationId}}",
+                "read"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Unread Message Count",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/chat/conversations/{{conversationId}}/unread-count",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "chat",
+                "conversations",
+                "{{conversationId}}",
+                "unread-count"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Presence",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/chat/users/{{userId}}/presence",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "chat",
+                "users",
+                "{{userId}}",
+                "presence"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Message",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/chat/messages/{{messageId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "chat",
+                "messages",
+                "{{messageId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Send Engagement Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"recipientId\": \"{{userId}}\",\n    \"conversationId\": \"{{conversationId}}\",\n    \"message\": \"Will you be engaged with me?\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/chat/engagement-requests",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "chat",
+                "engagement-requests"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Respond to Engagement Request",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status\": \"accepted\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/chat/engagement-requests/{{engagementRequestId}}/respond",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "chat",
+                "engagement-requests",
+                "{{engagementRequestId}}",
+                "respond"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Engagement Request",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/chat/engagement-requests/{{engagementRequestId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "chat",
+                "engagement-requests",
+                "{{engagementRequestId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Sent Engagement Requests",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/chat/engagement-requests/sent?page=1&limit=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "chat",
+                "engagement-requests",
+                "sent"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Received Engagement Requests",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/chat/engagement-requests/received?page=1&limit=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "chat",
+                "engagement-requests",
+                "received"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Pending Engagement Requests",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/chat/engagement-requests/pending",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "chat",
+                "engagement-requests",
+                "pending"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Pending Engagement Count",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/chat/engagement-requests/pending/count",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "chat",
+                "engagement-requests",
+                "pending",
+                "count"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Engagement Request Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/chat/engagement-requests/{{engagementRequestId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "chat",
+                "engagement-requests",
+                "{{engagementRequestId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Conversation Engagement Requests",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/chat/conversations/{{conversationId}}/engagement-requests",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "chat",
+                "conversations",
+                "{{conversationId}}",
+                "engagement-requests"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Matching & Recommendations",
+      "item": [
+        {
+          "name": "Update Matching Preferences",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"minAge\": 25,\n    \"maxAge\": 35,\n    \"preferredCity\": \"Dubai\",\n    \"preferredCountry\": \"UAE\",\n    \"maxDistanceKm\": 100,\n    \"preferredReligiousPractices\": [\"Religious\", \"Moderate\"],\n    \"preferredSects\": [\"Sunni\"],\n    \"preferredPrayerLevels\": [\"Prays 5 times a day\", \"Sometimes\"],\n    \"preferredMaritalStatuses\": [\"single\", \"divorced\"],\n    \"preferredProfessions\": [\"Engineer\", \"Doctor\"],\n    \"lookingForGender\": \"female\",\n    \"ageImportance\": 5,\n    \"locationImportance\": 7,\n    \"religiousImportance\": 9,\n    \"maritalStatusImportance\": 6,\n    \"professionImportance\": 3,\n    \"preferredMinHeight\": 155,\n    \"preferredMaxHeight\": 175,\n    \"preferredMinWeight\": 50,\n    \"preferredMaxWeight\": 70,\n    \"preferredBodyColors\": [\"fair\", \"medium\"],\n    \"preferredHairColors\": [\"black\", \"brown\"],\n    \"preferredEyeColors\": [\"brown\", \"hazel\"],\n    \"preferredMarriageTypes\": [\"traditional\", \"modern\"],\n    \"acceptPolygamy\": false,\n    \"requireHouse\": true,\n    \"physicalAttributesImportance\": 6,\n    \"marriageTypeImportance\": 8\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/matching/preferences",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "matching",
+                "preferences"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Matching Preferences",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/matching/preferences",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "matching",
+                "preferences"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Match Recommendations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/matching/recommendations?page=1&limit=10&minCompatibilityScore=60",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "matching",
+                "recommendations"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "minCompatibilityScore",
+                  "value": "60"
+                },
+                {
+                  "key": "gender",
+                  "value": "female",
+                  "disabled": true
+                },
+                {
+                  "key": "maritalStatus",
+                  "value": "single",
+                  "disabled": true
+                },
+                {
+                  "key": "minAge",
+                  "value": "25",
+                  "disabled": true
+                },
+                {
+                  "key": "maxAge",
+                  "value": "35",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "User Management",
+          "item": [
+            {
+              "name": "Get All Users (Admin)",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/users?page=1&limit=20",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "users"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "search",
+                      "value": "",
+                      "disabled": true
+                    },
+                    {
+                      "key": "role",
+                      "value": "",
+                      "disabled": true
+                    },
+                    {
+                      "key": "isBanned",
+                      "value": "",
+                      "disabled": true
+                    },
+                    {
+                      "key": "isVerified",
+                      "value": "",
+                      "disabled": true
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get User By ID (Admin)",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/users/{{userId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "users",
+                    "{{userId}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update User (Admin)",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"fullName\": \"Updated Name\",\n    \"isActive\": true,\n    \"isEmailVerified\": true\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/users/{{userId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "users",
+                    "{{userId}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Ban User",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"banType\": \"temporary\",\n    \"reason\": \"Violating community guidelines\",\n    \"bannedUntil\": \"2025-12-31T23:59:59.000Z\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/users/{{userId}}/ban",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "users",
+                    "{{userId}}",
+                    "ban"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Unban User",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/users/{{userId}}/unban",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "users",
+                    "{{userId}}",
+                    "unban"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete User (Soft Delete)",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/users/{{userId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "users",
+                    "{{userId}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Verify User",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/users/{{userId}}/verify",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "users",
+                    "{{userId}}",
+                    "verify"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Send Notification to User",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"subject\": \"Important Update\",\n    \"message\": \"Your profile has been verified successfully.\",\n    \"notificationType\": \"email\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/users/{{userId}}/send-notification",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "users",
+                    "{{userId}}",
+                    "send-notification"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Send Email to User",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"subject\": \"Account Update\",\n    \"message\": \"Your account status has been updated.\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/users/{{userId}}/send-email",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "users",
+                    "{{userId}}",
+                    "send-email"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get User Activity Logs",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/users/{{userId}}/activity-logs?page=1&limit=50",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "users",
+                    "{{userId}}",
+                    "activity-logs"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Admin Role Management (Super Admin)",
+          "item": [
+            {
+              "name": "Get All Admins",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/admins?page=1&limit=20",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "admins"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Admin User",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"fullName\": \"Admin User\",\n    \"email\": \"admin@zawaj.in\",\n    \"phone\": \"+1234567890\",\n    \"gender\": \"male\",\n    \"password\": \"Admin@123\",\n    \"permissions\": [\"manage_users\", \"manage_reports\", \"view_analytics\"]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/admins",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "admins"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Admin Roles/Permissions",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"permissions\": [\"manage_users\", \"manage_reports\", \"view_analytics\", \"send_notifications\"]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/admins/{{adminId}}/roles",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "admins",
+                    "{{adminId}}",
+                    "roles"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Promote to Super Admin",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/admins/{{adminId}}/promote",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "admins",
+                    "{{adminId}}",
+                    "promote"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Demote to Admin",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/admins/{{adminId}}/demote",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "admins",
+                    "{{adminId}}",
+                    "demote"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Remove Admin Privileges",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/admins/{{adminId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "admins",
+                    "{{adminId}}"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Reports Management",
+          "item": [
+            {
+              "name": "Get All Reports",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/reports?page=1&limit=20",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "reports"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "status",
+                      "value": "pending",
+                      "disabled": true
+                    },
+                    {
+                      "key": "priority",
+                      "value": "high",
+                      "disabled": true
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Report Details",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/reports/{{reportId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "reports",
+                    "{{reportId}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Review Report",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/reports/{{reportId}}/review",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "reports",
+                    "{{reportId}}",
+                    "review"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Resolve Report",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"resolution\": \"User has been warned and content removed\",\n    \"actionTaken\": \"warning_sent\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/reports/{{reportId}}/resolve",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "reports",
+                    "{{reportId}}",
+                    "resolve"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Dismiss Report",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/reports/{{reportId}}/dismiss",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "reports",
+                    "{{reportId}}",
+                    "dismiss"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Subscription Management",
+          "item": [
+            {
+              "name": "Get All Subscription Plans (Admin)",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/subscriptions/plans",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "subscriptions",
+                    "plans"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create Subscription Plan",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"Platinum\",\n    \"priceMonthly\": 39.99,\n    \"priceYearly\": 399.99,\n    \"features\": [\n        \"Everything in Gold\",\n        \"Unlimited likes\",\n        \"VIP support\",\n        \"Priority matching\"\n    ],\n    \"maxLikesPerDay\": null,\n    \"canSendMessages\": true,\n    \"canViewLikes\": true,\n    \"canSeeWhoLikedYou\": true,\n    \"prioritySupport\": true,\n    \"profileBadge\": \"Platinum Member\",\n    \"displayOrder\": 5\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/subscriptions/plans",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "subscriptions",
+                    "plans"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Subscription Plan",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"priceMonthly\": 34.99,\n    \"priceYearly\": 349.99,\n    \"features\": [\n        \"Everything in Gold\",\n        \"Unlimited likes\",\n        \"24/7 VIP support\",\n        \"Priority matching\",\n        \"Profile verification\"\n    ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/subscriptions/plans/{{planId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "subscriptions",
+                    "plans",
+                    "{{planId}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Deactivate Subscription Plan",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/subscriptions/plans/{{planId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "subscriptions",
+                    "plans",
+                    "{{planId}}"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get All Subscriptions",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/subscriptions?page=1&limit=20",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "subscriptions"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Analytics",
+          "item": [
+            {
+              "name": "Get Overview Analytics",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/analytics/overview",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "analytics",
+                    "overview"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get User Analytics",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/analytics/users",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "analytics",
+                    "users"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Match Analytics",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/analytics/matches",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "analytics",
+                    "matches"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Message Analytics",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/analytics/messages",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "analytics",
+                    "messages"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Subscription Analytics",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/analytics/subscriptions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "analytics",
+                    "subscriptions"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api"
+    },
+    {
+      "key": "authToken",
+      "value": ""
+    },
+    {
+      "key": "conversationId",
+      "value": ""
+    },
+    {
+      "key": "messageId",
+      "value": ""
+    },
+    {
+      "key": "userId",
+      "value": ""
+    },
+    {
+      "key": "adminId",
+      "value": ""
+    },
+    {
+      "key": "reportId",
+      "value": ""
+    },
+    {
+      "key": "planId",
+      "value": ""
+    },
+    {
+      "key": "engagementRequestId",
+      "value": ""
+    }
+  ]
 }

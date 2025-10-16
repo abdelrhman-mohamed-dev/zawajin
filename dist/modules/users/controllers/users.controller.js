@@ -33,8 +33,8 @@ let UsersController = class UsersController {
             timestamp: new Date().toISOString(),
         };
     }
-    async getLatestUsers(i18n, limit) {
-        const users = await this.usersService.getLatestUsers(limit || 10);
+    async getLatestUsers(i18n, getUsersDto) {
+        const users = await this.usersService.getLatestUsers(getUsersDto);
         return {
             success: true,
             message: await i18n.t('users.users_retrieved'),
@@ -91,15 +91,15 @@ __decorate([
 ], UsersController.prototype, "updateProfile", null);
 __decorate([
     (0, common_1.Get)('latest'),
-    (0, swagger_1.ApiOperation)({ summary: 'Get latest joined users (Public)' }),
+    (0, swagger_1.ApiOperation)({ summary: 'Get latest joined users with filters (Public)' }),
     (0, swagger_1.ApiResponse)({
         status: 200,
         description: 'Latest users retrieved successfully',
     }),
     __param(0, (0, nestjs_i18n_1.I18n)()),
-    __param(1, (0, common_1.Query)('limit')),
+    __param(1, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [nestjs_i18n_1.I18nContext, Number]),
+    __metadata("design:paramtypes", [nestjs_i18n_1.I18nContext, get_users_dto_1.GetUsersDto]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "getLatestUsers", null);
 __decorate([

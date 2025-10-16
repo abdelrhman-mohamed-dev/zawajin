@@ -1,4 +1,83 @@
 {
   "profile_updated": "تم تحديث الملف الشخصي بنجاح",
-  "users_retrieved": "تم استرجاع المستخدمين بنجاح"
+  "users_retrieved": "تم استرجاع المستخدمين بنجاح",
+  "user_retrieved": "تم استرجاع المستخدم بنجاح",
+  "validation": {
+    "username_required": "اسم المستخدم مطلوب",
+    "nationality_required": "الجنسية مطلوبة",
+    "place_of_residence_required": "مكان الإقامة مطلوب",
+    "tribe_required": "القبيلة مطلوبة",
+    "marital_status_required": "الحالة الاجتماعية مطلوبة",
+    "age_required": "العمر مطلوب",
+    "marriage_type_required": "نوع الزواج مطلوب",
+    "nature_of_work_required": "طبيعة العمل مطلوبة",
+    "house_available_required": "توفر السكن مطلوب",
+    "height_required": "الطول مطلوب",
+    "weight_required": "الوزن مطلوب",
+    "skin_color_required": "لون البشرة مطلوب",
+    "beauty_required": "تقييم الجمال مطلوب",
+    "polygamy_status_required": "حالة تعدد الزوجات مطلوبة"
+  },
+  "enums": {
+    "marriage_type": {
+      "traditional": "تقليدي",
+      "mesyar": "مسيار"
+    },
+    "tribe": {
+      "tribal": "قبلي",
+      "non_tribal": "غير قبلي",
+      "other": "أخرى"
+    },
+    "marital_status": {
+      "married": "متزوج",
+      "single": "أعزب",
+      "divorced": "مطلق",
+      "widowed": "أرمل",
+      "virgin": "عذراء",
+      "widow": "أرملة"
+    },
+    "education_level": {
+      "secondary": "ثانوي",
+      "diploma": "دبلوم",
+      "university": "جامعي",
+      "higher_education": "دراسات عليا"
+    },
+    "employment_type": {
+      "unemployed": "عاطل عن العمل",
+      "employed": "موظف",
+      "self_employed": "عمل حر"
+    },
+    "financial_status": {
+      "poor": "ضعيف",
+      "good": "جيد",
+      "excellent": "ممتاز"
+    },
+    "health_status": {
+      "healthy": "سليم",
+      "chronically_ill": "مريض مزمن",
+      "disabled": "معاق"
+    },
+    "religiosity_level": {
+      "normal": "عادي",
+      "conservative": "محافظ",
+      "committed": "ملتزم"
+    },
+    "skin_color": {
+      "white": "أبيض",
+      "brown": "حنطي",
+      "black": "أسمر"
+    },
+    "beauty": {
+      "acceptable": "مقبول",
+      "average": "متوسط",
+      "handsome": "وسيم",
+      "beautiful": "جميلة",
+      "very_beautiful": "جميلة جدا"
+    },
+    "polygamy_status": {
+      "yes": "نعم",
+      "no": "لا",
+      "thinking": "أحتاج للتفكير"
+    }
+  }
 }

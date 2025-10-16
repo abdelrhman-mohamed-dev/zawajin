@@ -89,9 +89,25 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "origin", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 100, nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "username", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 100, nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "nationality", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 100, nullable: true, name: 'place_of_residence' }),
+    __metadata("design:type", String)
+], User.prototype, "placeOfResidence", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 50, nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "tribe", void 0);
+__decorate([
     (0, typeorm_1.Column)({
         type: 'enum',
-        enum: ['single', 'divorced', 'widowed'],
+        enum: ['single', 'divorced', 'widowed', 'married', 'virgin', 'widow'],
         nullable: true,
         name: 'marital_status',
     }),
@@ -99,9 +115,29 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "maritalStatus", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ type: 'int', nullable: true, name: 'number_of_children' }),
+    __metadata("design:type", Number)
+], User.prototype, "numberOfChildren", void 0);
+__decorate([
     (0, typeorm_1.Column)({ type: 'varchar', length: 100, nullable: true }),
     __metadata("design:type", String)
 ], User.prototype, "profession", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 50, nullable: true, name: 'education_level' }),
+    __metadata("design:type", String)
+], User.prototype, "educationLevel", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 50, nullable: true, name: 'financial_status' }),
+    __metadata("design:type", String)
+], User.prototype, "financialStatus", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 50, nullable: true, name: 'health_status' }),
+    __metadata("design:type", String)
+], User.prototype, "healthStatus", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 50, nullable: true, name: 'religiosity_level' }),
+    __metadata("design:type", String)
+], User.prototype, "religiosityLevel", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 5, scale: 2, nullable: true }),
     __metadata("design:type", Number)
@@ -110,6 +146,14 @@ __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 5, scale: 2, nullable: true }),
     __metadata("design:type", Number)
 ], User.prototype, "height", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 50, nullable: true, name: 'skin_color' }),
+    __metadata("design:type", String)
+], User.prototype, "skinColor", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 50, nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "beauty", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'varchar', length: 50, nullable: true, name: 'body_color' }),
     __metadata("design:type", String)
@@ -139,6 +183,14 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "bio", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ type: 'int', nullable: true, name: 'preferred_age_from' }),
+    __metadata("design:type", Number)
+], User.prototype, "preferredAgeFrom", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'int', nullable: true, name: 'preferred_age_to' }),
+    __metadata("design:type", Number)
+], User.prototype, "preferredAgeTo", void 0);
+__decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_min_weight' }),
     __metadata("design:type", Number)
 ], User.prototype, "preferredMinWeight", void 0);
@@ -154,6 +206,58 @@ __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_max_height' }),
     __metadata("design:type", Number)
 ], User.prototype, "preferredMaxHeight", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 100, nullable: true, name: 'preferred_nationality' }),
+    __metadata("design:type", String)
+], User.prototype, "preferredNationality", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 100, nullable: true, name: 'preferred_residence_place' }),
+    __metadata("design:type", String)
+], User.prototype, "preferredResidencePlace", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 50, nullable: true, name: 'preferred_education_level' }),
+    __metadata("design:type", String)
+], User.prototype, "preferredEducationLevel", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 100, nullable: true, name: 'preferred_work_nature' }),
+    __metadata("design:type", String)
+], User.prototype, "preferredWorkNature", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 50, nullable: true, name: 'preferred_marital_status' }),
+    __metadata("design:type", String)
+], User.prototype, "preferredMaritalStatus", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 50, nullable: true, name: 'preferred_financial_status' }),
+    __metadata("design:type", String)
+], User.prototype, "preferredFinancialStatus", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'boolean', nullable: true, name: 'preferred_has_house' }),
+    __metadata("design:type", Boolean)
+], User.prototype, "preferredHasHouse", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 50, nullable: true, name: 'preferred_health_status' }),
+    __metadata("design:type", String)
+], User.prototype, "preferredHealthStatus", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 50, nullable: true, name: 'preferred_beauty' }),
+    __metadata("design:type", String)
+], User.prototype, "preferredBeauty", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 50, nullable: true, name: 'preferred_skin_color' }),
+    __metadata("design:type", String)
+], User.prototype, "preferredSkinColor", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 50, nullable: true, name: 'preferred_religiosity_level' }),
+    __metadata("design:type", String)
+], User.prototype, "preferredReligiosityLevel", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 10, nullable: true, name: 'preferred_accept_polygamy' }),
+    __metadata("design:type", String)
+], User.prototype, "preferredAcceptPolygamy", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 50, nullable: true, name: 'preferred_marriage_type' }),
+    __metadata("design:type", String)
+], User.prototype, "preferredMarriageType", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         type: 'jsonb',
@@ -190,6 +294,14 @@ __decorate([
     (0, typeorm_1.Column)({ type: 'boolean', nullable: true, name: 'accept_polygamy' }),
     __metadata("design:type", Boolean)
 ], User.prototype, "acceptPolygamy", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'varchar', length: 50, nullable: true, name: 'polygamy_status' }),
+    __metadata("design:type", String)
+], User.prototype, "polygamyStatus", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: 'text', nullable: true, name: 'detailed_profile' }),
+    __metadata("design:type", String)
+], User.prototype, "detailedProfile", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'varchar', length: 100, nullable: true, name: 'religious_practice' }),
     (0, typeorm_1.Index)('idx_users_religious_practice'),

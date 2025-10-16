@@ -21,6 +21,16 @@ import {
   HairType,
   EyeColor,
   MarriageType,
+  Tribe,
+  MaritalStatus,
+  EducationLevel,
+  EmploymentType,
+  FinancialStatus,
+  HealthStatus,
+  ReligiosityLevel,
+  SkinColor,
+  Beauty,
+  PolygamyStatus,
 } from '../../../common/enums/profile.enums';
 
 class LocationDto {
@@ -81,16 +91,107 @@ export class UpdateProfileDto {
   origin?: string;
 
   @ApiProperty({
-    example: 'single',
-    description: 'Marital status',
-    enum: ['single', 'divorced', 'widowed'],
+    example: 'john_doe',
+    description: 'Username',
     required: false,
   })
   @IsOptional()
-  @IsEnum(['single', 'divorced', 'widowed'], {
-    message: 'Marital status must be one of: single, divorced, widowed',
+  @IsString()
+  @MaxLength(100)
+  username?: string;
+
+  @ApiProperty({
+    example: 'Saudi',
+    description: 'User nationality',
+    required: false,
   })
-  maritalStatus?: string;
+  @IsOptional()
+  @IsString()
+  @MaxLength(100)
+  nationality?: string;
+
+  @ApiProperty({
+    example: 'Riyadh',
+    description: 'Place of residence',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  @MaxLength(100)
+  placeOfResidence?: string;
+
+  @ApiProperty({
+    example: Tribe.TRIBAL,
+    description: 'Tribe status',
+    enum: Tribe,
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(Tribe)
+  tribe?: Tribe;
+
+  @ApiProperty({
+    example: MaritalStatus.SINGLE,
+    description: 'Marital status (use appropriate value based on gender)',
+    enum: MaritalStatus,
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(MaritalStatus)
+  maritalStatus?: MaritalStatus;
+
+  @ApiProperty({
+    example: 0,
+    description: 'Number of children',
+    minimum: 0,
+    maximum: 20,
+    required: false,
+  })
+  @IsOptional()
+  @IsInt()
+  @Min(0)
+  @Max(20)
+  numberOfChildren?: number;
+
+  @ApiProperty({
+    example: EducationLevel.UNIVERSITY,
+    description: 'Educational level',
+    enum: EducationLevel,
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(EducationLevel)
+  educationLevel?: EducationLevel;
+
+  @ApiProperty({
+    example: FinancialStatus.GOOD,
+    description: 'Financial status',
+    enum: FinancialStatus,
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(FinancialStatus)
+  financialStatus?: FinancialStatus;
+
+  @ApiProperty({
+    example: HealthStatus.HEALTHY,
+    description: 'Health status',
+    enum: HealthStatus,
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(HealthStatus)
+  healthStatus?: HealthStatus;
+
+  @ApiProperty({
+    example: ReligiosityLevel.COMMITTED,
+    description: 'Level of religiosity',
+    enum: ReligiosityLevel,
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(ReligiosityLevel)
+  religiosityLevel?: ReligiosityLevel;
 
   @ApiProperty({
     example: 'Software Engineer',
@@ -124,6 +225,26 @@ export class UpdateProfileDto {
   @Min(100)
   @Max(250)
   height?: number;
+
+  @ApiProperty({
+    example: SkinColor.WHITE,
+    description: 'Skin color',
+    enum: SkinColor,
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(SkinColor)
+  skinColor?: SkinColor;
+
+  @ApiProperty({
+    example: Beauty.AVERAGE,
+    description: 'Beauty/appearance rating (use appropriate values based on gender)',
+    enum: Beauty,
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(Beauty)
+  beauty?: Beauty;
 
   @ApiProperty({
     example: BodyColor.MEDIUM,
@@ -175,14 +296,14 @@ export class UpdateProfileDto {
   houseAvailable?: boolean;
 
   @ApiProperty({
-    example: 'Full-time office job',
+    example: EmploymentType.EMPLOYED,
     description: 'Nature or type of work',
+    enum: EmploymentType,
     required: false,
   })
   @IsOptional()
-  @IsString()
-  @MaxLength(100)
-  natureOfWork?: string;
+  @IsEnum(EmploymentType)
+  natureOfWork?: EmploymentType;
 
   @ApiProperty({
     example: 'A kind and practicing Muslim looking for a life partner.',
@@ -195,6 +316,32 @@ export class UpdateProfileDto {
   bio?: string;
 
   // Section 3: Partner Preferences
+  @ApiProperty({
+    example: 25,
+    description: 'Preferred minimum age for partner',
+    minimum: 18,
+    maximum: 100,
+    required: false,
+  })
+  @IsOptional()
+  @IsInt()
+  @Min(18)
+  @Max(100)
+  preferredAgeFrom?: number;
+
+  @ApiProperty({
+    example: 35,
+    description: 'Preferred maximum age for partner',
+    minimum: 18,
+    maximum: 100,
+    required: false,
+  })
+  @IsOptional()
+  @IsInt()
+  @Min(18)
+  @Max(100)
+  preferredAgeTo?: number;
+
   @ApiProperty({
     example: 50,
     description: 'Preferred minimum weight for partner (kg)',
@@ -238,6 +385,137 @@ export class UpdateProfileDto {
   @Min(100)
   @Max(250)
   preferredMaxHeight?: number;
+
+  @ApiProperty({
+    example: 'Saudi',
+    description: 'Preferred nationality for partner',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  @MaxLength(100)
+  preferredNationality?: string;
+
+  @ApiProperty({
+    example: 'Riyadh',
+    description: 'Preferred residence place for partner',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  @MaxLength(100)
+  preferredResidencePlace?: string;
+
+  @ApiProperty({
+    example: EducationLevel.UNIVERSITY,
+    description: 'Preferred education level for partner',
+    enum: EducationLevel,
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(EducationLevel)
+  preferredEducationLevel?: EducationLevel;
+
+  @ApiProperty({
+    example: EmploymentType.EMPLOYED,
+    description: 'Preferred work nature for partner',
+    enum: EmploymentType,
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(EmploymentType)
+  preferredWorkNature?: EmploymentType;
+
+  @ApiProperty({
+    example: MaritalStatus.SINGLE,
+    description: 'Preferred marital status for partner',
+    enum: MaritalStatus,
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(MaritalStatus)
+  preferredMaritalStatus?: MaritalStatus;
+
+  @ApiProperty({
+    example: FinancialStatus.GOOD,
+    description: 'Preferred financial status for partner',
+    enum: FinancialStatus,
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(FinancialStatus)
+  preferredFinancialStatus?: FinancialStatus;
+
+  @ApiProperty({
+    example: true,
+    description: 'Whether partner should have a house',
+    required: false,
+  })
+  @IsOptional()
+  @IsBoolean()
+  preferredHasHouse?: boolean;
+
+  @ApiProperty({
+    example: HealthStatus.HEALTHY,
+    description: 'Preferred health status for partner',
+    enum: HealthStatus,
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(HealthStatus)
+  preferredHealthStatus?: HealthStatus;
+
+  @ApiProperty({
+    example: Beauty.AVERAGE,
+    description: 'Preferred beauty/appearance for partner',
+    enum: Beauty,
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(Beauty)
+  preferredBeauty?: Beauty;
+
+  @ApiProperty({
+    example: SkinColor.WHITE,
+    description: 'Preferred skin color for partner',
+    enum: SkinColor,
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(SkinColor)
+  preferredSkinColor?: SkinColor;
+
+  @ApiProperty({
+    example: ReligiosityLevel.COMMITTED,
+    description: 'Preferred religiosity level for partner',
+    enum: ReligiosityLevel,
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(ReligiosityLevel)
+  preferredReligiosityLevel?: ReligiosityLevel;
+
+  @ApiProperty({
+    example: 'yes',
+    description: 'Whether accepts polygamy for partner (males only)',
+    enum: ['yes', 'no'],
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(['yes', 'no'], {
+    message: 'preferredAcceptPolygamy must be either yes or no',
+  })
+  preferredAcceptPolygamy?: string;
+
+  @ApiProperty({
+    example: MarriageType.RELIGIOUS,
+    description: 'Preferred marriage type for partner',
+    enum: MarriageType,
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(MarriageType)
+  preferredMarriageType?: MarriageType;
 
   @ApiProperty({
     example: [BodyColor.FAIR, BodyColor.MEDIUM],
@@ -304,6 +582,27 @@ export class UpdateProfileDto {
   @IsOptional()
   @IsBoolean()
   acceptPolygamy?: boolean;
+
+  @ApiProperty({
+    example: PolygamyStatus.NO,
+    description: 'Polygamy status (for women) or polygamy intention (for men)',
+    enum: PolygamyStatus,
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(PolygamyStatus)
+  polygamyStatus?: PolygamyStatus;
+
+  @ApiProperty({
+    example: 'Looking for a serious relationship...',
+    description: 'Detailed profile description (no phone numbers or contact info allowed)',
+    maxLength: 2000,
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  @MaxLength(2000)
+  detailedProfile?: string;
 
   // Legacy fields (backward compatibility)
   @ApiProperty({

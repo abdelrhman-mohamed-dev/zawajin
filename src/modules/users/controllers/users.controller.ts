@@ -54,13 +54,13 @@ export class UsersController {
   }
 
   @Get('latest')
-  @ApiOperation({ summary: 'Get latest joined users (Public)' })
+  @ApiOperation({ summary: 'Get latest joined users with filters (Public)' })
   @ApiResponse({
     status: 200,
     description: 'Latest users retrieved successfully',
   })
-  async getLatestUsers(@I18n() i18n: I18nContext, @Query('limit') limit?: number) {
-    const users = await this.usersService.getLatestUsers(limit || 10);
+  async getLatestUsers(@I18n() i18n: I18nContext, @Query() getUsersDto: GetUsersDto) {
+    const users = await this.usersService.getLatestUsers(getUsersDto);
 
     return {
       success: true,

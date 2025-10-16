@@ -292,4 +292,124 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], GetUsersDto.prototype, "natureOfWork", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Saudi',
+        description: 'Filter by nationality',
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], GetUsersDto.prototype, "nationality", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'Riyadh',
+        description: 'Filter by place of residence',
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], GetUsersDto.prototype, "placeOfResidence", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'tribal',
+        description: 'Filter by tribe',
+        enum: ['tribal', 'non_tribal', 'other'],
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(['tribal', 'non_tribal', 'other']),
+    __metadata("design:type", String)
+], GetUsersDto.prototype, "tribe", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 0,
+        description: 'Filter by number of children',
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_transformer_1.Type)(() => Number),
+    (0, class_validator_1.IsInt)(),
+    (0, class_validator_1.Min)(0),
+    __metadata("design:type", Number)
+], GetUsersDto.prototype, "numberOfChildren", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'university',
+        description: 'Filter by education level',
+        enum: ['secondary', 'diploma', 'university', 'higher_education'],
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(['secondary', 'diploma', 'university', 'higher_education']),
+    __metadata("design:type", String)
+], GetUsersDto.prototype, "educationLevel", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'good',
+        description: 'Filter by financial status',
+        enum: ['poor', 'good', 'excellent'],
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(['poor', 'good', 'excellent']),
+    __metadata("design:type", String)
+], GetUsersDto.prototype, "financialStatus", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'healthy',
+        description: 'Filter by health status',
+        enum: ['healthy', 'chronically_ill', 'disabled'],
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(['healthy', 'chronically_ill', 'disabled']),
+    __metadata("design:type", String)
+], GetUsersDto.prototype, "healthStatus", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'committed',
+        description: 'Filter by religiosity level',
+        enum: ['normal', 'conservative', 'committed'],
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(['normal', 'conservative', 'committed']),
+    __metadata("design:type", String)
+], GetUsersDto.prototype, "religiosityLevel", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'white',
+        description: 'Filter by skin color',
+        enum: ['white', 'brown', 'black'],
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(['white', 'brown', 'black']),
+    __metadata("design:type", String)
+], GetUsersDto.prototype, "skinColor", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'handsome',
+        description: 'Filter by beauty/appearance',
+        enum: ['acceptable', 'average', 'handsome', 'beautiful', 'very_beautiful'],
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(['acceptable', 'average', 'handsome', 'beautiful', 'very_beautiful']),
+    __metadata("design:type", String)
+], GetUsersDto.prototype, "beauty", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
+        example: 'no',
+        description: 'Filter by polygamy status',
+        enum: ['yes', 'no', 'thinking'],
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(['yes', 'no', 'thinking']),
+    __metadata("design:type", String)
+], GetUsersDto.prototype, "polygamyStatus", void 0);
 //# sourceMappingURL=get-users.dto.js.map

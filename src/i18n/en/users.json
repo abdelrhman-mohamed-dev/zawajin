@@ -1,4 +1,83 @@
 {
   "profile_updated": "Profile updated successfully",
-  "users_retrieved": "Users retrieved successfully"
+  "users_retrieved": "Users retrieved successfully",
+  "user_retrieved": "User retrieved successfully",
+  "validation": {
+    "username_required": "Username is required",
+    "nationality_required": "Nationality is required",
+    "place_of_residence_required": "Place of residence is required",
+    "tribe_required": "Tribe is required",
+    "marital_status_required": "Marital status is required",
+    "age_required": "Age is required",
+    "marriage_type_required": "Type of marriage is required",
+    "nature_of_work_required": "Nature of work is required",
+    "house_available_required": "Housing availability is required",
+    "height_required": "Height is required",
+    "weight_required": "Weight is required",
+    "skin_color_required": "Skin color is required",
+    "beauty_required": "Beauty rating is required",
+    "polygamy_status_required": "Polygamy status is required"
+  },
+  "enums": {
+    "marriage_type": {
+      "traditional": "Traditional",
+      "mesyar": "Mesyar"
+    },
+    "tribe": {
+      "tribal": "Tribal",
+      "non_tribal": "Non-tribal",
+      "other": "Other"
+    },
+    "marital_status": {
+      "married": "Married",
+      "single": "Single",
+      "divorced": "Divorced",
+      "widowed": "Widowed",
+      "virgin": "Virgin",
+      "widow": "Widow"
+    },
+    "education_level": {
+      "secondary": "Secondary",
+      "diploma": "Diploma",
+      "university": "University",
+      "higher_education": "Higher Education"
+    },
+    "employment_type": {
+      "unemployed": "Unemployed",
+      "employed": "Employed",
+      "self_employed": "Self-Employed"
+    },
+    "financial_status": {
+      "poor": "Poor",
+      "good": "Good",
+      "excellent": "Excellent"
+    },
+    "health_status": {
+      "healthy": "Healthy",
+      "chronically_ill": "Chronically Ill",
+      "disabled": "Disabled"
+    },
+    "religiosity_level": {
+      "normal": "Normal",
+      "conservative": "Conservative",
+      "committed": "Committed"
+    },
+    "skin_color": {
+      "white": "White",
+      "brown": "Brown",
+      "black": "Black"
+    },
+    "beauty": {
+      "acceptable": "Acceptable",
+      "average": "Average",
+      "handsome": "Handsome",
+      "beautiful": "Beautiful",
+      "very_beautiful": "Very Beautiful"
+    },
+    "polygamy_status": {
+      "yes": "Yes",
+      "no": "No",
+      "thinking": "I need to think about it"
+    }
+  }
 }

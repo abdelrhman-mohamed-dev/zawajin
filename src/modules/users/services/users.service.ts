@@ -171,10 +171,11 @@ export class UsersService {
     return new Set(likes.map(like => like.likedUserId));
   }
 
-  async getLatestUsers(limit: number = 10): Promise<any[]> {
-    this.logger.log(`Fetching latest ${limit} joined users`);
+  async getLatestUsers(queryDto: GetUsersDto): Promise<any[]> {
+    const limit = queryDto.limit || 10;
+    this.logger.log(`Fetching latest ${limit} joined users with filters: ${JSON.stringify(queryDto)}`);
 
-    const users = await this.userRepository.findLatestUsers(limit);
+    const users = await this.userRepository.findLatestUsers(queryDto);
 
     // Remove sensitive data from all users
     const sanitizedUsers = users.map((user) => {

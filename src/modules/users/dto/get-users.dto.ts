@@ -255,4 +255,114 @@ export class GetUsersDto {
   @IsOptional()
   @IsString()
   natureOfWork?: string;
+
+  // New profile filters
+  @ApiProperty({
+    example: 'Saudi',
+    description: 'Filter by nationality',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  nationality?: string;
+
+  @ApiProperty({
+    example: 'Riyadh',
+    description: 'Filter by place of residence',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  placeOfResidence?: string;
+
+  @ApiProperty({
+    example: 'tribal',
+    description: 'Filter by tribe',
+    enum: ['tribal', 'non_tribal', 'other'],
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(['tribal', 'non_tribal', 'other'])
+  tribe?: string;
+
+  @ApiProperty({
+    example: 0,
+    description: 'Filter by number of children',
+    required: false,
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(0)
+  numberOfChildren?: number;
+
+  @ApiProperty({
+    example: 'university',
+    description: 'Filter by education level',
+    enum: ['secondary', 'diploma', 'university', 'higher_education'],
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(['secondary', 'diploma', 'university', 'higher_education'])
+  educationLevel?: string;
+
+  @ApiProperty({
+    example: 'good',
+    description: 'Filter by financial status',
+    enum: ['poor', 'good', 'excellent'],
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(['poor', 'good', 'excellent'])
+  financialStatus?: string;
+
+  @ApiProperty({
+    example: 'healthy',
+    description: 'Filter by health status',
+    enum: ['healthy', 'chronically_ill', 'disabled'],
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(['healthy', 'chronically_ill', 'disabled'])
+  healthStatus?: string;
+
+  @ApiProperty({
+    example: 'committed',
+    description: 'Filter by religiosity level',
+    enum: ['normal', 'conservative', 'committed'],
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(['normal', 'conservative', 'committed'])
+  religiosityLevel?: string;
+
+  @ApiProperty({
+    example: 'white',
+    description: 'Filter by skin color',
+    enum: ['white', 'brown', 'black'],
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(['white', 'brown', 'black'])
+  skinColor?: string;
+
+  @ApiProperty({
+    example: 'handsome',
+    description: 'Filter by beauty/appearance',
+    enum: ['acceptable', 'average', 'handsome', 'beautiful', 'very_beautiful'],
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(['acceptable', 'average', 'handsome', 'beautiful', 'very_beautiful'])
+  beauty?: string;
+
+  @ApiProperty({
+    example: 'no',
+    description: 'Filter by polygamy status',
+    enum: ['yes', 'no', 'thinking'],
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(['yes', 'no', 'thinking'])
+  polygamyStatus?: string;
 }

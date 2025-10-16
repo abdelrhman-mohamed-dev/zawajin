@@ -26,6 +26,17 @@ export interface GetUsersQueryDto {
     houseAvailable?: boolean;
     acceptPolygamy?: boolean;
     natureOfWork?: string;
+    nationality?: string;
+    placeOfResidence?: string;
+    tribe?: string;
+    numberOfChildren?: number;
+    educationLevel?: string;
+    financialStatus?: string;
+    healthStatus?: string;
+    religiosityLevel?: string;
+    skinColor?: string;
+    beauty?: string;
+    polygamyStatus?: string;
 }
 export declare class UserRepository {
     private readonly userRepo;
@@ -59,5 +70,5 @@ export declare class UserRepository {
     }>;
     save(user: User): Promise<User>;
     delete(id: string): Promise<void>;
-    findLatestUsers(limit?: number): Promise<User[]>;
+    findLatestUsers(queryDto: GetUsersQueryDto): Promise<User[]>;
 }

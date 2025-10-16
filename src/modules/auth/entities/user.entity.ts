@@ -63,17 +63,44 @@ export class User {
   @Column({ type: 'varchar', length: 100, nullable: true })
   origin: string;
 
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  username: string;
+
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  nationality: string;
+
+  @Column({ type: 'varchar', length: 100, nullable: true, name: 'place_of_residence' })
+  placeOfResidence: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  tribe: string;
+
   @Column({
     type: 'enum',
-    enum: ['single', 'divorced', 'widowed'],
+    enum: ['single', 'divorced', 'widowed', 'married', 'virgin', 'widow'],
     nullable: true,
     name: 'marital_status',
   })
   @Index('idx_users_marital_status')
   maritalStatus: string;
 
+  @Column({ type: 'int', nullable: true, name: 'number_of_children' })
+  numberOfChildren: number;
+
   @Column({ type: 'varchar', length: 100, nullable: true })
   profession: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true, name: 'education_level' })
+  educationLevel: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true, name: 'financial_status' })
+  financialStatus: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true, name: 'health_status' })
+  healthStatus: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true, name: 'religiosity_level' })
+  religiosityLevel: string;
 
   // Profile fields - Section 2: Physical Attributes
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true })
@@ -81,6 +108,12 @@ export class User {
 
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true })
   height: number;
+
+  @Column({ type: 'varchar', length: 50, nullable: true, name: 'skin_color' })
+  skinColor: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  beauty: string;
 
   @Column({ type: 'varchar', length: 50, nullable: true, name: 'body_color' })
   bodyColor: string;
@@ -104,6 +137,12 @@ export class User {
   bio: string;
 
   // Profile fields - Section 3: Partner Preferences
+  @Column({ type: 'int', nullable: true, name: 'preferred_age_from' })
+  preferredAgeFrom: number;
+
+  @Column({ type: 'int', nullable: true, name: 'preferred_age_to' })
+  preferredAgeTo: number;
+
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_min_weight' })
   preferredMinWeight: number;
 
@@ -115,6 +154,45 @@ export class User {
 
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_max_height' })
   preferredMaxHeight: number;
+
+  @Column({ type: 'varchar', length: 100, nullable: true, name: 'preferred_nationality' })
+  preferredNationality: string;
+
+  @Column({ type: 'varchar', length: 100, nullable: true, name: 'preferred_residence_place' })
+  preferredResidencePlace: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true, name: 'preferred_education_level' })
+  preferredEducationLevel: string;
+
+  @Column({ type: 'varchar', length: 100, nullable: true, name: 'preferred_work_nature' })
+  preferredWorkNature: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true, name: 'preferred_marital_status' })
+  preferredMaritalStatus: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true, name: 'preferred_financial_status' })
+  preferredFinancialStatus: string;
+
+  @Column({ type: 'boolean', nullable: true, name: 'preferred_has_house' })
+  preferredHasHouse: boolean;
+
+  @Column({ type: 'varchar', length: 50, nullable: true, name: 'preferred_health_status' })
+  preferredHealthStatus: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true, name: 'preferred_beauty' })
+  preferredBeauty: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true, name: 'preferred_skin_color' })
+  preferredSkinColor: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true, name: 'preferred_religiosity_level' })
+  preferredReligiosityLevel: string;
+
+  @Column({ type: 'varchar', length: 10, nullable: true, name: 'preferred_accept_polygamy' })
+  preferredAcceptPolygamy: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: true, name: 'preferred_marriage_type' })
+  preferredMarriageType: string;
 
   @Column({
     type: 'jsonb',
@@ -146,6 +224,12 @@ export class User {
 
   @Column({ type: 'boolean', nullable: true, name: 'accept_polygamy' })
   acceptPolygamy: boolean;
+
+  @Column({ type: 'varchar', length: 50, nullable: true, name: 'polygamy_status' })
+  polygamyStatus: string;
+
+  @Column({ type: 'text', nullable: true, name: 'detailed_profile' })
+  detailedProfile: string;
 
   // Legacy fields
   @Column({ type: 'varchar', length: 100, nullable: true, name: 'religious_practice' })

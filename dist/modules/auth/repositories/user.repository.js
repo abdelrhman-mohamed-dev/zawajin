@@ -248,6 +248,61 @@ let UserRepository = class UserRepository {
                 acceptPolygamy: filters.acceptPolygamy,
             });
         }
+        if (filters.nationality) {
+            queryBuilder.andWhere('user.nationality = :nationality', {
+                nationality: filters.nationality,
+            });
+        }
+        if (filters.placeOfResidence) {
+            queryBuilder.andWhere('user.placeOfResidence = :placeOfResidence', {
+                placeOfResidence: filters.placeOfResidence,
+            });
+        }
+        if (filters.tribe) {
+            queryBuilder.andWhere('user.tribe = :tribe', {
+                tribe: filters.tribe,
+            });
+        }
+        if (filters.numberOfChildren !== undefined) {
+            queryBuilder.andWhere('user.numberOfChildren = :numberOfChildren', {
+                numberOfChildren: filters.numberOfChildren,
+            });
+        }
+        if (filters.educationLevel) {
+            queryBuilder.andWhere('user.educationLevel = :educationLevel', {
+                educationLevel: filters.educationLevel,
+            });
+        }
+        if (filters.financialStatus) {
+            queryBuilder.andWhere('user.financialStatus = :financialStatus', {
+                financialStatus: filters.financialStatus,
+            });
+        }
+        if (filters.healthStatus) {
+            queryBuilder.andWhere('user.healthStatus = :healthStatus', {
+                healthStatus: filters.healthStatus,
+            });
+        }
+        if (filters.religiosityLevel) {
+            queryBuilder.andWhere('user.religiosityLevel = :religiosityLevel', {
+                religiosityLevel: filters.religiosityLevel,
+            });
+        }
+        if (filters.skinColor) {
+            queryBuilder.andWhere('user.skinColor = :skinColor', {
+                skinColor: filters.skinColor,
+            });
+        }
+        if (filters.beauty) {
+            queryBuilder.andWhere('user.beauty = :beauty', {
+                beauty: filters.beauty,
+            });
+        }
+        if (filters.polygamyStatus) {
+            queryBuilder.andWhere('user.polygamyStatus = :polygamyStatus', {
+                polygamyStatus: filters.polygamyStatus,
+            });
+        }
         const total = await queryBuilder.getCount();
         const users = await queryBuilder
             .select([
@@ -261,6 +316,17 @@ let UserRepository = class UserRepository {
             'user.dateOfBirth',
             'user.location',
             'user.origin',
+            'user.nationality',
+            'user.placeOfResidence',
+            'user.tribe',
+            'user.numberOfChildren',
+            'user.educationLevel',
+            'user.financialStatus',
+            'user.healthStatus',
+            'user.religiosityLevel',
+            'user.skinColor',
+            'user.beauty',
+            'user.polygamyStatus',
             'user.religiousPractice',
             'user.sect',
             'user.prayerLevel',
@@ -276,6 +342,7 @@ let UserRepository = class UserRepository {
             'user.natureOfWork',
             'user.marriageType',
             'user.acceptPolygamy',
+            'user.detailedProfile',
             'user.createdAt',
         ])
             .skip(skip)
@@ -296,13 +363,183 @@ let UserRepository = class UserRepository {
     async delete(id) {
         await this.userRepo.delete(id);
     }
-    async findLatestUsers(limit = 10) {
-        return await this.userRepo
+    async findLatestUsers(queryDto) {
+        const { limit = 10, ...filters } = queryDto;
+        const queryBuilder = this.userRepo
             .createQueryBuilder('user')
             .where('user.isActive = :isActive', { isActive: true })
             .andWhere('user.isEmailVerified = :isEmailVerified', {
             isEmailVerified: true,
-        })
+        });
+        if (filters.gender) {
+            queryBuilder.andWhere('user.gender = :gender', {
+                gender: filters.gender,
+            });
+        }
+        if (filters.maritalStatus) {
+            queryBuilder.andWhere('user.maritalStatus = :maritalStatus', {
+                maritalStatus: filters.maritalStatus,
+            });
+        }
+        if (filters.minAge) {
+            queryBuilder.andWhere('user.age >= :minAge', { minAge: filters.minAge });
+        }
+        if (filters.maxAge) {
+            queryBuilder.andWhere('user.age <= :maxAge', { maxAge: filters.maxAge });
+        }
+        if (filters.city) {
+            queryBuilder.andWhere("\"user\".\"location\" IS NOT NULL");
+            queryBuilder.andWhere("\"user\".\"location\"::jsonb->>'city' = :city", {
+                city: filters.city,
+            });
+        }
+        if (filters.country) {
+            queryBuilder.andWhere("\"user\".\"location\" IS NOT NULL");
+            queryBuilder.andWhere("\"user\".\"location\"::jsonb->>'country' = :country", {
+                country: filters.country,
+            });
+        }
+        if (filters.origin) {
+            queryBuilder.andWhere('user.origin = :origin', {
+                origin: filters.origin,
+            });
+        }
+        if (filters.nationality) {
+            queryBuilder.andWhere('user.nationality = :nationality', {
+                nationality: filters.nationality,
+            });
+        }
+        if (filters.placeOfResidence) {
+            queryBuilder.andWhere('user.placeOfResidence = :placeOfResidence', {
+                placeOfResidence: filters.placeOfResidence,
+            });
+        }
+        if (filters.tribe) {
+            queryBuilder.andWhere('user.tribe = :tribe', {
+                tribe: filters.tribe,
+            });
+        }
+        if (filters.numberOfChildren !== undefined) {
+            queryBuilder.andWhere('user.numberOfChildren = :numberOfChildren', {
+                numberOfChildren: filters.numberOfChildren,
+            });
+        }
+        if (filters.educationLevel) {
+            queryBuilder.andWhere('user.educationLevel = :educationLevel', {
+                educationLevel: filters.educationLevel,
+            });
+        }
+        if (filters.financialStatus) {
+            queryBuilder.andWhere('user.financialStatus = :financialStatus', {
+                financialStatus: filters.financialStatus,
+            });
+        }
+        if (filters.healthStatus) {
+            queryBuilder.andWhere('user.healthStatus = :healthStatus', {
+                healthStatus: filters.healthStatus,
+            });
+        }
+        if (filters.religiosityLevel) {
+            queryBuilder.andWhere('user.religiosityLevel = :religiosityLevel', {
+                religiosityLevel: filters.religiosityLevel,
+            });
+        }
+        if (filters.skinColor) {
+            queryBuilder.andWhere('user.skinColor = :skinColor', {
+                skinColor: filters.skinColor,
+            });
+        }
+        if (filters.beauty) {
+            queryBuilder.andWhere('user.beauty = :beauty', {
+                beauty: filters.beauty,
+            });
+        }
+        if (filters.polygamyStatus) {
+            queryBuilder.andWhere('user.polygamyStatus = :polygamyStatus', {
+                polygamyStatus: filters.polygamyStatus,
+            });
+        }
+        if (filters.religiousPractice) {
+            queryBuilder.andWhere('user.religiousPractice = :religiousPractice', {
+                religiousPractice: filters.religiousPractice,
+            });
+        }
+        if (filters.sect) {
+            queryBuilder.andWhere('user.sect = :sect', {
+                sect: filters.sect,
+            });
+        }
+        if (filters.prayerLevel) {
+            queryBuilder.andWhere('user.prayerLevel = :prayerLevel', {
+                prayerLevel: filters.prayerLevel,
+            });
+        }
+        if (filters.profession) {
+            queryBuilder.andWhere('user.profession = :profession', {
+                profession: filters.profession,
+            });
+        }
+        if (filters.natureOfWork) {
+            queryBuilder.andWhere('user.natureOfWork = :natureOfWork', {
+                natureOfWork: filters.natureOfWork,
+            });
+        }
+        if (filters.minHeight) {
+            queryBuilder.andWhere('user.height >= :minHeight', {
+                minHeight: filters.minHeight,
+            });
+        }
+        if (filters.maxHeight) {
+            queryBuilder.andWhere('user.height <= :maxHeight', {
+                maxHeight: filters.maxHeight,
+            });
+        }
+        if (filters.minWeight) {
+            queryBuilder.andWhere('user.weight >= :minWeight', {
+                minWeight: filters.minWeight,
+            });
+        }
+        if (filters.maxWeight) {
+            queryBuilder.andWhere('user.weight <= :maxWeight', {
+                maxWeight: filters.maxWeight,
+            });
+        }
+        if (filters.bodyColor) {
+            queryBuilder.andWhere('user.bodyColor = :bodyColor', {
+                bodyColor: filters.bodyColor,
+            });
+        }
+        if (filters.hairColor) {
+            queryBuilder.andWhere('user.hairColor = :hairColor', {
+                hairColor: filters.hairColor,
+            });
+        }
+        if (filters.hairType) {
+            queryBuilder.andWhere('user.hairType = :hairType', {
+                hairType: filters.hairType,
+            });
+        }
+        if (filters.eyeColor) {
+            queryBuilder.andWhere('user.eyeColor = :eyeColor', {
+                eyeColor: filters.eyeColor,
+            });
+        }
+        if (filters.marriageType) {
+            queryBuilder.andWhere('user.marriageType = :marriageType', {
+                marriageType: filters.marriageType,
+            });
+        }
+        if (filters.houseAvailable !== undefined) {
+            queryBuilder.andWhere('user.houseAvailable = :houseAvailable', {
+                houseAvailable: filters.houseAvailable,
+            });
+        }
+        if (filters.acceptPolygamy !== undefined) {
+            queryBuilder.andWhere('user.acceptPolygamy = :acceptPolygamy', {
+                acceptPolygamy: filters.acceptPolygamy,
+            });
+        }
+        return await queryBuilder
             .select([
             'user.id',
             'user.fullName',
@@ -314,6 +551,17 @@ let UserRepository = class UserRepository {
             'user.dateOfBirth',
             'user.location',
             'user.origin',
+            'user.nationality',
+            'user.placeOfResidence',
+            'user.tribe',
+            'user.numberOfChildren',
+            'user.educationLevel',
+            'user.financialStatus',
+            'user.healthStatus',
+            'user.religiosityLevel',
+            'user.skinColor',
+            'user.beauty',
+            'user.polygamyStatus',
             'user.religiousPractice',
             'user.sect',
             'user.prayerLevel',
@@ -329,6 +577,7 @@ let UserRepository = class UserRepository {
             'user.natureOfWork',
             'user.marriageType',
             'user.acceptPolygamy',
+            'user.detailedProfile',
             'user.createdAt',
         ])
             .orderBy('user.createdAt', 'DESC')
