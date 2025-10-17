@@ -30,5 +30,14 @@ export declare class AuthService {
         completedFields: string[];
         missingFields: string[];
     };
+    acceptTerms(userId: string, termsAccepted: boolean): Promise<{
+        success: boolean;
+        message: string;
+        data: {
+            userId: string;
+            termsAccepted: boolean;
+        };
+        timestamp: string;
+    }>;
     private generateTokens;
 }

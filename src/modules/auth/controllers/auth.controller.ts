@@ -19,6 +19,7 @@ import { ResendOtpDto } from '../dto/resend-otp.dto';
 import { ForgetPasswordDto } from '../dto/forget-password.dto';
 import { VerifyResetOtpDto } from '../dto/verify-reset-otp.dto';
 import { ResetPasswordDto } from '../dto/reset-password.dto';
+import { AcceptTermsDto } from '../dto/accept-terms.dto';
 import { AuthService } from '../services/auth.service';
 import { RegisterResponse, VerifyResponse, ResendResponse, LoginResponse, ForgetPasswordResponse, VerifyResetOtpResponse, ResetPasswordResponse } from '../interfaces/auth.interface';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
@@ -374,6 +375,7 @@ export class AuthController {
           chartNumber: 'ZX-545654',
           isEmailVerified: true,
           isPhoneVerified: false,
+          termsAccepted: false,
           access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
           refresh_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
         },
@@ -826,6 +828,82 @@ export class AuthController {
       };
     } catch (error) {
       this.logger.error(`Get current user failed for ${req.user.sub}:`, error.message);
+      throw error;
+    }
+  }
+
+  @Post('accept-terms')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Accept terms and policies',
+    description: 'Mark that the user has accepted the terms and conditions and privacy policy.',
+  })
+  @ApiBody({
+    type: AcceptTermsDto,
+    description: 'Terms acceptance status',
+    examples: {
+      acceptTerms: {
+        summary: 'Accept terms',
+        description: 'User accepts terms and policies',
+        value: {
+          termsAccepted: true
+        }
+      }
+    }
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Terms accepted successfully',
+    schema: {
+      example: {
+        success: true,
+        message: 'Terms and policies accepted successfully',
+        data: {
+          userId: '123e4567-e89b-12d3-a456-426614174000',
+          termsAccepted: true
+        },
+        timestamp: '2024-01-01T00:00:00.000Z',
+      },
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized - Invalid or missing JWT token',
+    schema: {
+      example: {
+        success: false,
+        message: 'Unauthorized',
+        error: {
+          code: 'UNAUTHORIZED',
+          details: []
+        },
+        timestamp: '2024-01-01T00:00:00.000Z'
+      }
+    }
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Invalid input data',
+    schema: {
+      example: {
+        success: false,
+        message: 'Validation failed',
+        error: {
+          code: 'VALIDATION_ERROR',
+          details: ['Terms acceptance must be true or false']
+        },
+        timestamp: '2024-01-01T00:00:00.000Z'
+      }
+    }
+  })
+  async acceptTerms(@Body() acceptTermsDto: AcceptTermsDto, @Request() req) {
+    try {
+      this.logger.log(`Accept terms request for user: ${req.user.sub}`);
+      return await this.authService.acceptTerms(req.user.sub, acceptTermsDto.termsAccepted);
+    } catch (error) {
+      this.logger.error(`Accept terms failed for ${req.user.sub}:`, error.message);
       throw error;
     }
   }

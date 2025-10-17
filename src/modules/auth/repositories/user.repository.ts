@@ -756,4 +756,58 @@ export class UserRepository {
       .take(limit)
       .getMany();
   }
+
+  async getUserStatistics(): Promise<{
+    totalMaleUsers: number;
+    totalFemaleUsers: number;
+    onlineMaleUsersToday: number;
+    onlineFemaleUsersToday: number;
+  }> {
+    // Get total male users
+    const totalMaleUsers = await this.userRepo.count({
+      where: {
+        gender: 'male',
+        isActive: true,
+        isEmailVerified: true,
+      },
+    });
+
+    // Get total female users
+    const totalFemaleUsers = await this.userRepo.count({
+      where: {
+        gender: 'female',
+        isActive: true,
+        isEmailVerified: true,
+      },
+    });
+
+    // Get the start of today
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+
+    // Get online male users today (users with updatedAt >= today)
+    const onlineMaleUsersToday = await this.userRepo
+      .createQueryBuilder('user')
+      .where('user.gender = :gender', { gender: 'male' })
+      .andWhere('user.isActive = :isActive', { isActive: true })
+      .andWhere('user.isEmailVerified = :isEmailVerified', { isEmailVerified: true })
+      .andWhere('user.updatedAt >= :startOfToday', { startOfToday })
+      .getCount();
+
+    // Get online female users today
+    const onlineFemaleUsersToday = await this.userRepo
+      .createQueryBuilder('user')
+      .where('user.gender = :gender', { gender: 'female' })
+      .andWhere('user.isActive = :isActive', { isActive: true })
+      .andWhere('user.isEmailVerified = :isEmailVerified', { isEmailVerified: true })
+      .andWhere('user.updatedAt >= :startOfToday', { startOfToday })
+      .getCount();
+
+    return {
+      totalMaleUsers,
+      totalFemaleUsers,
+      onlineMaleUsersToday,
+      onlineFemaleUsersToday,
+    };
+  }
 }

@@ -71,4 +71,10 @@ export declare class UserRepository {
     save(user: User): Promise<User>;
     delete(id: string): Promise<void>;
     findLatestUsers(queryDto: GetUsersQueryDto): Promise<User[]>;
+    getUserStatistics(): Promise<{
+        totalMaleUsers: number;
+        totalFemaleUsers: number;
+        onlineMaleUsersToday: number;
+        onlineFemaleUsersToday: number;
+    }>;
 }

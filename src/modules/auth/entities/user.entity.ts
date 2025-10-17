@@ -42,6 +42,9 @@ export class User {
   @Column({ type: 'boolean', default: true, name: 'is_active' })
   isActive: boolean;
 
+  @Column({ type: 'boolean', default: false, name: 'terms_accepted' })
+  termsAccepted: boolean;
+
   @Column({ type: 'varchar', length: 255, nullable: true, name: 'fcm_token' })
   fcmToken: string;
 

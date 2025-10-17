@@ -20,6 +20,8 @@ const jwt_auth_guard_1 = require("../../auth/guards/jwt-auth.guard");
 const users_service_1 = require("../services/users.service");
 const update_profile_dto_1 = require("../dto/update-profile.dto");
 const get_users_dto_1 = require("../dto/get-users.dto");
+const user_statistics_dto_1 = require("../dto/user-statistics.dto");
+const set_user_status_dto_1 = require("../dto/set-user-status.dto");
 let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
@@ -33,12 +35,30 @@ let UsersController = class UsersController {
             timestamp: new Date().toISOString(),
         };
     }
+    async setUserStatus(req, setUserStatusDto, i18n) {
+        const presence = await this.usersService.setUserStatus(req.user.sub, setUserStatusDto.isOnline);
+        return {
+            success: true,
+            message: await i18n.t('users.status_updated'),
+            data: presence,
+            timestamp: new Date().toISOString(),
+        };
+    }
     async getLatestUsers(i18n, getUsersDto) {
         const users = await this.usersService.getLatestUsers(getUsersDto);
         return {
             success: true,
             message: await i18n.t('users.users_retrieved'),
             data: users,
+            timestamp: new Date().toISOString(),
+        };
+    }
+    async getUserStatistics(i18n) {
+        const stats = await this.usersService.getUserStatistics();
+        return {
+            success: true,
+            message: await i18n.t('users.statistics_retrieved'),
+            data: stats,
             timestamp: new Date().toISOString(),
         };
     }
@@ -90,6 +110,41 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "updateProfile", null);
 __decorate([
+    (0, common_1.Post)('status'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    (0, swagger_1.ApiOperation)({
+        summary: 'Set user online/offline status',
+        description: 'Update the current user\'s online or offline status. This status is displayed to other users on the platform.',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'User status updated successfully',
+        schema: {
+            example: {
+                success: true,
+                message: 'User status updated successfully',
+                data: {
+                    userId: '123e4567-e89b-12d3-a456-426614174000',
+                    isOnline: true,
+                    lastSeenAt: '2024-01-01T12:00:00.000Z',
+                    socketId: null,
+                },
+                timestamp: '2024-01-01T12:00:00.000Z',
+            },
+        },
+    }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: 'Unauthorized' }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: 'User not found' }),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, nestjs_i18n_1.I18n)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, set_user_status_dto_1.SetUserStatusDto, nestjs_i18n_1.I18nContext]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "setUserStatus", null);
+__decorate([
     (0, common_1.Get)('latest'),
     (0, swagger_1.ApiOperation)({ summary: 'Get latest joined users with filters (Public)' }),
     (0, swagger_1.ApiResponse)({
@@ -102,6 +157,36 @@ __decorate([
     __metadata("design:paramtypes", [nestjs_i18n_1.I18nContext, get_users_dto_1.GetUsersDto]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "getLatestUsers", null);
+__decorate([
+    (0, common_1.Get)('statistics'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    (0, swagger_1.ApiOperation)({
+        summary: 'Get user statistics (Public)',
+        description: 'Returns statistics about users including total male/female users and online users today. This endpoint is public and does not require authentication.',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'User statistics retrieved successfully',
+        type: user_statistics_dto_1.UserStatisticsDto,
+        schema: {
+            example: {
+                success: true,
+                message: 'User statistics retrieved successfully',
+                data: {
+                    totalMaleUsers: 1250,
+                    totalFemaleUsers: 980,
+                    onlineMaleUsersToday: 45,
+                    onlineFemaleUsersToday: 38,
+                },
+                timestamp: '2024-01-01T00:00:00.000Z',
+            },
+        },
+    }),
+    __param(0, (0, nestjs_i18n_1.I18n)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [nestjs_i18n_1.I18nContext]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "getUserStatistics", null);
 __decorate([
     (0, common_1.Get)(':id'),
     (0, swagger_1.ApiOperation)({ summary: 'Get user by ID (Public)' }),

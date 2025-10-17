@@ -584,6 +584,44 @@ let UserRepository = class UserRepository {
             .take(limit)
             .getMany();
     }
+    async getUserStatistics() {
+        const totalMaleUsers = await this.userRepo.count({
+            where: {
+                gender: 'male',
+                isActive: true,
+                isEmailVerified: true,
+            },
+        });
+        const totalFemaleUsers = await this.userRepo.count({
+            where: {
+                gender: 'female',
+                isActive: true,
+                isEmailVerified: true,
+            },
+        });
+        const startOfToday = new Date();
+        startOfToday.setHours(0, 0, 0, 0);
+        const onlineMaleUsersToday = await this.userRepo
+            .createQueryBuilder('user')
+            .where('user.gender = :gender', { gender: 'male' })
+            .andWhere('user.isActive = :isActive', { isActive: true })
+            .andWhere('user.isEmailVerified = :isEmailVerified', { isEmailVerified: true })
+            .andWhere('user.updatedAt >= :startOfToday', { startOfToday })
+            .getCount();
+        const onlineFemaleUsersToday = await this.userRepo
+            .createQueryBuilder('user')
+            .where('user.gender = :gender', { gender: 'female' })
+            .andWhere('user.isActive = :isActive', { isActive: true })
+            .andWhere('user.isEmailVerified = :isEmailVerified', { isEmailVerified: true })
+            .andWhere('user.updatedAt >= :startOfToday', { startOfToday })
+            .getCount();
+        return {
+            totalMaleUsers,
+            totalFemaleUsers,
+            onlineMaleUsersToday,
+            onlineFemaleUsersToday,
+        };
+    }
 };
 exports.UserRepository = UserRepository;
 exports.UserRepository = UserRepository = __decorate([

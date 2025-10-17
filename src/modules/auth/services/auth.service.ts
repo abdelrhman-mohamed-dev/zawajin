@@ -307,6 +307,7 @@ export class AuthService {
         chartNumber: user.chartNumber,
         isEmailVerified: user.isEmailVerified,
         isPhoneVerified: user.isPhoneVerified,
+        termsAccepted: user.termsAccepted,
         access_token: tokens.access_token,
         refresh_token: tokens.refresh_token,
       },
@@ -523,6 +524,32 @@ export class AuthService {
       percentage,
       completedFields,
       missingFields,
+    };
+  }
+
+  async acceptTerms(userId: string, termsAccepted: boolean) {
+    this.logger.log(`Accept terms request for user: ${userId}`);
+
+    const user = await this.userRepository.findById(userId);
+    if (!user) {
+      throw new NotFoundException(
+        this.i18n.t('auth.user_not_found', { lang: I18nContext.current()?.lang })
+      );
+    }
+
+    // Update terms acceptance status
+    await this.userRepository.update(userId, { termsAccepted });
+
+    this.logger.log(`Terms acceptance status updated for user: ${userId}`);
+
+    return {
+      success: true,
+      message: this.i18n.t('auth.terms_accepted_successfully', { lang: I18nContext.current()?.lang }),
+      data: {
+        userId: user.id,
+        termsAccepted,
+      },
+      timestamp: new Date().toISOString(),
     };
   }
 

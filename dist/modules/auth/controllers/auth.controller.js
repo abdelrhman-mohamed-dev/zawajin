@@ -25,6 +25,7 @@ const resend_otp_dto_1 = require("../dto/resend-otp.dto");
 const forget_password_dto_1 = require("../dto/forget-password.dto");
 const verify_reset_otp_dto_1 = require("../dto/verify-reset-otp.dto");
 const reset_password_dto_1 = require("../dto/reset-password.dto");
+const accept_terms_dto_1 = require("../dto/accept-terms.dto");
 const auth_service_1 = require("../services/auth.service");
 const jwt_auth_guard_1 = require("../guards/jwt-auth.guard");
 const user_repository_1 = require("../repositories/user.repository");
@@ -122,6 +123,16 @@ let AuthController = AuthController_1 = class AuthController {
         }
         catch (error) {
             this.logger.error(`Get current user failed for ${req.user.sub}:`, error.message);
+            throw error;
+        }
+    }
+    async acceptTerms(acceptTermsDto, req) {
+        try {
+            this.logger.log(`Accept terms request for user: ${req.user.sub}`);
+            return await this.authService.acceptTerms(req.user.sub, acceptTermsDto.termsAccepted);
+        }
+        catch (error) {
+            this.logger.error(`Accept terms failed for ${req.user.sub}:`, error.message);
             throw error;
         }
     }
@@ -456,6 +467,7 @@ __decorate([
                     chartNumber: 'ZX-545654',
                     isEmailVerified: true,
                     isPhoneVerified: false,
+                    termsAccepted: false,
                     access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
                     refresh_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
                 },
@@ -874,6 +886,79 @@ __decorate([
     __metadata("design:paramtypes", [Object, nestjs_i18n_1.I18nContext]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "getCurrentUser", null);
+__decorate([
+    (0, common_1.Post)('accept-terms'),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    (0, swagger_1.ApiOperation)({
+        summary: 'Accept terms and policies',
+        description: 'Mark that the user has accepted the terms and conditions and privacy policy.',
+    }),
+    (0, swagger_1.ApiBody)({
+        type: accept_terms_dto_1.AcceptTermsDto,
+        description: 'Terms acceptance status',
+        examples: {
+            acceptTerms: {
+                summary: 'Accept terms',
+                description: 'User accepts terms and policies',
+                value: {
+                    termsAccepted: true
+                }
+            }
+        }
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Terms accepted successfully',
+        schema: {
+            example: {
+                success: true,
+                message: 'Terms and policies accepted successfully',
+                data: {
+                    userId: '123e4567-e89b-12d3-a456-426614174000',
+                    termsAccepted: true
+                },
+                timestamp: '2024-01-01T00:00:00.000Z',
+            },
+        },
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 401,
+        description: 'Unauthorized - Invalid or missing JWT token',
+        schema: {
+            example: {
+                success: false,
+                message: 'Unauthorized',
+                error: {
+                    code: 'UNAUTHORIZED',
+                    details: []
+                },
+                timestamp: '2024-01-01T00:00:00.000Z'
+            }
+        }
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 400,
+        description: 'Invalid input data',
+        schema: {
+            example: {
+                success: false,
+                message: 'Validation failed',
+                error: {
+                    code: 'VALIDATION_ERROR',
+                    details: ['Terms acceptance must be true or false']
+                },
+                timestamp: '2024-01-01T00:00:00.000Z'
+            }
+        }
+    }),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [accept_terms_dto_1.AcceptTermsDto, Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "acceptTerms", null);
 exports.AuthController = AuthController = AuthController_1 = __decorate([
     (0, swagger_1.ApiTags)('Authentication'),
     (0, common_1.Controller)('auth'),

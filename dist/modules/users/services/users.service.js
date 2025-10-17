@@ -19,10 +19,12 @@ const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const user_repository_1 = require("../../auth/repositories/user.repository");
 const like_entity_1 = require("../../interactions/entities/like.entity");
+const user_presence_repository_1 = require("../../chat/repositories/user-presence.repository");
 let UsersService = UsersService_1 = class UsersService {
-    constructor(userRepository, likeRepository) {
+    constructor(userRepository, likeRepository, userPresenceRepository) {
         this.userRepository = userRepository;
         this.likeRepository = likeRepository;
+        this.userPresenceRepository = userPresenceRepository;
         this.logger = new common_1.Logger(UsersService_1.name);
     }
     async updateProfile(userId, profileData) {
@@ -55,11 +57,20 @@ let UsersService = UsersService_1 = class UsersService {
         const likedUserIds = currentUserId
             ? await this.checkLikeStatus(currentUserId, userIds)
             : new Set();
+        const presencePromises = userIds.map(id => this.userPresenceRepository.getUserPresence(id));
+        const presences = await Promise.all(presencePromises);
+        const presenceMap = new Map(presences.map((presence, index) => [
+            userIds[index],
+            { isOnline: presence ? presence.isOnline : true, lastSeenAt: presence ? presence.lastSeenAt : null }
+        ]));
         const usersWithLikeStatus = result.users.map((user) => {
             const { passwordHash, ...userWithoutPassword } = user;
+            const presenceData = presenceMap.get(user.id);
             return {
                 ...userWithoutPassword,
                 hasLiked: likedUserIds.has(user.id),
+                isOnline: presenceData?.isOnline ?? true,
+                lastSeenAt: presenceData?.lastSeenAt ?? null,
             };
         });
         this.logger.log(`Retrieved ${usersWithLikeStatus.length} users out of ${result.total} total`);
@@ -80,6 +91,9 @@ let UsersService = UsersService_1 = class UsersService {
         if (!user.isEmailVerified) {
             throw new common_1.NotFoundException('User not found / المستخدم غير موجود');
         }
+        const presence = await this.userPresenceRepository.getUserPresence(userId);
+        const isOnline = presence ? presence.isOnline : true;
+        const lastSeenAt = presence ? presence.lastSeenAt : null;
         let likedme = false;
         let isliked = false;
         let matching = false;
@@ -99,6 +113,8 @@ let UsersService = UsersService_1 = class UsersService {
         this.logger.log(`User retrieved successfully: ${userId}`);
         return {
             ...user,
+            isOnline,
+            lastSeenAt,
             likedme,
             isliked,
             matching,
@@ -127,12 +143,40 @@ let UsersService = UsersService_1 = class UsersService {
         const limit = queryDto.limit || 10;
         this.logger.log(`Fetching latest ${limit} joined users with filters: ${JSON.stringify(queryDto)}`);
         const users = await this.userRepository.findLatestUsers(queryDto);
+        const userIds = users.map(user => user.id);
+        const presencePromises = userIds.map(id => this.userPresenceRepository.getUserPresence(id));
+        const presences = await Promise.all(presencePromises);
+        const presenceMap = new Map(presences.map((presence, index) => [
+            userIds[index],
+            { isOnline: presence ? presence.isOnline : true, lastSeenAt: presence ? presence.lastSeenAt : null }
+        ]));
         const sanitizedUsers = users.map((user) => {
             const { passwordHash, fcmToken, ...userWithoutSensitiveData } = user;
-            return userWithoutSensitiveData;
+            const presenceData = presenceMap.get(user.id);
+            return {
+                ...userWithoutSensitiveData,
+                isOnline: presenceData?.isOnline ?? true,
+                lastSeenAt: presenceData?.lastSeenAt ?? null,
+            };
         });
         this.logger.log(`Retrieved ${sanitizedUsers.length} latest users`);
         return sanitizedUsers;
+    }
+    async getUserStatistics() {
+        this.logger.log('Fetching user statistics');
+        const stats = await this.userRepository.getUserStatistics();
+        this.logger.log(`Statistics retrieved: ${JSON.stringify(stats)}`);
+        return stats;
+    }
+    async setUserStatus(userId, isOnline) {
+        this.logger.log(`Setting user status for user ${userId} to ${isOnline ? 'online' : 'offline'}`);
+        const user = await this.userRepository.findById(userId);
+        if (!user) {
+            throw new common_1.NotFoundException('User not found / المستخدم غير موجود');
+        }
+        const presence = await this.userPresenceRepository.setUserStatus(userId, isOnline);
+        this.logger.log(`User status updated successfully for user: ${userId}`);
+        return presence;
     }
 };
 exports.UsersService = UsersService;
@@ -140,6 +184,7 @@ exports.UsersService = UsersService = UsersService_1 = __decorate([
     (0, common_1.Injectable)(),
     __param(1, (0, typeorm_1.InjectRepository)(like_entity_1.Like)),
     __metadata("design:paramtypes", [user_repository_1.UserRepository,
-        typeorm_2.Repository])
+        typeorm_2.Repository,
+        user_presence_repository_1.UserPresenceRepository])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

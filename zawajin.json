@@ -200,6 +200,38 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Accept Terms and Policies",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"termsAccepted\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/accept-terms",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "accept-terms"
+              ]
+            },
+            "description": "Mark that the user has accepted the terms and conditions and privacy policy. This endpoint should be called after login if the user hasn't accepted the terms yet (termsAccepted is false in login response)."
+          },
+          "response": []
         }
       ]
     },
@@ -292,6 +324,57 @@
                 "profile"
               ]
             }
+          },
+          "response": []
+        },
+        {
+          "name": "Set User Online/Offline Status",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"isOnline\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "status"
+              ]
+            },
+            "description": "Update the current user's online or offline status. Set isOnline to true to appear online to other users, or false to appear offline. This status is displayed to other users on the platform."
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Statistics (Public)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/statistics",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "statistics"
+              ]
+            },
+            "description": "Get user statistics including total male users, total female users, online male users today, and online female users today. This endpoint is public and does not require authentication."
           },
           "response": []
         },

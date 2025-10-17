@@ -6,6 +6,7 @@ import { ResendOtpDto } from '../dto/resend-otp.dto';
 import { ForgetPasswordDto } from '../dto/forget-password.dto';
 import { VerifyResetOtpDto } from '../dto/verify-reset-otp.dto';
 import { ResetPasswordDto } from '../dto/reset-password.dto';
+import { AcceptTermsDto } from '../dto/accept-terms.dto';
 import { AuthService } from '../services/auth.service';
 import { RegisterResponse, VerifyResponse, ResendResponse, LoginResponse, ForgetPasswordResponse, VerifyResetOtpResponse, ResetPasswordResponse } from '../interfaces/auth.interface';
 import { UserRepository } from '../repositories/user.repository';
@@ -39,6 +40,7 @@ export declare class AuthController {
             isEmailVerified: boolean;
             isPhoneVerified: boolean;
             isActive: boolean;
+            termsAccepted: boolean;
             dateOfBirth: Date;
             age: number;
             location: {
@@ -115,6 +117,15 @@ export declare class AuthController {
             roleAssignedAt: Date;
             createdAt: Date;
             updatedAt: Date;
+        };
+        timestamp: string;
+    }>;
+    acceptTerms(acceptTermsDto: AcceptTermsDto, req: any): Promise<{
+        success: boolean;
+        message: string;
+        data: {
+            userId: string;
+            termsAccepted: boolean;
         };
         timestamp: string;
     }>;

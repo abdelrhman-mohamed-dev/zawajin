@@ -10,6 +10,8 @@ import { UpdateProfileDto } from '../dto/update-profile.dto';
 import { GetUsersDto } from '../dto/get-users.dto';
 import { User } from '../../auth/entities/user.entity';
 import { Like } from '../../interactions/entities/like.entity';
+import { UserPresenceRepository } from '../../chat/repositories/user-presence.repository';
+import { UserPresence } from '../../chat/entities/user-presence.entity';
 
 @Injectable()
 export class UsersService {
@@ -19,6 +21,7 @@ export class UsersService {
     private readonly userRepository: UserRepository,
     @InjectRepository(Like)
     private readonly likeRepository: Repository<Like>,
+    private readonly userPresenceRepository: UserPresenceRepository,
   ) {}
 
   async updateProfile(userId: string, profileData: UpdateProfileDto): Promise<User> {
@@ -75,12 +78,25 @@ export class UsersService {
       ? await this.checkLikeStatus(currentUserId, userIds)
       : new Set<string>();
 
-    // Remove sensitive data from all users and add hasLiked field
+    // Get online status for all users
+    const presencePromises = userIds.map(id => this.userPresenceRepository.getUserPresence(id));
+    const presences = await Promise.all(presencePromises);
+    const presenceMap = new Map(
+      presences.map((presence, index) => [
+        userIds[index],
+        { isOnline: presence ? presence.isOnline : true, lastSeenAt: presence ? presence.lastSeenAt : null }
+      ])
+    );
+
+    // Remove sensitive data from all users and add hasLiked field and online status
     const usersWithLikeStatus = result.users.map((user) => {
       const { passwordHash, ...userWithoutPassword } = user;
+      const presenceData = presenceMap.get(user.id);
       return {
         ...userWithoutPassword,
         hasLiked: likedUserIds.has(user.id),
+        isOnline: presenceData?.isOnline ?? true,
+        lastSeenAt: presenceData?.lastSeenAt ?? null,
       };
     });
 
@@ -107,6 +123,11 @@ export class UsersService {
     if (!user.isEmailVerified) {
       throw new NotFoundException('User not found / المستخدم غير موجود');
     }
+
+    // Get online status from user presence
+    const presence = await this.userPresenceRepository.getUserPresence(userId);
+    const isOnline = presence ? presence.isOnline : true; // Default to true if no presence record
+    const lastSeenAt = presence ? presence.lastSeenAt : null;
 
     // Get like relationship information
     let likedme = false;
@@ -138,6 +159,8 @@ export class UsersService {
 
     return {
       ...user,
+      isOnline,
+      lastSeenAt,
       likedme,
       isliked,
       matching,
@@ -177,14 +200,61 @@ export class UsersService {
 
     const users = await this.userRepository.findLatestUsers(queryDto);
 
-    // Remove sensitive data from all users
+    // Get online status for all users
+    const userIds = users.map(user => user.id);
+    const presencePromises = userIds.map(id => this.userPresenceRepository.getUserPresence(id));
+    const presences = await Promise.all(presencePromises);
+    const presenceMap = new Map(
+      presences.map((presence, index) => [
+        userIds[index],
+        { isOnline: presence ? presence.isOnline : true, lastSeenAt: presence ? presence.lastSeenAt : null }
+      ])
+    );
+
+    // Remove sensitive data from all users and add online status
     const sanitizedUsers = users.map((user) => {
       const { passwordHash, fcmToken, ...userWithoutSensitiveData } = user;
-      return userWithoutSensitiveData;
+      const presenceData = presenceMap.get(user.id);
+      return {
+        ...userWithoutSensitiveData,
+        isOnline: presenceData?.isOnline ?? true,
+        lastSeenAt: presenceData?.lastSeenAt ?? null,
+      };
     });
 
     this.logger.log(`Retrieved ${sanitizedUsers.length} latest users`);
 
     return sanitizedUsers;
+  }
+
+  async getUserStatistics(): Promise<{
+    totalMaleUsers: number;
+    totalFemaleUsers: number;
+    onlineMaleUsersToday: number;
+    onlineFemaleUsersToday: number;
+  }> {
+    this.logger.log('Fetching user statistics');
+
+    const stats = await this.userRepository.getUserStatistics();
+
+    this.logger.log(`Statistics retrieved: ${JSON.stringify(stats)}`);
+
+    return stats;
+  }
+
+  async setUserStatus(userId: string, isOnline: boolean): Promise<UserPresence> {
+    this.logger.log(`Setting user status for user ${userId} to ${isOnline ? 'online' : 'offline'}`);
+
+    // Verify user exists
+    const user = await this.userRepository.findById(userId);
+    if (!user) {
+      throw new NotFoundException('User not found / المستخدم غير موجود');
+    }
+
+    const presence = await this.userPresenceRepository.setUserStatus(userId, isOnline);
+
+    this.logger.log(`User status updated successfully for user: ${userId}`);
+
+    return presence;
   }
 }

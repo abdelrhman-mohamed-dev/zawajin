@@ -4,11 +4,14 @@ import { UpdateProfileDto } from '../dto/update-profile.dto';
 import { GetUsersDto } from '../dto/get-users.dto';
 import { User } from '../../auth/entities/user.entity';
 import { Like } from '../../interactions/entities/like.entity';
+import { UserPresenceRepository } from '../../chat/repositories/user-presence.repository';
+import { UserPresence } from '../../chat/entities/user-presence.entity';
 export declare class UsersService {
     private readonly userRepository;
     private readonly likeRepository;
+    private readonly userPresenceRepository;
     private readonly logger;
-    constructor(userRepository: UserRepository, likeRepository: Repository<Like>);
+    constructor(userRepository: UserRepository, likeRepository: Repository<Like>, userPresenceRepository: UserPresenceRepository);
     updateProfile(userId: string, profileData: UpdateProfileDto): Promise<User>;
     getAllUsers(queryDto: GetUsersDto, currentUserId?: string): Promise<{
         users: any[];
@@ -21,4 +24,11 @@ export declare class UsersService {
     getCurrentUser(userId: string): Promise<User>;
     private checkLikeStatus;
     getLatestUsers(queryDto: GetUsersDto): Promise<any[]>;
+    getUserStatistics(): Promise<{
+        totalMaleUsers: number;
+        totalFemaleUsers: number;
+        onlineMaleUsersToday: number;
+        onlineFemaleUsersToday: number;
+    }>;
+    setUserStatus(userId: string, isOnline: boolean): Promise<UserPresence>;
 }

@@ -20,7 +20,7 @@ export class UserPresence {
   @Column({ type: 'varchar', length: 255, nullable: true })
   socketId: string;
 
-  @Column({ type: 'boolean', default: false })
+  @Column({ type: 'boolean', default: true })
   isOnline: boolean;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

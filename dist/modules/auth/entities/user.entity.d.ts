@@ -9,6 +9,7 @@ export declare class User {
     isEmailVerified: boolean;
     isPhoneVerified: boolean;
     isActive: boolean;
+    termsAccepted: boolean;
     fcmToken: string;
     dateOfBirth: Date;
     age: number;

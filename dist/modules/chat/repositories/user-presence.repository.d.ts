@@ -7,4 +7,5 @@ export declare class UserPresenceRepository extends Repository<UserPresence> {
     setUserOffline(userId: string): Promise<void>;
     getUserPresence(userId: string): Promise<UserPresence | null>;
     findBySocketId(socketId: string): Promise<UserPresence | null>;
+    setUserStatus(userId: string, isOnline: boolean): Promise<UserPresence>;
 }

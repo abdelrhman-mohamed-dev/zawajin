@@ -40,6 +40,7 @@ export interface LoginResponse {
         chartNumber: string;
         isEmailVerified: boolean;
         isPhoneVerified: boolean;
+        termsAccepted: boolean;
         access_token: string;
         refresh_token: string;
     };

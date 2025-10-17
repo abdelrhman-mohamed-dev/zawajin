@@ -64,6 +64,10 @@ __decorate([
     __metadata("design:type", Boolean)
 ], User.prototype, "isActive", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ type: 'boolean', default: false, name: 'terms_accepted' }),
+    __metadata("design:type", Boolean)
+], User.prototype, "termsAccepted", void 0);
+__decorate([
     (0, typeorm_1.Column)({ type: 'varchar', length: 255, nullable: true, name: 'fcm_token' }),
     __metadata("design:type", String)
 ], User.prototype, "fcmToken", void 0);

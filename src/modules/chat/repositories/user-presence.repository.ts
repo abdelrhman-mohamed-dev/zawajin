@@ -44,4 +44,24 @@ export class UserPresenceRepository extends Repository<UserPresence> {
   async findBySocketId(socketId: string): Promise<UserPresence | null> {
     return this.findOne({ where: { socketId } });
   }
+
+  async setUserStatus(userId: string, isOnline: boolean): Promise<UserPresence> {
+    const presence = await this.findOne({ where: { userId } });
+
+    if (presence) {
+      presence.isOnline = isOnline;
+      presence.lastSeenAt = new Date();
+      if (!isOnline) {
+        presence.socketId = null;
+      }
+      return this.save(presence);
+    }
+
+    return this.save({
+      userId,
+      isOnline,
+      lastSeenAt: new Date(),
+      socketId: null,
+    });
+  }
 }

@@ -13,15 +13,17 @@ const users_controller_1 = require("./controllers/users.controller");
 const users_service_1 = require("./services/users.service");
 const user_entity_1 = require("../auth/entities/user.entity");
 const like_entity_1 = require("../interactions/entities/like.entity");
+const user_presence_entity_1 = require("../chat/entities/user-presence.entity");
 const auth_module_1 = require("../auth/auth.module");
+const user_presence_repository_1 = require("../chat/repositories/user-presence.repository");
 let UsersModule = class UsersModule {
 };
 exports.UsersModule = UsersModule;
 exports.UsersModule = UsersModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([user_entity_1.User, like_entity_1.Like]), auth_module_1.AuthModule],
+        imports: [typeorm_1.TypeOrmModule.forFeature([user_entity_1.User, like_entity_1.Like, user_presence_entity_1.UserPresence]), auth_module_1.AuthModule],
         controllers: [users_controller_1.UsersController],
-        providers: [users_service_1.UsersService],
+        providers: [users_service_1.UsersService, user_presence_repository_1.UserPresenceRepository],
         exports: [users_service_1.UsersService],
     })
 ], UsersModule);

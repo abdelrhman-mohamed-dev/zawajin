@@ -46,6 +46,23 @@ let UserPresenceRepository = class UserPresenceRepository extends typeorm_1.Repo
     async findBySocketId(socketId) {
         return this.findOne({ where: { socketId } });
     }
+    async setUserStatus(userId, isOnline) {
+        const presence = await this.findOne({ where: { userId } });
+        if (presence) {
+            presence.isOnline = isOnline;
+            presence.lastSeenAt = new Date();
+            if (!isOnline) {
+                presence.socketId = null;
+            }
+            return this.save(presence);
+        }
+        return this.save({
+            userId,
+            isOnline,
+            lastSeenAt: new Date(),
+            socketId: null,
+        });
+    }
 };
 exports.UserPresenceRepository = UserPresenceRepository;
 exports.UserPresenceRepository = UserPresenceRepository = __decorate([
