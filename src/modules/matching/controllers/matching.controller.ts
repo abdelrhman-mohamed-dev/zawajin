@@ -72,54 +72,15 @@ export class MatchingController {
   }
 
   @Get('recommendations')
-  @ApiOperation({ summary: 'Get match recommendations based on preferences' })
+  @ApiOperation({
+    summary: 'Get match recommendations based on preferences and filters',
+    description: 'Get personalized match recommendations with comprehensive filtering options including location, religion, physical attributes, and marriage preferences. Supports pagination and compatibility score filtering.',
+  })
   @ApiResponse({
     status: 200,
     description: 'Recommendations retrieved successfully',
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  @ApiQuery({
-    name: 'page',
-    required: false,
-    type: Number,
-    description: 'Page number',
-  })
-  @ApiQuery({
-    name: 'limit',
-    required: false,
-    type: Number,
-    description: 'Items per page',
-  })
-  @ApiQuery({
-    name: 'minCompatibilityScore',
-    required: false,
-    type: Number,
-    description: 'Minimum compatibility score (0-100)',
-  })
-  @ApiQuery({
-    name: 'gender',
-    required: false,
-    enum: ['male', 'female'],
-    description: 'Filter by gender',
-  })
-  @ApiQuery({
-    name: 'maritalStatus',
-    required: false,
-    enum: ['single', 'divorced', 'widowed'],
-    description: 'Filter by marital status',
-  })
-  @ApiQuery({
-    name: 'minAge',
-    required: false,
-    type: Number,
-    description: 'Minimum age filter',
-  })
-  @ApiQuery({
-    name: 'maxAge',
-    required: false,
-    type: Number,
-    description: 'Maximum age filter',
-  })
   async getRecommendations(
     @Request() req: any,
     @Query() query: GetRecommendationsDto,

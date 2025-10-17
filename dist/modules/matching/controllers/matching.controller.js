@@ -82,54 +82,15 @@ __decorate([
 ], MatchingController.prototype, "getPreferences", null);
 __decorate([
     (0, common_1.Get)('recommendations'),
-    (0, swagger_1.ApiOperation)({ summary: 'Get match recommendations based on preferences' }),
+    (0, swagger_1.ApiOperation)({
+        summary: 'Get match recommendations based on preferences and filters',
+        description: 'Get personalized match recommendations with comprehensive filtering options including location, religion, physical attributes, and marriage preferences. Supports pagination and compatibility score filtering.',
+    }),
     (0, swagger_1.ApiResponse)({
         status: 200,
         description: 'Recommendations retrieved successfully',
     }),
     (0, swagger_1.ApiResponse)({ status: 401, description: 'Unauthorized' }),
-    (0, swagger_1.ApiQuery)({
-        name: 'page',
-        required: false,
-        type: Number,
-        description: 'Page number',
-    }),
-    (0, swagger_1.ApiQuery)({
-        name: 'limit',
-        required: false,
-        type: Number,
-        description: 'Items per page',
-    }),
-    (0, swagger_1.ApiQuery)({
-        name: 'minCompatibilityScore',
-        required: false,
-        type: Number,
-        description: 'Minimum compatibility score (0-100)',
-    }),
-    (0, swagger_1.ApiQuery)({
-        name: 'gender',
-        required: false,
-        enum: ['male', 'female'],
-        description: 'Filter by gender',
-    }),
-    (0, swagger_1.ApiQuery)({
-        name: 'maritalStatus',
-        required: false,
-        enum: ['single', 'divorced', 'widowed'],
-        description: 'Filter by marital status',
-    }),
-    (0, swagger_1.ApiQuery)({
-        name: 'minAge',
-        required: false,
-        type: Number,
-        description: 'Minimum age filter',
-    }),
-    (0, swagger_1.ApiQuery)({
-        name: 'maxAge',
-        required: false,
-        type: Number,
-        description: 'Maximum age filter',
-    }),
     __param(0, (0, common_1.Request)()),
     __param(1, (0, common_1.Query)()),
     __metadata("design:type", Function),

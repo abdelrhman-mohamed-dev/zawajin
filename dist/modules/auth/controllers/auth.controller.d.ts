@@ -10,11 +10,13 @@ import { AcceptTermsDto } from '../dto/accept-terms.dto';
 import { AuthService } from '../services/auth.service';
 import { RegisterResponse, VerifyResponse, ResendResponse, LoginResponse, ForgetPasswordResponse, VerifyResetOtpResponse, ResetPasswordResponse } from '../interfaces/auth.interface';
 import { UserRepository } from '../repositories/user.repository';
+import { UserPresenceRepository } from '../../chat/repositories/user-presence.repository';
 export declare class AuthController {
     private readonly authService;
     private readonly userRepository;
+    private readonly userPresenceRepository;
     private readonly logger;
-    constructor(authService: AuthService, userRepository: UserRepository);
+    constructor(authService: AuthService, userRepository: UserRepository, userPresenceRepository: UserPresenceRepository);
     register(registerDto: RegisterDto): Promise<RegisterResponse>;
     verifyEmail(verifyOtpDto: VerifyOtpDto): Promise<VerifyResponse>;
     resendOtp(resendOtpDto: ResendOtpDto): Promise<ResendResponse>;
@@ -26,6 +28,8 @@ export declare class AuthController {
         success: boolean;
         message: string;
         data: {
+            isOnline: boolean;
+            lastSeenAt: Date;
             profileCompletion: {
                 percentage: number;
                 completedFields: string[];

@@ -36,7 +36,7 @@ let MatchingService = class MatchingService {
         return preferences;
     }
     async getRecommendations(userId, query) {
-        const { page = 1, limit = 10, minCompatibilityScore, gender, maritalStatus, minAge, maxAge } = query;
+        const { page = 1, limit = 10, minCompatibilityScore, gender, maritalStatus, minAge, maxAge, city, country, origin, religiousPractice, sect, prayerLevel, profession, minHeight, maxHeight, minWeight, maxWeight, bodyColor, hairColor, hairType, eyeColor, marriageType, houseAvailable, acceptPolygamy, natureOfWork, nationality, placeOfResidence, tribe, numberOfChildren, educationLevel, financialStatus, healthStatus, religiosityLevel, skinColor, beauty, polygamyStatus, } = query;
         const skip = (page - 1) * limit;
         const currentUser = await this.userRepository.findOne({
             where: { id: userId },
@@ -68,27 +68,105 @@ let MatchingService = class MatchingService {
             const statuses = maritalStatus ? [maritalStatus] : preferences.preferredMaritalStatuses;
             queryBuilder.andWhere('user.maritalStatus IN (:...statuses)', { statuses });
         }
-        if (preferences?.preferredReligiousPractices?.length > 0) {
-            queryBuilder.andWhere('user.religiousPractice IN (:...practices)', {
-                practices: preferences.preferredReligiousPractices,
-            });
-        }
-        if (preferences?.preferredSects?.length > 0) {
-            queryBuilder.andWhere('user.sect IN (:...sects)', {
-                sects: preferences.preferredSects,
-            });
-        }
-        if (preferences?.preferredCity) {
+        if (preferences?.preferredCity || city) {
+            const targetCity = city || preferences?.preferredCity;
             queryBuilder.andWhere("\"user\".\"location\" IS NOT NULL");
             queryBuilder.andWhere("\"user\".\"location\"::jsonb->>'city' = :city", {
-                city: preferences.preferredCity,
+                city: targetCity,
             });
         }
-        if (preferences?.preferredCountry) {
+        if (preferences?.preferredCountry || country) {
+            const targetCountry = country || preferences?.preferredCountry;
             queryBuilder.andWhere("\"user\".\"location\" IS NOT NULL");
             queryBuilder.andWhere("\"user\".\"location\"::jsonb->>'country' = :country", {
-                country: preferences.preferredCountry,
+                country: targetCountry,
             });
+        }
+        if (origin) {
+            queryBuilder.andWhere('user.origin = :origin', { origin });
+        }
+        if (preferences?.preferredReligiousPractices?.length > 0 || religiousPractice) {
+            const practices = religiousPractice ? [religiousPractice] : preferences.preferredReligiousPractices;
+            queryBuilder.andWhere('user.religiousPractice IN (:...practices)', { practices });
+        }
+        if (preferences?.preferredSects?.length > 0 || sect) {
+            const sects = sect ? [sect] : preferences.preferredSects;
+            queryBuilder.andWhere('user.sect IN (:...sects)', { sects });
+        }
+        if (prayerLevel) {
+            queryBuilder.andWhere('user.prayerLevel = :prayerLevel', { prayerLevel });
+        }
+        if (profession) {
+            queryBuilder.andWhere('user.profession = :profession', { profession });
+        }
+        if (natureOfWork) {
+            queryBuilder.andWhere('user.natureOfWork = :natureOfWork', { natureOfWork });
+        }
+        if (minHeight) {
+            queryBuilder.andWhere('user.height >= :minHeight', { minHeight });
+        }
+        if (maxHeight) {
+            queryBuilder.andWhere('user.height <= :maxHeight', { maxHeight });
+        }
+        if (minWeight) {
+            queryBuilder.andWhere('user.weight >= :minWeight', { minWeight });
+        }
+        if (maxWeight) {
+            queryBuilder.andWhere('user.weight <= :maxWeight', { maxWeight });
+        }
+        if (bodyColor) {
+            queryBuilder.andWhere('user.bodyColor = :bodyColor', { bodyColor });
+        }
+        if (hairColor) {
+            queryBuilder.andWhere('user.hairColor = :hairColor', { hairColor });
+        }
+        if (hairType) {
+            queryBuilder.andWhere('user.hairType = :hairType', { hairType });
+        }
+        if (eyeColor) {
+            queryBuilder.andWhere('user.eyeColor = :eyeColor', { eyeColor });
+        }
+        if (skinColor) {
+            queryBuilder.andWhere('user.skinColor = :skinColor', { skinColor });
+        }
+        if (beauty) {
+            queryBuilder.andWhere('user.beauty = :beauty', { beauty });
+        }
+        if (marriageType) {
+            queryBuilder.andWhere('user.marriageType = :marriageType', { marriageType });
+        }
+        if (houseAvailable !== undefined) {
+            queryBuilder.andWhere('user.houseAvailable = :houseAvailable', { houseAvailable });
+        }
+        if (acceptPolygamy !== undefined) {
+            queryBuilder.andWhere('user.acceptPolygamy = :acceptPolygamy', { acceptPolygamy });
+        }
+        if (polygamyStatus) {
+            queryBuilder.andWhere('user.polygamyStatus = :polygamyStatus', { polygamyStatus });
+        }
+        if (nationality) {
+            queryBuilder.andWhere('user.nationality = :nationality', { nationality });
+        }
+        if (placeOfResidence) {
+            queryBuilder.andWhere('user.placeOfResidence = :placeOfResidence', { placeOfResidence });
+        }
+        if (tribe) {
+            queryBuilder.andWhere('user.tribe = :tribe', { tribe });
+        }
+        if (numberOfChildren !== undefined) {
+            queryBuilder.andWhere('user.numberOfChildren = :numberOfChildren', { numberOfChildren });
+        }
+        if (educationLevel) {
+            queryBuilder.andWhere('user.educationLevel = :educationLevel', { educationLevel });
+        }
+        if (financialStatus) {
+            queryBuilder.andWhere('user.financialStatus = :financialStatus', { financialStatus });
+        }
+        if (healthStatus) {
+            queryBuilder.andWhere('user.healthStatus = :healthStatus', { healthStatus });
+        }
+        if (religiosityLevel) {
+            queryBuilder.andWhere('user.religiosityLevel = :religiosityLevel', { religiosityLevel });
         }
         const total = await queryBuilder.getCount();
         const users = await queryBuilder
@@ -108,24 +186,36 @@ let MatchingService = class MatchingService {
                 fullName: user.fullName,
                 age: user.age,
                 gender: user.gender,
+                chartNumber: user.chartNumber,
                 location: user.location,
                 origin: user.origin,
                 bio: user.bio,
                 religiousPractice: user.religiousPractice,
                 sect: user.sect,
                 prayerLevel: user.prayerLevel,
+                religiosityLevel: user.religiosityLevel,
                 maritalStatus: user.maritalStatus,
                 profession: user.profession,
+                nationality: user.nationality,
+                placeOfResidence: user.placeOfResidence,
+                tribe: user.tribe,
+                numberOfChildren: user.numberOfChildren,
+                educationLevel: user.educationLevel,
+                financialStatus: user.financialStatus,
+                healthStatus: user.healthStatus,
                 weight: user.weight,
                 height: user.height,
                 bodyColor: user.bodyColor,
+                skinColor: user.skinColor,
                 hairColor: user.hairColor,
                 hairType: user.hairType,
                 eyeColor: user.eyeColor,
+                beauty: user.beauty,
                 houseAvailable: user.houseAvailable,
                 natureOfWork: user.natureOfWork,
                 marriageType: user.marriageType,
                 acceptPolygamy: user.acceptPolygamy,
+                polygamyStatus: user.polygamyStatus,
                 compatibilityScore: compatibility.totalScore,
                 scoreBreakdown: compatibility.breakdown,
                 hasLiked: likedUserIds.has(user.id),

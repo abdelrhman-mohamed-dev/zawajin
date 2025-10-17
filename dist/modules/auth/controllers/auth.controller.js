@@ -29,10 +29,12 @@ const accept_terms_dto_1 = require("../dto/accept-terms.dto");
 const auth_service_1 = require("../services/auth.service");
 const jwt_auth_guard_1 = require("../guards/jwt-auth.guard");
 const user_repository_1 = require("../repositories/user.repository");
+const user_presence_repository_1 = require("../../chat/repositories/user-presence.repository");
 let AuthController = AuthController_1 = class AuthController {
-    constructor(authService, userRepository) {
+    constructor(authService, userRepository, userPresenceRepository) {
         this.authService = authService;
         this.userRepository = userRepository;
+        this.userPresenceRepository = userPresenceRepository;
         this.logger = new common_1.Logger(AuthController_1.name);
     }
     async register(registerDto) {
@@ -110,12 +112,17 @@ let AuthController = AuthController_1 = class AuthController {
             this.logger.log(`Get current user request for: ${req.user.sub}`);
             const user = await this.userRepository.findById(req.user.sub);
             const profileCompletion = this.authService.calculateProfileCompletion(user);
+            const presence = await this.userPresenceRepository.getUserPresence(req.user.sub);
+            const isOnline = presence ? presence.isOnline : true;
+            const lastSeenAt = presence ? presence.lastSeenAt : null;
             const { passwordHash, fcmToken, ...userWithoutSensitiveData } = user;
             return {
                 success: true,
                 message: await i18n.t('auth.user_profile_retrieved'),
                 data: {
                     ...userWithoutSensitiveData,
+                    isOnline,
+                    lastSeenAt,
                     profileCompletion,
                 },
                 timestamp: new Date().toISOString(),
@@ -812,6 +819,8 @@ __decorate([
                     chartNumber: 'ZX-545654',
                     isEmailVerified: true,
                     isPhoneVerified: false,
+                    isOnline: true,
+                    lastSeenAt: '2024-01-01T12:30:00.000Z',
                     bio: 'A kind and practicing Muslim looking for a life partner.',
                     age: 30,
                     location: {
@@ -963,6 +972,7 @@ exports.AuthController = AuthController = AuthController_1 = __decorate([
     (0, swagger_1.ApiTags)('Authentication'),
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService,
-        user_repository_1.UserRepository])
+        user_repository_1.UserRepository,
+        user_presence_repository_1.UserPresenceRepository])
 ], AuthController);
 //# sourceMappingURL=auth.controller.js.map

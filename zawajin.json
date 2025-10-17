@@ -1857,7 +1857,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/matching/recommendations?page=1&limit=10&minCompatibilityScore=60",
+              "raw": "{{baseUrl}}/matching/recommendations?page=1&limit=10&minCompatibilityScore=60&gender=female&maritalStatus=single&minAge=25&maxAge=35&city=Dubai&country=UAE&origin=Egyptian&nationality=Saudi&placeOfResidence=Riyadh&tribe=tribal&numberOfChildren=0&educationLevel=university&financialStatus=good&healthStatus=healthy&religiosityLevel=committed&skinColor=white&beauty=beautiful&religiousPractice=Religious&sect=Sunni&prayerLevel=Prays 5 times a day&profession=Engineer&minHeight=160&maxHeight=175&minWeight=50&maxWeight=70&bodyColor=fair&hairColor=black&hairType=straight&eyeColor=brown&marriageType=traditional&houseAvailable=true&acceptPolygamy=false&polygamyStatus=no&natureOfWork=employed",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -1868,38 +1868,226 @@
               "query": [
                 {
                   "key": "page",
-                  "value": "1"
+                  "value": "1",
+                  "description": "Page number"
                 },
                 {
                   "key": "limit",
-                  "value": "10"
+                  "value": "10",
+                  "description": "Number of results per page"
                 },
                 {
                   "key": "minCompatibilityScore",
-                  "value": "60"
+                  "value": "60",
+                  "description": "Minimum compatibility score (0-100)"
                 },
                 {
                   "key": "gender",
                   "value": "female",
+                  "description": "Filter by gender (male/female)",
                   "disabled": true
                 },
                 {
                   "key": "maritalStatus",
                   "value": "single",
+                  "description": "Filter by marital status (single/divorced/widowed)",
                   "disabled": true
                 },
                 {
                   "key": "minAge",
                   "value": "25",
+                  "description": "Minimum age",
                   "disabled": true
                 },
                 {
                   "key": "maxAge",
                   "value": "35",
+                  "description": "Maximum age",
+                  "disabled": true
+                },
+                {
+                  "key": "city",
+                  "value": "Dubai",
+                  "description": "Filter by city",
+                  "disabled": true
+                },
+                {
+                  "key": "country",
+                  "value": "UAE",
+                  "description": "Filter by country",
+                  "disabled": true
+                },
+                {
+                  "key": "origin",
+                  "value": "Egyptian",
+                  "description": "Filter by origin",
+                  "disabled": true
+                },
+                {
+                  "key": "nationality",
+                  "value": "Saudi",
+                  "description": "Filter by nationality",
+                  "disabled": true
+                },
+                {
+                  "key": "placeOfResidence",
+                  "value": "Riyadh",
+                  "description": "Filter by place of residence",
+                  "disabled": true
+                },
+                {
+                  "key": "tribe",
+                  "value": "tribal",
+                  "description": "Filter by tribe (tribal/non_tribal/other)",
+                  "disabled": true
+                },
+                {
+                  "key": "numberOfChildren",
+                  "value": "0",
+                  "description": "Filter by number of children",
+                  "disabled": true
+                },
+                {
+                  "key": "educationLevel",
+                  "value": "university",
+                  "description": "Filter by education level",
+                  "disabled": true
+                },
+                {
+                  "key": "financialStatus",
+                  "value": "good",
+                  "description": "Filter by financial status",
+                  "disabled": true
+                },
+                {
+                  "key": "healthStatus",
+                  "value": "healthy",
+                  "description": "Filter by health status",
+                  "disabled": true
+                },
+                {
+                  "key": "religiosityLevel",
+                  "value": "committed",
+                  "description": "Filter by religiosity level",
+                  "disabled": true
+                },
+                {
+                  "key": "skinColor",
+                  "value": "white",
+                  "description": "Filter by skin color",
+                  "disabled": true
+                },
+                {
+                  "key": "beauty",
+                  "value": "beautiful",
+                  "description": "Filter by beauty/appearance",
+                  "disabled": true
+                },
+                {
+                  "key": "religiousPractice",
+                  "value": "Religious",
+                  "description": "Filter by religious practice",
+                  "disabled": true
+                },
+                {
+                  "key": "sect",
+                  "value": "Sunni",
+                  "description": "Filter by sect",
+                  "disabled": true
+                },
+                {
+                  "key": "prayerLevel",
+                  "value": "Prays 5 times a day",
+                  "description": "Filter by prayer level",
+                  "disabled": true
+                },
+                {
+                  "key": "profession",
+                  "value": "Engineer",
+                  "description": "Filter by profession",
+                  "disabled": true
+                },
+                {
+                  "key": "minHeight",
+                  "value": "160",
+                  "description": "Minimum height in cm",
+                  "disabled": true
+                },
+                {
+                  "key": "maxHeight",
+                  "value": "175",
+                  "description": "Maximum height in cm",
+                  "disabled": true
+                },
+                {
+                  "key": "minWeight",
+                  "value": "50",
+                  "description": "Minimum weight in kg",
+                  "disabled": true
+                },
+                {
+                  "key": "maxWeight",
+                  "value": "70",
+                  "description": "Maximum weight in kg",
+                  "disabled": true
+                },
+                {
+                  "key": "bodyColor",
+                  "value": "fair",
+                  "description": "Filter by body color",
+                  "disabled": true
+                },
+                {
+                  "key": "hairColor",
+                  "value": "black",
+                  "description": "Filter by hair color",
+                  "disabled": true
+                },
+                {
+                  "key": "hairType",
+                  "value": "straight",
+                  "description": "Filter by hair type",
+                  "disabled": true
+                },
+                {
+                  "key": "eyeColor",
+                  "value": "brown",
+                  "description": "Filter by eye color",
+                  "disabled": true
+                },
+                {
+                  "key": "marriageType",
+                  "value": "traditional",
+                  "description": "Filter by marriage type",
+                  "disabled": true
+                },
+                {
+                  "key": "houseAvailable",
+                  "value": "true",
+                  "description": "Filter by house availability",
+                  "disabled": true
+                },
+                {
+                  "key": "acceptPolygamy",
+                  "value": "false",
+                  "description": "Filter by polygamy acceptance",
+                  "disabled": true
+                },
+                {
+                  "key": "polygamyStatus",
+                  "value": "no",
+                  "description": "Filter by polygamy status (yes/no/thinking)",
+                  "disabled": true
+                },
+                {
+                  "key": "natureOfWork",
+                  "value": "employed",
+                  "description": "Filter by nature of work",
                   "disabled": true
                 }
               ]
-            }
+            },
+            "description": "Get personalized match recommendations with comprehensive filtering options including location, religion, physical attributes, and marriage preferences. All filters are optional and override matching preferences when provided."
           },
           "response": []
         }

@@ -20,13 +20,15 @@ const auth_service_1 = require("./services/auth.service");
 const otp_service_1 = require("./services/otp.service");
 const jwt_strategy_1 = require("./strategies/jwt.strategy");
 const mail_module_1 = require("../mail/mail.module");
+const user_presence_repository_1 = require("../chat/repositories/user-presence.repository");
+const user_presence_entity_1 = require("../chat/entities/user-presence.entity");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
 exports.AuthModule = AuthModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            typeorm_1.TypeOrmModule.forFeature([user_entity_1.User]),
+            typeorm_1.TypeOrmModule.forFeature([user_entity_1.User, user_presence_entity_1.UserPresence]),
             passport_1.PassportModule,
             jwt_1.JwtModule.registerAsync({
                 imports: [config_1.ConfigModule],
@@ -51,7 +53,7 @@ exports.AuthModule = AuthModule = __decorate([
             mail_module_1.MailModule,
         ],
         controllers: [auth_controller_1.AuthController],
-        providers: [auth_service_1.AuthService, otp_service_1.OtpService, user_repository_1.UserRepository, jwt_strategy_1.JwtStrategy],
+        providers: [auth_service_1.AuthService, otp_service_1.OtpService, user_repository_1.UserRepository, jwt_strategy_1.JwtStrategy, user_presence_repository_1.UserPresenceRepository],
         exports: [auth_service_1.AuthService, user_repository_1.UserRepository, jwt_strategy_1.JwtStrategy],
     })
 ], AuthModule);

@@ -24,6 +24,7 @@ import { AuthService } from '../services/auth.service';
 import { RegisterResponse, VerifyResponse, ResendResponse, LoginResponse, ForgetPasswordResponse, VerifyResetOtpResponse, ResetPasswordResponse } from '../interfaces/auth.interface';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { UserRepository } from '../repositories/user.repository';
+import { UserPresenceRepository } from '../../chat/repositories/user-presence.repository';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -33,6 +34,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly userRepository: UserRepository,
+    private readonly userPresenceRepository: UserPresenceRepository,
   ) {}
 
   @Post('register')
@@ -738,6 +740,8 @@ export class AuthController {
           chartNumber: 'ZX-545654',
           isEmailVerified: true,
           isPhoneVerified: false,
+          isOnline: true,
+          lastSeenAt: '2024-01-01T12:30:00.000Z',
           bio: 'A kind and practicing Muslim looking for a life partner.',
           age: 30,
           location: {
@@ -814,6 +818,11 @@ export class AuthController {
       // Calculate profile completion
       const profileCompletion = this.authService.calculateProfileCompletion(user);
 
+      // Get online status from user presence
+      const presence = await this.userPresenceRepository.getUserPresence(req.user.sub);
+      const isOnline = presence ? presence.isOnline : true; // Default to true if no presence record
+      const lastSeenAt = presence ? presence.lastSeenAt : null;
+
       // Remove sensitive data
       const { passwordHash, fcmToken, ...userWithoutSensitiveData } = user;
 
@@ -822,6 +831,8 @@ export class AuthController {
         message: await i18n.t('auth.user_profile_retrieved'),
         data: {
           ...userWithoutSensitiveData,
+          isOnline,
+          lastSeenAt,
           profileCompletion,
         },
         timestamp: new Date().toISOString(),

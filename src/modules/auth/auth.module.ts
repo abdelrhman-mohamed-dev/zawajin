@@ -11,10 +11,12 @@ import { AuthService } from './services/auth.service';
 import { OtpService } from './services/otp.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { MailModule } from '../mail/mail.module';
+import { UserPresenceRepository } from '../chat/repositories/user-presence.repository';
+import { UserPresence } from '../chat/entities/user-presence.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, UserPresence]),
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -39,7 +41,7 @@ import { MailModule } from '../mail/mail.module';
     MailModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, OtpService, UserRepository, JwtStrategy],
+  providers: [AuthService, OtpService, UserRepository, JwtStrategy, UserPresenceRepository],
   exports: [AuthService, UserRepository, JwtStrategy],
 })
 export class AuthModule {}
