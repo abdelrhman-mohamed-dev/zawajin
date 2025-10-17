@@ -7,7 +7,10 @@ import {
 } from '@nestjs/common';
 import { LikeRepository } from '../repositories/like.repository';
 import { BlockRepository } from '../repositories/block.repository';
+import { ProfileVisitRepository } from '../repositories/profile-visit.repository';
 import { UserRepository } from '../../auth/repositories/user.repository';
+import { ProfileVisitStatsDto } from '../dto/profile-visit-stats.dto';
+import { VisitorDto } from '../dto/visitor.dto';
 
 @Injectable()
 export class InteractionsService {
@@ -16,6 +19,7 @@ export class InteractionsService {
   constructor(
     private readonly likeRepository: LikeRepository,
     private readonly blockRepository: BlockRepository,
+    private readonly profileVisitRepository: ProfileVisitRepository,
     private readonly userRepository: UserRepository,
   ) {}
 
@@ -159,6 +163,43 @@ export class InteractionsService {
       },
       reason: block.reason,
       createdAt: block.createdAt,
+    }));
+  }
+
+  async recordProfileVisit(visitorId: string, profileOwnerId: string): Promise<void> {
+    this.logger.log(`User ${visitorId} visiting profile of user ${profileOwnerId}`);
+
+    // Don't record visits to own profile
+    if (visitorId === profileOwnerId) {
+      return;
+    }
+
+    // Check if profile owner exists
+    const profileOwner = await this.userRepository.findById(profileOwnerId);
+    if (!profileOwner || !profileOwner.isActive || !profileOwner.isEmailVerified) {
+      throw new NotFoundException('Profile not found / الملف الشخصي غير موجود');
+    }
+
+    // Record the visit
+    await this.profileVisitRepository.create(visitorId, profileOwnerId);
+    this.logger.log(`Profile visit recorded: visitor ${visitorId} -> profile owner ${profileOwnerId}`);
+  }
+
+  async getProfileVisitStats(userId: string): Promise<ProfileVisitStatsDto> {
+    this.logger.log(`Getting profile visit stats for user ${userId}`);
+    const stats = await this.profileVisitRepository.getVisitorStats(userId);
+    return stats;
+  }
+
+  async getRecentVisitors(userId: string, limit: number = 10): Promise<VisitorDto[]> {
+    this.logger.log(`Getting recent visitors for user ${userId}`);
+    const visits = await this.profileVisitRepository.findRecentVisitors(userId, limit);
+
+    return visits.map((visit) => ({
+      visitorId: visit.visitorId,
+      chartNumber: visit.visitor.chartNumber,
+      fullName: visit.visitor.fullName,
+      visitedAt: visit.createdAt,
     }));
   }
 }

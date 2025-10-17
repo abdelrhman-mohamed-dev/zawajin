@@ -971,6 +971,153 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Record Profile Visit",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/615c8a9b4f7d4e3e4c8b4567/visit",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "615c8a9b4f7d4e3e4c8b4567",
+                "visit"
+              ]
+            },
+            "description": "Record a visit to another user's profile. This endpoint is called when viewing a user's profile."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Profile Visit Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/profile/visitors/stats",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "profile",
+                "visitors",
+                "stats"
+              ]
+            },
+            "description": "Get profile visit statistics for the current user including total visits and unique visitors count."
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/users/profile/visitors/stats",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "users",
+                    "profile",
+                    "visitors",
+                    "stats"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Profile visit statistics retrieved successfully / تم استرجاع إحصائيات زوار الملف الشخصي بنجاح\",\n    \"data\": {\n        \"totalVisits\": 150,\n        \"uniqueVisitors\": 75\n    },\n    \"timestamp\": \"2025-10-17T10:30:00.000Z\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Recent Profile Visitors",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/profile/visitors",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "profile",
+                "visitors"
+              ]
+            },
+            "description": "Get a list of recent visitors to the current user's profile with visitor details."
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/users/profile/visitors",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "users",
+                    "profile",
+                    "visitors"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Recent visitors retrieved successfully / تم استرجاع الزوار الأخيرين بنجاح\",\n    \"data\": {\n        \"visitors\": [\n            {\n                \"visitorId\": \"550e8400-e29b-41d4-a716-446655440000\",\n                \"chartNumber\": \"AB-123456\",\n                \"fullName\": \"Ahmed Ali\",\n                \"visitedAt\": \"2025-10-17T10:30:00Z\"\n            },\n            {\n                \"visitorId\": \"660e8400-e29b-41d4-a716-446655440001\",\n                \"chartNumber\": \"CD-789012\",\n                \"fullName\": \"Fatima Hassan\",\n                \"visitedAt\": \"2025-10-17T09:15:00Z\"\n            }\n        ],\n        \"total\": 2\n    },\n    \"timestamp\": \"2025-10-17T10:30:00.000Z\"\n}"
+            }
+          ]
         }
       ]
     },

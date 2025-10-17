@@ -104,6 +104,35 @@ let InteractionsController = class InteractionsController {
             timestamp: new Date().toISOString(),
         };
     }
+    async recordProfileVisit(req, profileOwnerId) {
+        await this.interactionsService.recordProfileVisit(req.user.sub, profileOwnerId);
+        return {
+            success: true,
+            message: 'Profile visit recorded successfully / تم تسجيل زيارة الملف الشخصي بنجاح',
+            timestamp: new Date().toISOString(),
+        };
+    }
+    async getProfileVisitStats(req) {
+        const stats = await this.interactionsService.getProfileVisitStats(req.user.sub);
+        return {
+            success: true,
+            message: 'Profile visit statistics retrieved successfully / تم استرجاع إحصائيات زوار الملف الشخصي بنجاح',
+            data: stats,
+            timestamp: new Date().toISOString(),
+        };
+    }
+    async getRecentVisitors(req) {
+        const visitors = await this.interactionsService.getRecentVisitors(req.user.sub);
+        return {
+            success: true,
+            message: 'Recent visitors retrieved successfully / تم استرجاع الزوار الأخيرين بنجاح',
+            data: {
+                visitors,
+                total: visitors.length,
+            },
+            timestamp: new Date().toISOString(),
+        };
+    }
 };
 exports.InteractionsController = InteractionsController;
 __decorate([
@@ -278,6 +307,86 @@ __decorate([
     __metadata("design:paramtypes", [String, nestjs_i18n_1.I18nContext]),
     __metadata("design:returntype", Promise)
 ], InteractionsController.prototype, "getUserById", null);
+__decorate([
+    (0, common_1.Post)(':id/visit'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    (0, swagger_1.ApiOperation)({ summary: 'Record a profile visit' }),
+    (0, swagger_1.ApiParam)({ name: 'id', description: 'Profile owner user ID' }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Profile visit recorded successfully',
+        schema: {
+            example: {
+                success: true,
+                message: 'Profile visit recorded successfully / تم تسجيل زيارة الملف الشخصي بنجاح',
+                timestamp: '2025-10-17T10:30:00.000Z',
+            },
+        },
+    }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: 'Unauthorized' }),
+    (0, swagger_1.ApiResponse)({ status: 404, description: 'Profile not found' }),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", Promise)
+], InteractionsController.prototype, "recordProfileVisit", null);
+__decorate([
+    (0, common_1.Get)('profile/visitors/stats'),
+    (0, swagger_1.ApiOperation)({ summary: 'Get profile visit statistics for current user' }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Profile visit statistics retrieved successfully',
+        schema: {
+            example: {
+                success: true,
+                message: 'Profile visit statistics retrieved successfully / تم استرجاع إحصائيات زوار الملف الشخصي بنجاح',
+                data: {
+                    totalVisits: 150,
+                    uniqueVisitors: 75,
+                },
+                timestamp: '2025-10-17T10:30:00.000Z',
+            },
+        },
+    }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: 'Unauthorized' }),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], InteractionsController.prototype, "getProfileVisitStats", null);
+__decorate([
+    (0, common_1.Get)('profile/visitors'),
+    (0, swagger_1.ApiOperation)({ summary: 'Get recent profile visitors for current user' }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Recent visitors retrieved successfully',
+        schema: {
+            example: {
+                success: true,
+                message: 'Recent visitors retrieved successfully / تم استرجاع الزوار الأخيرين بنجاح',
+                data: {
+                    visitors: [
+                        {
+                            visitorId: '550e8400-e29b-41d4-a716-446655440000',
+                            chartNumber: 'AB-123456',
+                            firstName: 'Ahmed',
+                            lastName: 'Ali',
+                            visitedAt: '2025-10-17T10:30:00Z',
+                        },
+                    ],
+                    total: 1,
+                },
+                timestamp: '2025-10-17T10:30:00.000Z',
+            },
+        },
+    }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: 'Unauthorized' }),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], InteractionsController.prototype, "getRecentVisitors", null);
 exports.InteractionsController = InteractionsController = __decorate([
     (0, swagger_1.ApiTags)('User Interactions'),
     (0, common_1.Controller)('users'),

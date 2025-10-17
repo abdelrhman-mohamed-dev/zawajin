@@ -14,11 +14,13 @@ exports.InteractionsService = void 0;
 const common_1 = require("@nestjs/common");
 const like_repository_1 = require("../repositories/like.repository");
 const block_repository_1 = require("../repositories/block.repository");
+const profile_visit_repository_1 = require("../repositories/profile-visit.repository");
 const user_repository_1 = require("../../auth/repositories/user.repository");
 let InteractionsService = InteractionsService_1 = class InteractionsService {
-    constructor(likeRepository, blockRepository, userRepository) {
+    constructor(likeRepository, blockRepository, profileVisitRepository, userRepository) {
         this.likeRepository = likeRepository;
         this.blockRepository = blockRepository;
+        this.profileVisitRepository = profileVisitRepository;
         this.userRepository = userRepository;
         this.logger = new common_1.Logger(InteractionsService_1.name);
     }
@@ -123,12 +125,40 @@ let InteractionsService = InteractionsService_1 = class InteractionsService {
             createdAt: block.createdAt,
         }));
     }
+    async recordProfileVisit(visitorId, profileOwnerId) {
+        this.logger.log(`User ${visitorId} visiting profile of user ${profileOwnerId}`);
+        if (visitorId === profileOwnerId) {
+            return;
+        }
+        const profileOwner = await this.userRepository.findById(profileOwnerId);
+        if (!profileOwner || !profileOwner.isActive || !profileOwner.isEmailVerified) {
+            throw new common_1.NotFoundException('Profile not found / الملف الشخصي غير موجود');
+        }
+        await this.profileVisitRepository.create(visitorId, profileOwnerId);
+        this.logger.log(`Profile visit recorded: visitor ${visitorId} -> profile owner ${profileOwnerId}`);
+    }
+    async getProfileVisitStats(userId) {
+        this.logger.log(`Getting profile visit stats for user ${userId}`);
+        const stats = await this.profileVisitRepository.getVisitorStats(userId);
+        return stats;
+    }
+    async getRecentVisitors(userId, limit = 10) {
+        this.logger.log(`Getting recent visitors for user ${userId}`);
+        const visits = await this.profileVisitRepository.findRecentVisitors(userId, limit);
+        return visits.map((visit) => ({
+            visitorId: visit.visitorId,
+            chartNumber: visit.visitor.chartNumber,
+            fullName: visit.visitor.fullName,
+            visitedAt: visit.createdAt,
+        }));
+    }
 };
 exports.InteractionsService = InteractionsService;
 exports.InteractionsService = InteractionsService = InteractionsService_1 = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [like_repository_1.LikeRepository,
         block_repository_1.BlockRepository,
+        profile_visit_repository_1.ProfileVisitRepository,
         user_repository_1.UserRepository])
 ], InteractionsService);
 //# sourceMappingURL=interactions.service.js.map

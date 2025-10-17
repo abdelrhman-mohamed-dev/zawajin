@@ -245,4 +245,100 @@ export class InteractionsController {
       timestamp: new Date().toISOString(),
     };
   }
+
+  @Post(':id/visit')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Record a profile visit' })
+  @ApiParam({ name: 'id', description: 'Profile owner user ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Profile visit recorded successfully',
+    schema: {
+      example: {
+        success: true,
+        message: 'Profile visit recorded successfully / تم تسجيل زيارة الملف الشخصي بنجاح',
+        timestamp: '2025-10-17T10:30:00.000Z',
+      },
+    },
+  })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 404, description: 'Profile not found' })
+  async recordProfileVisit(@Request() req, @Param('id') profileOwnerId: string) {
+    await this.interactionsService.recordProfileVisit(req.user.sub, profileOwnerId);
+
+    return {
+      success: true,
+      message: 'Profile visit recorded successfully / تم تسجيل زيارة الملف الشخصي بنجاح',
+      timestamp: new Date().toISOString(),
+    };
+  }
+
+  @Get('profile/visitors/stats')
+  @ApiOperation({ summary: 'Get profile visit statistics for current user' })
+  @ApiResponse({
+    status: 200,
+    description: 'Profile visit statistics retrieved successfully',
+    schema: {
+      example: {
+        success: true,
+        message: 'Profile visit statistics retrieved successfully / تم استرجاع إحصائيات زوار الملف الشخصي بنجاح',
+        data: {
+          totalVisits: 150,
+          uniqueVisitors: 75,
+        },
+        timestamp: '2025-10-17T10:30:00.000Z',
+      },
+    },
+  })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async getProfileVisitStats(@Request() req) {
+    const stats = await this.interactionsService.getProfileVisitStats(req.user.sub);
+
+    return {
+      success: true,
+      message: 'Profile visit statistics retrieved successfully / تم استرجاع إحصائيات زوار الملف الشخصي بنجاح',
+      data: stats,
+      timestamp: new Date().toISOString(),
+    };
+  }
+
+  @Get('profile/visitors')
+  @ApiOperation({ summary: 'Get recent profile visitors for current user' })
+  @ApiResponse({
+    status: 200,
+    description: 'Recent visitors retrieved successfully',
+    schema: {
+      example: {
+        success: true,
+        message: 'Recent visitors retrieved successfully / تم استرجاع الزوار الأخيرين بنجاح',
+        data: {
+          visitors: [
+            {
+              visitorId: '550e8400-e29b-41d4-a716-446655440000',
+              chartNumber: 'AB-123456',
+              firstName: 'Ahmed',
+              lastName: 'Ali',
+              visitedAt: '2025-10-17T10:30:00Z',
+            },
+          ],
+          total: 1,
+        },
+        timestamp: '2025-10-17T10:30:00.000Z',
+      },
+    },
+  })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async getRecentVisitors(@Request() req) {
+    const visitors = await this.interactionsService.getRecentVisitors(req.user.sub);
+
+    return {
+      success: true,
+      message: 'Recent visitors retrieved successfully / تم استرجاع الزوار الأخيرين بنجاح',
+      data: {
+        visitors,
+        total: visitors.length,
+      },
+      timestamp: new Date().toISOString(),
+    };
+  }
 }

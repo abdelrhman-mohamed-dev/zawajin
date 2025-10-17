@@ -13,8 +13,10 @@ const interactions_controller_1 = require("./controllers/interactions.controller
 const interactions_service_1 = require("./services/interactions.service");
 const like_entity_1 = require("./entities/like.entity");
 const block_entity_1 = require("./entities/block.entity");
+const profile_visit_entity_1 = require("./entities/profile-visit.entity");
 const like_repository_1 = require("./repositories/like.repository");
 const block_repository_1 = require("./repositories/block.repository");
+const profile_visit_repository_1 = require("./repositories/profile-visit.repository");
 const auth_module_1 = require("../auth/auth.module");
 const users_module_1 = require("../users/users.module");
 let InteractionsModule = class InteractionsModule {
@@ -22,9 +24,9 @@ let InteractionsModule = class InteractionsModule {
 exports.InteractionsModule = InteractionsModule;
 exports.InteractionsModule = InteractionsModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([like_entity_1.Like, block_entity_1.Block]), auth_module_1.AuthModule, users_module_1.UsersModule],
+        imports: [typeorm_1.TypeOrmModule.forFeature([like_entity_1.Like, block_entity_1.Block, profile_visit_entity_1.ProfileVisit]), auth_module_1.AuthModule, users_module_1.UsersModule],
         controllers: [interactions_controller_1.InteractionsController],
-        providers: [interactions_service_1.InteractionsService, like_repository_1.LikeRepository, block_repository_1.BlockRepository],
+        providers: [interactions_service_1.InteractionsService, like_repository_1.LikeRepository, block_repository_1.BlockRepository, profile_visit_repository_1.ProfileVisitRepository],
         exports: [interactions_service_1.InteractionsService],
     })
 ], InteractionsModule);

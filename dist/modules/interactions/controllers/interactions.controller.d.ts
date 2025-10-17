@@ -63,4 +63,24 @@ export declare class InteractionsController {
         data: any;
         timestamp: string;
     }>;
+    recordProfileVisit(req: any, profileOwnerId: string): Promise<{
+        success: boolean;
+        message: string;
+        timestamp: string;
+    }>;
+    getProfileVisitStats(req: any): Promise<{
+        success: boolean;
+        message: string;
+        data: import("../dto/profile-visit-stats.dto").ProfileVisitStatsDto;
+        timestamp: string;
+    }>;
+    getRecentVisitors(req: any): Promise<{
+        success: boolean;
+        message: string;
+        data: {
+            visitors: import("../dto/visitor.dto").VisitorDto[];
+            total: number;
+        };
+        timestamp: string;
+    }>;
 }
