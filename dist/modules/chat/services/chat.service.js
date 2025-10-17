@@ -54,12 +54,6 @@ let ChatService = class ChatService {
             });
         }
         const mutualLike = await this.checkMutualLike(userId, recipientId);
-        if (!mutualLike) {
-            throw new common_1.ForbiddenException({
-                message: 'You can only chat with matched users',
-                messageAr: 'يمكنك فقط الدردشة مع المستخدمين المتطابقين',
-            });
-        }
         const existingConversation = await this.conversationRepository.findByParticipants(userId, recipientId);
         if (existingConversation) {
             return existingConversation;
@@ -67,7 +61,7 @@ let ChatService = class ChatService {
         const conversation = this.conversationRepository.create({
             participant1Id: userId,
             participant2Id: recipientId,
-            matchId: mutualLike.id,
+            matchId: mutualLike?.id || null,
         });
         return this.conversationRepository.save(conversation);
     }

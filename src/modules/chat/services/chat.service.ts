@@ -63,15 +63,8 @@ export class ChatService {
       });
     }
 
-    // Check for mutual like (match)
+    // Check for mutual like (match) - optional, for reference only
     const mutualLike = await this.checkMutualLike(userId, recipientId);
-
-    if (!mutualLike) {
-      throw new ForbiddenException({
-        message: 'You can only chat with matched users',
-        messageAr: 'يمكنك فقط الدردشة مع المستخدمين المتطابقين',
-      });
-    }
 
     // Check if conversation already exists
     const existingConversation =
@@ -85,7 +78,7 @@ export class ChatService {
     const conversation = this.conversationRepository.create({
       participant1Id: userId,
       participant2Id: recipientId,
-      matchId: mutualLike.id,
+      matchId: mutualLike?.id || null, // Store match ID if exists, null otherwise
     });
 
     return this.conversationRepository.save(conversation);
