@@ -22,7 +22,6 @@ const send_message_dto_1 = require("../dto/send-message.dto");
 const send_engagement_dto_1 = require("../dto/send-engagement.dto");
 const respond_engagement_dto_1 = require("../dto/respond-engagement.dto");
 const pagination_dto_1 = require("../dto/pagination.dto");
-const throttler_1 = require("@nestjs/throttler");
 let ChatController = class ChatController {
     constructor(chatService) {
         this.chatService = chatService;
@@ -106,7 +105,6 @@ let ChatController = class ChatController {
 exports.ChatController = ChatController;
 __decorate([
     (0, common_1.Post)('conversations'),
-    (0, throttler_1.Throttle)({ default: { limit: 10, ttl: 60000 } }),
     (0, swagger_1.ApiOperation)({ summary: 'Create a new conversation with a matched user' }),
     (0, swagger_1.ApiResponse)({
         status: 201,
@@ -166,7 +164,6 @@ __decorate([
 ], ChatController.prototype, "getConversationMessages", null);
 __decorate([
     (0, common_1.Post)('conversations/:id/messages'),
-    (0, throttler_1.Throttle)({ default: { limit: 20, ttl: 60000 } }),
     (0, swagger_1.ApiOperation)({ summary: 'Send a message to a conversation' }),
     (0, swagger_1.ApiParam)({ name: 'id', description: 'Conversation ID' }),
     (0, swagger_1.ApiResponse)({
@@ -259,7 +256,6 @@ __decorate([
 ], ChatController.prototype, "getUserPresence", null);
 __decorate([
     (0, common_1.Post)('engagement-requests'),
-    (0, throttler_1.Throttle)({ default: { limit: 5, ttl: 3600000 } }),
     (0, swagger_1.ApiOperation)({ summary: 'Send an engagement request to a user' }),
     (0, swagger_1.ApiResponse)({
         status: 201,

@@ -20,7 +20,6 @@ import {
   ApiBearerAuth,
   ApiQuery,
 } from '@nestjs/swagger';
-import { Throttle } from '@nestjs/throttler';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../../common/guards/roles.guard';
 import { PermissionsGuard } from '../../../common/guards/permissions.guard';
@@ -41,7 +40,6 @@ export class AdminUserController {
 
   @Get()
   @RequirePermissions('manage_users')
-  @Throttle({ default: { limit: 50, ttl: 60000 } })
   @ApiOperation({ summary: 'Get all users with filters' })
   @ApiQuery({ name: 'page', required: false, type: Number })
   @ApiQuery({ name: 'limit', required: false, type: Number })
@@ -71,7 +69,6 @@ export class AdminUserController {
 
   @Get(':id')
   @RequirePermissions('manage_users')
-  @Throttle({ default: { limit: 100, ttl: 60000 } })
   @ApiOperation({ summary: 'Get detailed user info' })
   @ApiResponse({ status: 200, description: 'User fetched successfully' })
   @ApiResponse({ status: 404, description: 'User not found' })
@@ -83,7 +80,6 @@ export class AdminUserController {
 
   @Put(':id')
   @RequirePermissions('manage_users')
-  @Throttle({ default: { limit: 20, ttl: 60000 } })
   @ApiOperation({ summary: 'Update user profile (admin override)' })
   @ApiResponse({ status: 200, description: 'User updated successfully' })
   @ApiResponse({ status: 404, description: 'User not found' })
@@ -100,7 +96,6 @@ export class AdminUserController {
 
   @Post(':id/ban')
   @RequirePermissions('manage_users')
-  @Throttle({ default: { limit: 10, ttl: 60000 } })
   @ApiOperation({ summary: 'Ban user (temporary or permanent)' })
   @ApiResponse({ status: 200, description: 'User banned successfully' })
   @ApiResponse({ status: 404, description: 'User not found' })
@@ -118,7 +113,6 @@ export class AdminUserController {
 
   @Post(':id/unban')
   @RequirePermissions('manage_users')
-  @Throttle({ default: { limit: 10, ttl: 60000 } })
   @ApiOperation({ summary: 'Unban user' })
   @ApiResponse({ status: 200, description: 'User unbanned successfully' })
   @ApiResponse({ status: 404, description: 'User not found' })
@@ -132,7 +126,6 @@ export class AdminUserController {
 
   @Delete(':id')
   @RequirePermissions('manage_users')
-  @Throttle({ default: { limit: 10, ttl: 60000 } })
   @ApiOperation({ summary: 'Disable/delete user account (soft delete)' })
   @ApiResponse({ status: 200, description: 'User deleted successfully' })
   @ApiResponse({ status: 404, description: 'User not found' })
@@ -145,7 +138,6 @@ export class AdminUserController {
 
   @Post(':id/verify')
   @RequirePermissions('verify_users')
-  @Throttle({ default: { limit: 20, ttl: 60000 } })
   @ApiOperation({ summary: 'Manually verify user profile' })
   @ApiResponse({ status: 200, description: 'User verified successfully' })
   @ApiResponse({ status: 404, description: 'User not found' })
@@ -159,7 +151,6 @@ export class AdminUserController {
 
   @Post(':id/send-notification')
   @RequirePermissions('send_notifications')
-  @Throttle({ default: { limit: 20, ttl: 60000 } })
   @ApiOperation({ summary: 'Send notification to user' })
   @ApiResponse({ status: 200, description: 'Notification sent successfully' })
   @ApiResponse({ status: 404, description: 'User not found' })
@@ -181,7 +172,6 @@ export class AdminUserController {
 
   @Post(':id/send-email')
   @RequirePermissions('send_notifications')
-  @Throttle({ default: { limit: 20, ttl: 60000 } })
   @ApiOperation({ summary: 'Send email to user' })
   @ApiResponse({ status: 200, description: 'Email sent successfully' })
   @ApiResponse({ status: 404, description: 'User not found' })
@@ -204,7 +194,6 @@ export class AdminUserController {
 
   @Get(':id/activity-logs')
   @RequirePermissions('manage_users')
-  @Throttle({ default: { limit: 50, ttl: 60000 } })
   @ApiOperation({ summary: 'Get user activity logs' })
   @ApiQuery({ name: 'page', required: false, type: Number })
   @ApiQuery({ name: 'limit', required: false, type: Number })

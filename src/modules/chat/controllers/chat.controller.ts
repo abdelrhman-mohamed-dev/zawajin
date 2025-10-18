@@ -26,7 +26,6 @@ import { SendMessageDto } from '../dto/send-message.dto';
 import { SendEngagementDto } from '../dto/send-engagement.dto';
 import { RespondEngagementDto } from '../dto/respond-engagement.dto';
 import { PaginationDto } from '../dto/pagination.dto';
-import { Throttle } from '@nestjs/throttler';
 
 @ApiTags('Chat')
 @ApiBearerAuth()
@@ -36,7 +35,6 @@ export class ChatController {
   constructor(private readonly chatService: ChatService) {}
 
   @Post('conversations')
-  @Throttle({ default: { limit: 10, ttl: 60000 } }) // 10 conversations per minute
   @ApiOperation({ summary: 'Create a new conversation with a matched user' })
   @ApiResponse({
     status: 201,
@@ -105,7 +103,6 @@ export class ChatController {
   }
 
   @Post('conversations/:id/messages')
-  @Throttle({ default: { limit: 20, ttl: 60000 } }) // 20 messages per minute
   @ApiOperation({ summary: 'Send a message to a conversation' })
   @ApiParam({ name: 'id', description: 'Conversation ID' })
   @ApiResponse({
@@ -213,7 +210,6 @@ export class ChatController {
   // ======================== ENGAGEMENT ROUTES ========================
 
   @Post('engagement-requests')
-  @Throttle({ default: { limit: 5, ttl: 3600000 } }) // 5 requests per hour
   @ApiOperation({ summary: 'Send an engagement request to a user' })
   @ApiResponse({
     status: 201,

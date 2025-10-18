@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AdminUserController = void 0;
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
-const throttler_1 = require("@nestjs/throttler");
 const jwt_auth_guard_1 = require("../../auth/guards/jwt-auth.guard");
 const roles_guard_1 = require("../../../common/guards/roles.guard");
 const permissions_guard_1 = require("../../../common/guards/permissions.guard");
@@ -80,7 +79,6 @@ exports.AdminUserController = AdminUserController;
 __decorate([
     (0, common_1.Get)(),
     (0, permissions_decorator_1.RequirePermissions)('manage_users'),
-    (0, throttler_1.Throttle)({ default: { limit: 50, ttl: 60000 } }),
     (0, swagger_1.ApiOperation)({ summary: 'Get all users with filters' }),
     (0, swagger_1.ApiQuery)({ name: 'page', required: false, type: Number }),
     (0, swagger_1.ApiQuery)({ name: 'limit', required: false, type: Number }),
@@ -103,7 +101,6 @@ __decorate([
 __decorate([
     (0, common_1.Get)(':id'),
     (0, permissions_decorator_1.RequirePermissions)('manage_users'),
-    (0, throttler_1.Throttle)({ default: { limit: 100, ttl: 60000 } }),
     (0, swagger_1.ApiOperation)({ summary: 'Get detailed user info' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'User fetched successfully' }),
     (0, swagger_1.ApiResponse)({ status: 404, description: 'User not found' }),
@@ -117,7 +114,6 @@ __decorate([
 __decorate([
     (0, common_1.Put)(':id'),
     (0, permissions_decorator_1.RequirePermissions)('manage_users'),
-    (0, throttler_1.Throttle)({ default: { limit: 20, ttl: 60000 } }),
     (0, swagger_1.ApiOperation)({ summary: 'Update user profile (admin override)' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'User updated successfully' }),
     (0, swagger_1.ApiResponse)({ status: 404, description: 'User not found' }),
@@ -132,7 +128,6 @@ __decorate([
 __decorate([
     (0, common_1.Post)(':id/ban'),
     (0, permissions_decorator_1.RequirePermissions)('manage_users'),
-    (0, throttler_1.Throttle)({ default: { limit: 10, ttl: 60000 } }),
     (0, swagger_1.ApiOperation)({ summary: 'Ban user (temporary or permanent)' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'User banned successfully' }),
     (0, swagger_1.ApiResponse)({ status: 404, description: 'User not found' }),
@@ -148,7 +143,6 @@ __decorate([
 __decorate([
     (0, common_1.Post)(':id/unban'),
     (0, permissions_decorator_1.RequirePermissions)('manage_users'),
-    (0, throttler_1.Throttle)({ default: { limit: 10, ttl: 60000 } }),
     (0, swagger_1.ApiOperation)({ summary: 'Unban user' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'User unbanned successfully' }),
     (0, swagger_1.ApiResponse)({ status: 404, description: 'User not found' }),
@@ -163,7 +157,6 @@ __decorate([
 __decorate([
     (0, common_1.Delete)(':id'),
     (0, permissions_decorator_1.RequirePermissions)('manage_users'),
-    (0, throttler_1.Throttle)({ default: { limit: 10, ttl: 60000 } }),
     (0, swagger_1.ApiOperation)({ summary: 'Disable/delete user account (soft delete)' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'User deleted successfully' }),
     (0, swagger_1.ApiResponse)({ status: 404, description: 'User not found' }),
@@ -177,7 +170,6 @@ __decorate([
 __decorate([
     (0, common_1.Post)(':id/verify'),
     (0, permissions_decorator_1.RequirePermissions)('verify_users'),
-    (0, throttler_1.Throttle)({ default: { limit: 20, ttl: 60000 } }),
     (0, swagger_1.ApiOperation)({ summary: 'Manually verify user profile' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'User verified successfully' }),
     (0, swagger_1.ApiResponse)({ status: 404, description: 'User not found' }),
@@ -192,7 +184,6 @@ __decorate([
 __decorate([
     (0, common_1.Post)(':id/send-notification'),
     (0, permissions_decorator_1.RequirePermissions)('send_notifications'),
-    (0, throttler_1.Throttle)({ default: { limit: 20, ttl: 60000 } }),
     (0, swagger_1.ApiOperation)({ summary: 'Send notification to user' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Notification sent successfully' }),
     (0, swagger_1.ApiResponse)({ status: 404, description: 'User not found' }),
@@ -207,7 +198,6 @@ __decorate([
 __decorate([
     (0, common_1.Post)(':id/send-email'),
     (0, permissions_decorator_1.RequirePermissions)('send_notifications'),
-    (0, throttler_1.Throttle)({ default: { limit: 20, ttl: 60000 } }),
     (0, swagger_1.ApiOperation)({ summary: 'Send email to user' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Email sent successfully' }),
     (0, swagger_1.ApiResponse)({ status: 404, description: 'User not found' }),
@@ -222,7 +212,6 @@ __decorate([
 __decorate([
     (0, common_1.Get)(':id/activity-logs'),
     (0, permissions_decorator_1.RequirePermissions)('manage_users'),
-    (0, throttler_1.Throttle)({ default: { limit: 50, ttl: 60000 } }),
     (0, swagger_1.ApiOperation)({ summary: 'Get user activity logs' }),
     (0, swagger_1.ApiQuery)({ name: 'page', required: false, type: Number }),
     (0, swagger_1.ApiQuery)({ name: 'limit', required: false, type: Number }),

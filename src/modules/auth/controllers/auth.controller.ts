@@ -10,7 +10,6 @@ import {
   Request,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBody, ApiBearerAuth } from '@nestjs/swagger';
-import { Throttle } from '@nestjs/throttler';
 import { I18n, I18nContext } from 'nestjs-i18n';
 import { RegisterDto } from '../dto/register.dto';
 import { LoginDto } from '../dto/login.dto';
@@ -39,7 +38,6 @@ export class AuthController {
 
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
-  @Throttle({ default: { limit: 5, ttl: 3600000 } }) // 5 requests per hour
   @ApiOperation({
     summary: 'Register new user',
     description: 'Register a new user account with full name, gender, email, phone, and password. An OTP will be sent to the provided email address for verification.',
@@ -135,7 +133,6 @@ export class AuthController {
 
   @Post('verify-email')
   @HttpCode(HttpStatus.OK)
-  @Throttle({ default: { limit: 10, ttl: 3600000 } }) // 10 requests per hour
   @ApiOperation({
     summary: 'Verify email with OTP',
     description: 'Verify user email address using the OTP code sent during registration. Optionally register FCM token for push notifications. Returns JWT tokens upon successful verification.',
@@ -253,7 +250,6 @@ export class AuthController {
 
   @Post('resend-otp')
   @HttpCode(HttpStatus.OK)
-  @Throttle({ default: { limit: 3, ttl: 3600000 } }) // 3 requests per hour per email
   @ApiOperation({
     summary: 'Resend OTP code',
     description: 'Resend OTP verification code to the user email address. Previous OTP will be invalidated.',
@@ -334,7 +330,6 @@ export class AuthController {
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  @Throttle({ default: { limit: 10, ttl: 3600000 } }) // 10 requests per hour
   @ApiOperation({
     summary: 'User login',
     description: 'Login with email and password. Optionally update FCM token for push notifications. Returns JWT tokens upon successful authentication.',
@@ -427,7 +422,6 @@ export class AuthController {
 
   @Post('forget-password')
   @HttpCode(HttpStatus.OK)
-  @Throttle({ default: { limit: 3, ttl: 3600000 } }) // 3 requests per hour
   @ApiOperation({
     summary: 'Request password reset',
     description: 'Request a password reset by providing your email address. A verification code will be sent to your email.',
@@ -517,7 +511,6 @@ export class AuthController {
 
   @Post('verify-reset-otp')
   @HttpCode(HttpStatus.OK)
-  @Throttle({ default: { limit: 10, ttl: 3600000 } }) // 10 requests per hour
   @ApiOperation({
     summary: 'Verify password reset OTP',
     description: 'Verify the OTP code sent to your email for password reset. This is step 2 of the password reset flow.',
@@ -612,7 +605,6 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @HttpCode(HttpStatus.OK)
-  @Throttle({ default: { limit: 5, ttl: 3600000 } }) // 5 requests per hour
   @ApiOperation({
     summary: 'Reset password',
     description: 'Reset your password with a new password. This is step 3 of the password reset flow. You must verify the OTP first using /verify-reset-otp endpoint to get the JWT token, then use that token in the Authorization header.',

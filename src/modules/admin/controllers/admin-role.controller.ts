@@ -19,7 +19,6 @@ import {
   ApiBearerAuth,
   ApiQuery,
 } from '@nestjs/swagger';
-import { Throttle } from '@nestjs/throttler';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../../common/guards/roles.guard';
 import { Roles } from '../../../common/decorators/roles.decorator';
@@ -36,7 +35,6 @@ export class AdminRoleController {
   constructor(private readonly adminRoleService: AdminRoleService) {}
 
   @Get()
-  @Throttle({ default: { limit: 50, ttl: 60000 } })
   @ApiOperation({ summary: 'Get all admin users (super admin only)' })
   @ApiQuery({ name: 'page', required: false, type: Number })
   @ApiQuery({ name: 'limit', required: false, type: Number })
@@ -52,7 +50,6 @@ export class AdminRoleController {
   }
 
   @Post()
-  @Throttle({ default: { limit: 10, ttl: 60000 } })
   @ApiOperation({ summary: 'Create new admin user (super admin only)' })
   @ApiResponse({ status: 201, description: 'Admin created successfully' })
   @ApiResponse({ status: 400, description: 'Email already exists' })
@@ -64,7 +61,6 @@ export class AdminRoleController {
   }
 
   @Put(':id/roles')
-  @Throttle({ default: { limit: 20, ttl: 60000 } })
   @ApiOperation({ summary: 'Update admin roles/permissions (super admin only)' })
   @ApiResponse({ status: 200, description: 'Admin roles updated successfully' })
   @ApiResponse({ status: 404, description: 'User not found' })
@@ -80,7 +76,6 @@ export class AdminRoleController {
   }
 
   @Put(':id/promote')
-  @Throttle({ default: { limit: 10, ttl: 60000 } })
   @ApiOperation({ summary: 'Promote admin to super_admin (super admin only)' })
   @ApiResponse({ status: 200, description: 'Admin promoted successfully' })
   @ApiResponse({ status: 404, description: 'User not found' })
@@ -92,7 +87,6 @@ export class AdminRoleController {
   }
 
   @Put(':id/demote')
-  @Throttle({ default: { limit: 10, ttl: 60000 } })
   @ApiOperation({ summary: 'Demote super_admin to admin (super admin only)' })
   @ApiResponse({ status: 200, description: 'Super admin demoted successfully' })
   @ApiResponse({ status: 404, description: 'User not found' })
@@ -104,7 +98,6 @@ export class AdminRoleController {
   }
 
   @Delete(':id')
-  @Throttle({ default: { limit: 10, ttl: 60000 } })
   @ApiOperation({ summary: 'Remove admin privileges (super admin only)' })
   @ApiResponse({ status: 200, description: 'Admin privileges removed successfully' })
   @ApiResponse({ status: 404, description: 'User not found' })

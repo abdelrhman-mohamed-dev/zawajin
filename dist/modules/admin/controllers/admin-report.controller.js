@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AdminReportController = void 0;
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
-const throttler_1 = require("@nestjs/throttler");
 const jwt_auth_guard_1 = require("../../auth/guards/jwt-auth.guard");
 const roles_guard_1 = require("../../../common/guards/roles.guard");
 const permissions_guard_1 = require("../../../common/guards/permissions.guard");
@@ -55,7 +54,6 @@ exports.AdminReportController = AdminReportController;
 __decorate([
     (0, common_1.Get)(),
     (0, permissions_decorator_1.RequirePermissions)('manage_reports'),
-    (0, throttler_1.Throttle)({ default: { limit: 50, ttl: 60000 } }),
     (0, swagger_1.ApiOperation)({ summary: 'Get all user reports' }),
     (0, swagger_1.ApiQuery)({ name: 'page', required: false, type: Number }),
     (0, swagger_1.ApiQuery)({ name: 'limit', required: false, type: Number }),
@@ -74,7 +72,6 @@ __decorate([
 __decorate([
     (0, common_1.Get)(':id'),
     (0, permissions_decorator_1.RequirePermissions)('manage_reports'),
-    (0, throttler_1.Throttle)({ default: { limit: 100, ttl: 60000 } }),
     (0, swagger_1.ApiOperation)({ summary: 'Get report details' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Report fetched successfully' }),
     __param(0, (0, common_1.Param)('id')),
@@ -86,7 +83,6 @@ __decorate([
 __decorate([
     (0, common_1.Put)(':id/review'),
     (0, permissions_decorator_1.RequirePermissions)('manage_reports'),
-    (0, throttler_1.Throttle)({ default: { limit: 20, ttl: 60000 } }),
     (0, swagger_1.ApiOperation)({ summary: 'Mark report as reviewed' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Report marked as reviewed' }),
     __param(0, (0, common_1.Param)('id')),
@@ -98,7 +94,6 @@ __decorate([
 __decorate([
     (0, common_1.Put)(':id/resolve'),
     (0, permissions_decorator_1.RequirePermissions)('manage_reports'),
-    (0, throttler_1.Throttle)({ default: { limit: 20, ttl: 60000 } }),
     (0, swagger_1.ApiOperation)({ summary: 'Resolve report with action' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Report resolved successfully' }),
     __param(0, (0, common_1.Param)('id')),
@@ -111,7 +106,6 @@ __decorate([
 __decorate([
     (0, common_1.Put)(':id/dismiss'),
     (0, permissions_decorator_1.RequirePermissions)('manage_reports'),
-    (0, throttler_1.Throttle)({ default: { limit: 20, ttl: 60000 } }),
     (0, swagger_1.ApiOperation)({ summary: 'Dismiss report' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Report dismissed successfully' }),
     __param(0, (0, common_1.Param)('id')),

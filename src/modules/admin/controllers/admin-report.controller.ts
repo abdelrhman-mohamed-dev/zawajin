@@ -12,7 +12,6 @@ import {
   DefaultValuePipe,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
-import { Throttle } from '@nestjs/throttler';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../../common/guards/roles.guard';
 import { PermissionsGuard } from '../../../common/guards/permissions.guard';
@@ -31,7 +30,6 @@ export class AdminReportController {
 
   @Get()
   @RequirePermissions('manage_reports')
-  @Throttle({ default: { limit: 50, ttl: 60000 } })
   @ApiOperation({ summary: 'Get all user reports' })
   @ApiQuery({ name: 'page', required: false, type: Number })
   @ApiQuery({ name: 'limit', required: false, type: Number })
@@ -51,7 +49,6 @@ export class AdminReportController {
 
   @Get(':id')
   @RequirePermissions('manage_reports')
-  @Throttle({ default: { limit: 100, ttl: 60000 } })
   @ApiOperation({ summary: 'Get report details' })
   @ApiResponse({ status: 200, description: 'Report fetched successfully' })
   async getReportById(@Param('id') id: string, @Req() req: any) {
@@ -61,7 +58,6 @@ export class AdminReportController {
 
   @Put(':id/review')
   @RequirePermissions('manage_reports')
-  @Throttle({ default: { limit: 20, ttl: 60000 } })
   @ApiOperation({ summary: 'Mark report as reviewed' })
   @ApiResponse({ status: 200, description: 'Report marked as reviewed' })
   async reviewReport(@Param('id') id: string, @Req() req: any) {
@@ -72,7 +68,6 @@ export class AdminReportController {
 
   @Put(':id/resolve')
   @RequirePermissions('manage_reports')
-  @Throttle({ default: { limit: 20, ttl: 60000 } })
   @ApiOperation({ summary: 'Resolve report with action' })
   @ApiResponse({ status: 200, description: 'Report resolved successfully' })
   async resolveReport(
@@ -87,7 +82,6 @@ export class AdminReportController {
 
   @Put(':id/dismiss')
   @RequirePermissions('manage_reports')
-  @Throttle({ default: { limit: 20, ttl: 60000 } })
   @ApiOperation({ summary: 'Dismiss report' })
   @ApiResponse({ status: 200, description: 'Report dismissed successfully' })
   async dismissReport(@Param('id') id: string, @Req() req: any) {

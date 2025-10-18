@@ -2,9 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CacheModule } from '@nestjs/cache-manager';
-import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { ScheduleModule } from '@nestjs/schedule';
-import { APP_GUARD } from '@nestjs/core';
 import { I18nModule, QueryResolver, AcceptLanguageResolver } from 'nestjs-i18n';
 import * as path from 'path';
 import { getDatabaseConfig } from './config/database.config';
@@ -36,16 +34,6 @@ import { MatchingModule } from './modules/matching/matching.module';
       inject: [ConfigService],
       useFactory: getRedisConfig,
     }),
-    ThrottlerModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ([
-        {
-          ttl: configService.get<number>('RATE_LIMIT_TTL', 60000), // 1 minute
-          limit: configService.get<number>('RATE_LIMIT_DEFAULT', 100),
-        },
-      ]),
-      inject: [ConfigService],
-    }),
     I18nModule.forRoot({
       fallbackLanguage: 'en',
       loaderOptions: {
@@ -71,11 +59,6 @@ import { MatchingModule } from './modules/matching/matching.module';
     MatchingModule,
   ],
   controllers: [],
-  providers: [
-    {
-      provide: APP_GUARD,
-      useClass: ThrottlerGuard,
-    },
-  ],
+  providers: [],
 })
 export class AppModule {}

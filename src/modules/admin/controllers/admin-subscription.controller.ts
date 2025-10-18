@@ -1,6 +1,5 @@
 import { Controller, Get, Post, Put, Delete, Query, Body, Param, UseGuards, Req, ParseIntPipe, DefaultValuePipe, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
-import { Throttle } from '@nestjs/throttler';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../../common/guards/roles.guard';
 import { PermissionsGuard } from '../../../common/guards/permissions.guard';
@@ -20,7 +19,6 @@ export class AdminSubscriptionController {
 
   @Get('plans')
   @RequirePermissions('manage_subscriptions')
-  @Throttle({ default: { limit: 50, ttl: 60000 } })
   @ApiOperation({ summary: 'Get all subscription plans' })
   @ApiResponse({ status: 200, description: 'Subscription plans fetched successfully' })
   async getAllPlans(@Req() req: any) {
@@ -30,7 +28,6 @@ export class AdminSubscriptionController {
 
   @Get()
   @RequirePermissions('manage_subscriptions')
-  @Throttle({ default: { limit: 50, ttl: 60000 } })
   @ApiOperation({ summary: 'Get all active subscriptions' })
   @ApiQuery({ name: 'page', required: false, type: Number })
   @ApiQuery({ name: 'limit', required: false, type: Number })
@@ -46,7 +43,6 @@ export class AdminSubscriptionController {
 
   @Post('plans')
   @RequirePermissions('manage_subscriptions')
-  @Throttle({ default: { limit: 10, ttl: 60000 } })
   @ApiOperation({ summary: 'Create new subscription plan' })
   @ApiResponse({ status: 201, description: 'Subscription plan created successfully' })
   @ApiResponse({ status: 400, description: 'Invalid input data' })
@@ -60,7 +56,6 @@ export class AdminSubscriptionController {
   @Put('plans/:id')
   @HttpCode(HttpStatus.OK)
   @RequirePermissions('manage_subscriptions')
-  @Throttle({ default: { limit: 20, ttl: 60000 } })
   @ApiOperation({ summary: 'Update subscription plan' })
   @ApiResponse({ status: 200, description: 'Subscription plan updated successfully' })
   @ApiResponse({ status: 404, description: 'Subscription plan not found' })
@@ -78,7 +73,6 @@ export class AdminSubscriptionController {
   @Delete('plans/:id')
   @HttpCode(HttpStatus.OK)
   @RequirePermissions('manage_subscriptions')
-  @Throttle({ default: { limit: 10, ttl: 60000 } })
   @ApiOperation({ summary: 'Deactivate subscription plan' })
   @ApiResponse({ status: 200, description: 'Subscription plan deactivated successfully' })
   @ApiResponse({ status: 404, description: 'Subscription plan not found' })

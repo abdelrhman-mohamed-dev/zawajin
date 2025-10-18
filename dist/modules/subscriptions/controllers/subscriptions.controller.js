@@ -16,7 +16,6 @@ exports.SubscriptionsController = void 0;
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
 const jwt_auth_guard_1 = require("../../auth/guards/jwt-auth.guard");
-const throttler_1 = require("@nestjs/throttler");
 const subscriptions_service_1 = require("../services/subscriptions.service");
 const create_subscription_dto_1 = require("../dto/create-subscription.dto");
 const upgrade_subscription_dto_1 = require("../dto/upgrade-subscription.dto");
@@ -53,7 +52,6 @@ __decorate([
         description: 'Returns all active subscription plans',
         type: [subscription_response_dto_1.SubscriptionPlanResponseDto],
     }),
-    (0, throttler_1.Throttle)({ default: { limit: 20, ttl: 60000 } }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
@@ -72,7 +70,6 @@ __decorate([
         status: 404,
         description: 'No active subscription found',
     }),
-    (0, throttler_1.Throttle)({ default: { limit: 30, ttl: 60000 } }),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -97,7 +94,6 @@ __decorate([
         status: 404,
         description: 'Subscription plan not found',
     }),
-    (0, throttler_1.Throttle)({ default: { limit: 5, ttl: 60000 } }),
     __param(0, (0, common_1.Request)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -123,7 +119,6 @@ __decorate([
         status: 404,
         description: 'No active subscription or plan not found',
     }),
-    (0, throttler_1.Throttle)({ default: { limit: 5, ttl: 60000 } }),
     __param(0, (0, common_1.Request)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -145,7 +140,6 @@ __decorate([
         status: 404,
         description: 'No active subscription found',
     }),
-    (0, throttler_1.Throttle)({ default: { limit: 5, ttl: 60000 } }),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -161,7 +155,6 @@ __decorate([
         description: 'Returns subscription history',
         type: [subscription_response_dto_1.SubscriptionHistoryResponseDto],
     }),
-    (0, throttler_1.Throttle)({ default: { limit: 20, ttl: 60000 } }),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),

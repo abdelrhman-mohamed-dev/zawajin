@@ -16,7 +16,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
-const throttler_1 = require("@nestjs/throttler");
 const nestjs_i18n_1 = require("nestjs-i18n");
 const register_dto_1 = require("../dto/register.dto");
 const login_dto_1 = require("../dto/login.dto");
@@ -148,7 +147,6 @@ exports.AuthController = AuthController;
 __decorate([
     (0, common_1.Post)('register'),
     (0, common_1.HttpCode)(common_1.HttpStatus.CREATED),
-    (0, throttler_1.Throttle)({ default: { limit: 5, ttl: 3600000 } }),
     (0, swagger_1.ApiOperation)({
         summary: 'Register new user',
         description: 'Register a new user account with full name, gender, email, phone, and password. An OTP will be sent to the provided email address for verification.',
@@ -240,7 +238,6 @@ __decorate([
 __decorate([
     (0, common_1.Post)('verify-email'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
-    (0, throttler_1.Throttle)({ default: { limit: 10, ttl: 3600000 } }),
     (0, swagger_1.ApiOperation)({
         summary: 'Verify email with OTP',
         description: 'Verify user email address using the OTP code sent during registration. Optionally register FCM token for push notifications. Returns JWT tokens upon successful verification.',
@@ -354,7 +351,6 @@ __decorate([
 __decorate([
     (0, common_1.Post)('resend-otp'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
-    (0, throttler_1.Throttle)({ default: { limit: 3, ttl: 3600000 } }),
     (0, swagger_1.ApiOperation)({
         summary: 'Resend OTP code',
         description: 'Resend OTP verification code to the user email address. Previous OTP will be invalidated.',
@@ -431,7 +427,6 @@ __decorate([
 __decorate([
     (0, common_1.Post)('login'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
-    (0, throttler_1.Throttle)({ default: { limit: 10, ttl: 3600000 } }),
     (0, swagger_1.ApiOperation)({
         summary: 'User login',
         description: 'Login with email and password. Optionally update FCM token for push notifications. Returns JWT tokens upon successful authentication.',
@@ -520,7 +515,6 @@ __decorate([
 __decorate([
     (0, common_1.Post)('forget-password'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
-    (0, throttler_1.Throttle)({ default: { limit: 3, ttl: 3600000 } }),
     (0, swagger_1.ApiOperation)({
         summary: 'Request password reset',
         description: 'Request a password reset by providing your email address. A verification code will be sent to your email.',
@@ -606,7 +600,6 @@ __decorate([
 __decorate([
     (0, common_1.Post)('verify-reset-otp'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
-    (0, throttler_1.Throttle)({ default: { limit: 10, ttl: 3600000 } }),
     (0, swagger_1.ApiOperation)({
         summary: 'Verify password reset OTP',
         description: 'Verify the OTP code sent to your email for password reset. This is step 2 of the password reset flow.',
@@ -697,7 +690,6 @@ __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
-    (0, throttler_1.Throttle)({ default: { limit: 5, ttl: 3600000 } }),
     (0, swagger_1.ApiOperation)({
         summary: 'Reset password',
         description: 'Reset your password with a new password. This is step 3 of the password reset flow. You must verify the OTP first using /verify-reset-otp endpoint to get the JWT token, then use that token in the Authorization header.',

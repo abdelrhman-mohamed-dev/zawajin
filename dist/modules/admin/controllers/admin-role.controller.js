@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AdminRoleController = void 0;
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
-const throttler_1 = require("@nestjs/throttler");
 const jwt_auth_guard_1 = require("../../auth/guards/jwt-auth.guard");
 const roles_guard_1 = require("../../../common/guards/roles.guard");
 const roles_decorator_1 = require("../../../common/decorators/roles.decorator");
@@ -59,7 +58,6 @@ let AdminRoleController = class AdminRoleController {
 exports.AdminRoleController = AdminRoleController;
 __decorate([
     (0, common_1.Get)(),
-    (0, throttler_1.Throttle)({ default: { limit: 50, ttl: 60000 } }),
     (0, swagger_1.ApiOperation)({ summary: 'Get all admin users (super admin only)' }),
     (0, swagger_1.ApiQuery)({ name: 'page', required: false, type: Number }),
     (0, swagger_1.ApiQuery)({ name: 'limit', required: false, type: Number }),
@@ -74,7 +72,6 @@ __decorate([
 ], AdminRoleController.prototype, "getAllAdmins", null);
 __decorate([
     (0, common_1.Post)(),
-    (0, throttler_1.Throttle)({ default: { limit: 10, ttl: 60000 } }),
     (0, swagger_1.ApiOperation)({ summary: 'Create new admin user (super admin only)' }),
     (0, swagger_1.ApiResponse)({ status: 201, description: 'Admin created successfully' }),
     (0, swagger_1.ApiResponse)({ status: 400, description: 'Email already exists' }),
@@ -87,7 +84,6 @@ __decorate([
 ], AdminRoleController.prototype, "createAdmin", null);
 __decorate([
     (0, common_1.Put)(':id/roles'),
-    (0, throttler_1.Throttle)({ default: { limit: 20, ttl: 60000 } }),
     (0, swagger_1.ApiOperation)({ summary: 'Update admin roles/permissions (super admin only)' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Admin roles updated successfully' }),
     (0, swagger_1.ApiResponse)({ status: 404, description: 'User not found' }),
@@ -101,7 +97,6 @@ __decorate([
 ], AdminRoleController.prototype, "updateAdminRoles", null);
 __decorate([
     (0, common_1.Put)(':id/promote'),
-    (0, throttler_1.Throttle)({ default: { limit: 10, ttl: 60000 } }),
     (0, swagger_1.ApiOperation)({ summary: 'Promote admin to super_admin (super admin only)' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Admin promoted successfully' }),
     (0, swagger_1.ApiResponse)({ status: 404, description: 'User not found' }),
@@ -114,7 +109,6 @@ __decorate([
 ], AdminRoleController.prototype, "promoteToSuperAdmin", null);
 __decorate([
     (0, common_1.Put)(':id/demote'),
-    (0, throttler_1.Throttle)({ default: { limit: 10, ttl: 60000 } }),
     (0, swagger_1.ApiOperation)({ summary: 'Demote super_admin to admin (super admin only)' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Super admin demoted successfully' }),
     (0, swagger_1.ApiResponse)({ status: 404, description: 'User not found' }),
@@ -127,7 +121,6 @@ __decorate([
 ], AdminRoleController.prototype, "demoteToAdmin", null);
 __decorate([
     (0, common_1.Delete)(':id'),
-    (0, throttler_1.Throttle)({ default: { limit: 10, ttl: 60000 } }),
     (0, swagger_1.ApiOperation)({ summary: 'Remove admin privileges (super admin only)' }),
     (0, swagger_1.ApiResponse)({ status: 200, description: 'Admin privileges removed successfully' }),
     (0, swagger_1.ApiResponse)({ status: 404, description: 'User not found' }),

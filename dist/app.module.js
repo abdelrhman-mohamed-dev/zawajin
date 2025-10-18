@@ -11,9 +11,7 @@ const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const typeorm_1 = require("@nestjs/typeorm");
 const cache_manager_1 = require("@nestjs/cache-manager");
-const throttler_1 = require("@nestjs/throttler");
 const schedule_1 = require("@nestjs/schedule");
-const core_1 = require("@nestjs/core");
 const nestjs_i18n_1 = require("nestjs-i18n");
 const path = require("path");
 const database_config_1 = require("./config/database.config");
@@ -48,16 +46,6 @@ exports.AppModule = AppModule = __decorate([
                 inject: [config_1.ConfigService],
                 useFactory: redis_config_1.getRedisConfig,
             }),
-            throttler_1.ThrottlerModule.forRootAsync({
-                imports: [config_1.ConfigModule],
-                useFactory: async (configService) => ([
-                    {
-                        ttl: configService.get('RATE_LIMIT_TTL', 60000),
-                        limit: configService.get('RATE_LIMIT_DEFAULT', 100),
-                    },
-                ]),
-                inject: [config_1.ConfigService],
-            }),
             nestjs_i18n_1.I18nModule.forRoot({
                 fallbackLanguage: 'en',
                 loaderOptions: {
@@ -83,12 +71,7 @@ exports.AppModule = AppModule = __decorate([
             matching_module_1.MatchingModule,
         ],
         controllers: [],
-        providers: [
-            {
-                provide: core_1.APP_GUARD,
-                useClass: throttler_1.ThrottlerGuard,
-            },
-        ],
+        providers: [],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

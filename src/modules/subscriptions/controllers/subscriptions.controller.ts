@@ -15,7 +15,6 @@ import {
   ApiBearerAuth,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
-import { Throttle } from '@nestjs/throttler';
 import { SubscriptionsService } from '../services/subscriptions.service';
 import { CreateSubscriptionDto } from '../dto/create-subscription.dto';
 import { UpgradeSubscriptionDto } from '../dto/upgrade-subscription.dto';
@@ -37,7 +36,6 @@ export class SubscriptionsController {
     description: 'Returns all active subscription plans',
     type: [SubscriptionPlanResponseDto],
   })
-  @Throttle({ default: { limit: 20, ttl: 60000 } })
   async getAllPlans() {
     return this.subscriptionsService.getAllPlans();
   }
@@ -55,7 +53,6 @@ export class SubscriptionsController {
     status: 404,
     description: 'No active subscription found',
   })
-  @Throttle({ default: { limit: 30, ttl: 60000 } })
   async getMySubscription(@Request() req) {
     return this.subscriptionsService.getMySubscription(req.user.userId);
   }
@@ -78,7 +75,6 @@ export class SubscriptionsController {
     status: 404,
     description: 'Subscription plan not found',
   })
-  @Throttle({ default: { limit: 5, ttl: 60000 } })
   async createSubscription(
     @Request() req,
     @Body() createSubscriptionDto: CreateSubscriptionDto,
@@ -107,7 +103,6 @@ export class SubscriptionsController {
     status: 404,
     description: 'No active subscription or plan not found',
   })
-  @Throttle({ default: { limit: 5, ttl: 60000 } })
   async upgradeSubscription(
     @Request() req,
     @Body() upgradeSubscriptionDto: UpgradeSubscriptionDto,
@@ -132,7 +127,6 @@ export class SubscriptionsController {
     status: 404,
     description: 'No active subscription found',
   })
-  @Throttle({ default: { limit: 5, ttl: 60000 } })
   async cancelSubscription(@Request() req) {
     return this.subscriptionsService.cancelSubscription(req.user.userId);
   }
@@ -146,7 +140,6 @@ export class SubscriptionsController {
     description: 'Returns subscription history',
     type: [SubscriptionHistoryResponseDto],
   })
-  @Throttle({ default: { limit: 20, ttl: 60000 } })
   async getSubscriptionHistory(@Request() req) {
     return this.subscriptionsService.getSubscriptionHistory(req.user.userId);
   }

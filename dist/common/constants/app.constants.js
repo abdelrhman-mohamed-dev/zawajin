@@ -15,20 +15,6 @@ exports.APP_CONSTANTS = {
         DEFAULT_EXPIRY: '7d',
         REFRESH_EXPIRY: '30d',
     },
-    RATE_LIMITS: {
-        REGISTER: {
-            LIMIT: 5,
-            TTL: 3600000,
-        },
-        VERIFY_OTP: {
-            LIMIT: 10,
-            TTL: 3600000,
-        },
-        RESEND_OTP: {
-            LIMIT: 3,
-            TTL: 3600000,
-        },
-    },
     VALIDATION: {
         USERNAME_MIN_LENGTH: 3,
         USERNAME_MAX_LENGTH: 20,
