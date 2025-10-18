@@ -1,11 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsString, Length, Matches, IsOptional } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class VerifyOtpDto {
   @ApiProperty({
     description: 'Email address to verify',
     example: 'an.roooof@gmail.com',
   })
+  @Transform(({ value }) => value?.toLowerCase())
   @IsEmail({}, { message: 'Please provide a valid email address / يرجى إدخال عنوان بريد إلكتروني صحيح' })
   email: string;
 

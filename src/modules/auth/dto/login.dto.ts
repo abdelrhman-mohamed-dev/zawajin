@@ -1,11 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsString, IsOptional, MinLength } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class LoginDto {
   @ApiProperty({
     description: 'Email address',
     example: 'an.roooof@gmail.com',
   })
+  @Transform(({ value }) => value?.toLowerCase())
   @IsEmail({}, { message: 'Please provide a valid email address / يرجى إدخال عنوان بريد إلكتروني صحيح' })
   email: string;
 

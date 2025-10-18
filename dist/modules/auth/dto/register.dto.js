@@ -13,6 +13,7 @@ exports.RegisterDto = exports.Gender = void 0;
 exports.IsPasswordConfirmed = IsPasswordConfirmed;
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
+const class_transformer_1 = require("class-transformer");
 var Gender;
 (function (Gender) {
     Gender["MALE"] = "male";
@@ -58,6 +59,7 @@ __decorate([
         description: 'Valid email address',
         example: 'an.roooof@gmail.com',
     }),
+    (0, class_transformer_1.Transform)(({ value }) => value?.toLowerCase()),
     (0, class_validator_1.IsEmail)({}, { message: 'Please provide a valid email address / يرجى إدخال عنوان بريد إلكتروني صحيح' }),
     __metadata("design:type", String)
 ], RegisterDto.prototype, "email", void 0);

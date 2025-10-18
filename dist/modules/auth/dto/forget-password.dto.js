@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ForgetPasswordDto = void 0;
 const class_validator_1 = require("class-validator");
 const swagger_1 = require("@nestjs/swagger");
+const class_transformer_1 = require("class-transformer");
 class ForgetPasswordDto {
 }
 exports.ForgetPasswordDto = ForgetPasswordDto;
@@ -21,6 +22,7 @@ __decorate([
         example: 'an.roooof@gmail.com',
         required: true,
     }),
+    (0, class_transformer_1.Transform)(({ value }) => value?.toLowerCase()),
     (0, class_validator_1.IsEmail)({}, { message: 'Please provide a valid email address' }),
     (0, class_validator_1.IsNotEmpty)({ message: 'Email is required' }),
     __metadata("design:type", String)

@@ -10,6 +10,7 @@ import {
   ValidateBy,
   ValidationOptions,
 } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export enum Gender {
   MALE = 'male',
@@ -58,6 +59,7 @@ export class RegisterDto {
     description: 'Valid email address',
     example: 'an.roooof@gmail.com',
   })
+  @Transform(({ value }) => value?.toLowerCase())
   @IsEmail({}, { message: 'Please provide a valid email address / يرجى إدخال عنوان بريد إلكتروني صحيح' })
   email: string;
 
