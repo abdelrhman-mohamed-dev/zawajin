@@ -24,6 +24,28 @@ export class UsersService {
     private readonly userPresenceRepository: UserPresenceRepository,
   ) {}
 
+  /**
+   * Converts numeric fields to integers to remove .00 decimals
+   */
+  private sanitizeNumericFields(user: any): any {
+    const numericFields = [
+      'age', 'numberOfChildren', 'weight', 'height',
+      'preferredAgeFrom', 'preferredAgeTo',
+      'preferredMinWeight', 'preferredMaxWeight',
+      'preferredMinHeight', 'preferredMaxHeight'
+    ];
+
+    const sanitized = { ...user };
+
+    numericFields.forEach(field => {
+      if (sanitized[field] !== null && sanitized[field] !== undefined) {
+        sanitized[field] = Math.round(Number(sanitized[field]));
+      }
+    });
+
+    return sanitized;
+  }
+
   async updateProfile(userId: string, profileData: UpdateProfileDto): Promise<User> {
     this.logger.log(`Updating profile for user: ${userId}`);
 
@@ -58,7 +80,7 @@ export class UsersService {
     // Remove sensitive data before returning
     delete updatedUser.passwordHash;
 
-    return updatedUser;
+    return this.sanitizeNumericFields(updatedUser);
   }
 
   async getAllUsers(queryDto: GetUsersDto, currentUserId?: string): Promise<{
@@ -92,12 +114,12 @@ export class UsersService {
     const usersWithLikeStatus = result.users.map((user) => {
       const { passwordHash, ...userWithoutPassword } = user;
       const presenceData = presenceMap.get(user.id);
-      return {
+      return this.sanitizeNumericFields({
         ...userWithoutPassword,
         hasLiked: likedUserIds.has(user.id),
         isOnline: presenceData?.isOnline ?? true,
         lastSeenAt: presenceData?.lastSeenAt ?? null,
-      };
+      });
     });
 
     this.logger.log(`Retrieved ${usersWithLikeStatus.length} users out of ${result.total} total`);
@@ -157,14 +179,14 @@ export class UsersService {
 
     this.logger.log(`User retrieved successfully: ${userId}`);
 
-    return {
+    return this.sanitizeNumericFields({
       ...user,
       isOnline,
       lastSeenAt,
       likedme,
       isliked,
       matching,
-    };
+    });
   }
 
   async getCurrentUser(userId: string): Promise<User> {
@@ -178,7 +200,7 @@ export class UsersService {
     // Remove sensitive data
     delete user.passwordHash;
 
-    return user;
+    return this.sanitizeNumericFields(user);
   }
 
   private async checkLikeStatus(currentUserId: string, targetUserIds: string[]): Promise<Set<string>> {
@@ -215,11 +237,11 @@ export class UsersService {
     const sanitizedUsers = users.map((user) => {
       const { passwordHash, fcmToken, ...userWithoutSensitiveData } = user;
       const presenceData = presenceMap.get(user.id);
-      return {
+      return this.sanitizeNumericFields({
         ...userWithoutSensitiveData,
         isOnline: presenceData?.isOnline ?? true,
         lastSeenAt: presenceData?.lastSeenAt ?? null,
-      };
+      });
     });
 
     this.logger.log(`Retrieved ${sanitizedUsers.length} latest users`);

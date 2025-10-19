@@ -36,6 +36,28 @@ export class AuthController {
     private readonly userPresenceRepository: UserPresenceRepository,
   ) {}
 
+  /**
+   * Converts numeric fields to integers to remove .00 decimals
+   */
+  private sanitizeNumericFields(data: any): any {
+    const numericFields = [
+      'age', 'numberOfChildren', 'weight', 'height',
+      'preferredAgeFrom', 'preferredAgeTo',
+      'preferredMinWeight', 'preferredMaxWeight',
+      'preferredMinHeight', 'preferredMaxHeight'
+    ];
+
+    const sanitized = { ...data };
+
+    numericFields.forEach(field => {
+      if (sanitized[field] !== null && sanitized[field] !== undefined) {
+        sanitized[field] = Math.round(Number(sanitized[field]));
+      }
+    });
+
+    return sanitized;
+  }
+
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({
@@ -818,11 +840,14 @@ export class AuthController {
       // Remove sensitive data
       const { passwordHash, fcmToken, ...userWithoutSensitiveData } = user;
 
+      // Sanitize numeric fields
+      const sanitizedUser = this.sanitizeNumericFields(userWithoutSensitiveData);
+
       return {
         success: true,
         message: await i18n.t('auth.user_profile_retrieved'),
         data: {
-          ...userWithoutSensitiveData,
+          ...sanitizedUser,
           isOnline,
           lastSeenAt,
           profileCompletion,

@@ -25,6 +25,21 @@ let MatchingService = class MatchingService {
         this.likeRepository = likeRepository;
         this.preferencesRepository = preferencesRepository;
     }
+    sanitizeNumericFields(data) {
+        const numericFields = [
+            'age', 'numberOfChildren', 'weight', 'height',
+            'preferredAgeFrom', 'preferredAgeTo',
+            'preferredMinWeight', 'preferredMaxWeight',
+            'preferredMinHeight', 'preferredMaxHeight'
+        ];
+        const sanitized = { ...data };
+        numericFields.forEach(field => {
+            if (sanitized[field] !== null && sanitized[field] !== undefined) {
+                sanitized[field] = Math.round(Number(sanitized[field]));
+            }
+        });
+        return sanitized;
+    }
     async updatePreferences(userId, data) {
         return await this.preferencesRepository.createOrUpdate(userId, data);
     }
@@ -181,7 +196,7 @@ let MatchingService = class MatchingService {
         const recommendations = users
             .map((user) => {
             const compatibility = this.calculateCompatibilityScore(currentUser, user, preferences);
-            return {
+            return this.sanitizeNumericFields({
                 userId: user.id,
                 fullName: user.fullName,
                 age: user.age,
@@ -219,7 +234,7 @@ let MatchingService = class MatchingService {
                 compatibilityScore: compatibility.totalScore,
                 scoreBreakdown: compatibility.breakdown,
                 hasLiked: likedUserIds.has(user.id),
-            };
+            });
         })
             .filter((rec) => {
             if (minCompatibilityScore) {

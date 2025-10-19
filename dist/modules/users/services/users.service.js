@@ -27,6 +27,21 @@ let UsersService = UsersService_1 = class UsersService {
         this.userPresenceRepository = userPresenceRepository;
         this.logger = new common_1.Logger(UsersService_1.name);
     }
+    sanitizeNumericFields(user) {
+        const numericFields = [
+            'age', 'numberOfChildren', 'weight', 'height',
+            'preferredAgeFrom', 'preferredAgeTo',
+            'preferredMinWeight', 'preferredMaxWeight',
+            'preferredMinHeight', 'preferredMaxHeight'
+        ];
+        const sanitized = { ...user };
+        numericFields.forEach(field => {
+            if (sanitized[field] !== null && sanitized[field] !== undefined) {
+                sanitized[field] = Math.round(Number(sanitized[field]));
+            }
+        });
+        return sanitized;
+    }
     async updateProfile(userId, profileData) {
         this.logger.log(`Updating profile for user: ${userId}`);
         const user = await this.userRepository.findById(userId);
@@ -48,7 +63,7 @@ let UsersService = UsersService_1 = class UsersService {
         const updatedUser = await this.userRepository.updateProfile(userId, updateData);
         this.logger.log(`Profile updated successfully for user: ${userId}`);
         delete updatedUser.passwordHash;
-        return updatedUser;
+        return this.sanitizeNumericFields(updatedUser);
     }
     async getAllUsers(queryDto, currentUserId) {
         this.logger.log(`Fetching users with filters: ${JSON.stringify(queryDto)}`);
@@ -66,12 +81,12 @@ let UsersService = UsersService_1 = class UsersService {
         const usersWithLikeStatus = result.users.map((user) => {
             const { passwordHash, ...userWithoutPassword } = user;
             const presenceData = presenceMap.get(user.id);
-            return {
+            return this.sanitizeNumericFields({
                 ...userWithoutPassword,
                 hasLiked: likedUserIds.has(user.id),
                 isOnline: presenceData?.isOnline ?? true,
                 lastSeenAt: presenceData?.lastSeenAt ?? null,
-            };
+            });
         });
         this.logger.log(`Retrieved ${usersWithLikeStatus.length} users out of ${result.total} total`);
         return {
@@ -111,14 +126,14 @@ let UsersService = UsersService_1 = class UsersService {
         delete user.passwordHash;
         delete user.fcmToken;
         this.logger.log(`User retrieved successfully: ${userId}`);
-        return {
+        return this.sanitizeNumericFields({
             ...user,
             isOnline,
             lastSeenAt,
             likedme,
             isliked,
             matching,
-        };
+        });
     }
     async getCurrentUser(userId) {
         this.logger.log(`Fetching current user: ${userId}`);
@@ -127,7 +142,7 @@ let UsersService = UsersService_1 = class UsersService {
             throw new common_1.NotFoundException('User not found / المستخدم غير موجود');
         }
         delete user.passwordHash;
-        return user;
+        return this.sanitizeNumericFields(user);
     }
     async checkLikeStatus(currentUserId, targetUserIds) {
         if (!currentUserId || targetUserIds.length === 0) {
@@ -153,11 +168,11 @@ let UsersService = UsersService_1 = class UsersService {
         const sanitizedUsers = users.map((user) => {
             const { passwordHash, fcmToken, ...userWithoutSensitiveData } = user;
             const presenceData = presenceMap.get(user.id);
-            return {
+            return this.sanitizeNumericFields({
                 ...userWithoutSensitiveData,
                 isOnline: presenceData?.isOnline ?? true,
                 lastSeenAt: presenceData?.lastSeenAt ?? null,
-            };
+            });
         });
         this.logger.log(`Retrieved ${sanitizedUsers.length} latest users`);
         return sanitizedUsers;

@@ -55,6 +55,7 @@ export class User {
 
   @Column({ type: 'int', nullable: true })
   @Index('idx_users_age')
+  @Transform(({ value }) => value !== null && value !== undefined ? Math.round(Number(value)) : value, { toPlainOnly: true })
   age: number;
 
   @Column({
@@ -89,6 +90,7 @@ export class User {
   maritalStatus: string;
 
   @Column({ type: 'int', nullable: true, name: 'number_of_children' })
+  @Transform(({ value }) => value !== null && value !== undefined ? Math.round(Number(value)) : value, { toPlainOnly: true })
   numberOfChildren: number;
 
   @Column({ type: 'varchar', length: 100, nullable: true })
@@ -108,11 +110,11 @@ export class User {
 
   // Profile fields - Section 2: Physical Attributes
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true })
-  @Transform(({ value }) => value ? parseFloat(value) : value)
+  @Transform(({ value }) => value !== null && value !== undefined ? Math.round(Number(value)) : value, { toPlainOnly: true })
   weight: number;
 
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true })
-  @Transform(({ value }) => value ? parseFloat(value) : value)
+  @Transform(({ value }) => value !== null && value !== undefined ? Math.round(Number(value)) : value, { toPlainOnly: true })
   height: number;
 
   @Column({ type: 'varchar', length: 50, nullable: true, name: 'skin_color' })
@@ -144,25 +146,27 @@ export class User {
 
   // Profile fields - Section 3: Partner Preferences
   @Column({ type: 'int', nullable: true, name: 'preferred_age_from' })
+  @Transform(({ value }) => value !== null && value !== undefined ? Math.round(Number(value)) : value, { toPlainOnly: true })
   preferredAgeFrom: number;
 
   @Column({ type: 'int', nullable: true, name: 'preferred_age_to' })
+  @Transform(({ value }) => value !== null && value !== undefined ? Math.round(Number(value)) : value, { toPlainOnly: true })
   preferredAgeTo: number;
 
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_min_weight' })
-  @Transform(({ value }) => value ? parseFloat(value) : value)
+  @Transform(({ value }) => value !== null && value !== undefined ? Math.round(Number(value)) : value, { toPlainOnly: true })
   preferredMinWeight: number;
 
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_max_weight' })
-  @Transform(({ value }) => value ? parseFloat(value) : value)
+  @Transform(({ value }) => value !== null && value !== undefined ? Math.round(Number(value)) : value, { toPlainOnly: true })
   preferredMaxWeight: number;
 
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_min_height' })
-  @Transform(({ value }) => value ? parseFloat(value) : value)
+  @Transform(({ value }) => value !== null && value !== undefined ? Math.round(Number(value)) : value, { toPlainOnly: true })
   preferredMinHeight: number;
 
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_max_height' })
-  @Transform(({ value }) => value ? parseFloat(value) : value)
+  @Transform(({ value }) => value !== null && value !== undefined ? Math.round(Number(value)) : value, { toPlainOnly: true })
   preferredMaxHeight: number;
 
   @Column({ type: 'varchar', length: 100, nullable: true, name: 'preferred_nationality' })

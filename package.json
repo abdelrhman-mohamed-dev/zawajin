@@ -20,6 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm": "typeorm-ts-node-commonjs",
     "seed": "ts-node -r tsconfig-paths/register src/database/seeds/seed.ts",
+    "update:weight-height": "ts-node -r tsconfig-paths/register src/database/scripts/run-weight-height-update.ts",
     "docker:dev:build": "docker build -t zawaj-in:dev -f Dockerfile.dev .",
     "docker:dev:run": "docker-compose -f docker-compose.dev.yml up -d",
     "docker:dev:stop": "docker-compose -f docker-compose.dev.yml down",

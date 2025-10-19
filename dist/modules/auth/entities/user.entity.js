@@ -79,6 +79,7 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ type: 'int', nullable: true }),
     (0, typeorm_1.Index)('idx_users_age'),
+    (0, class_transformer_1.Transform)(({ value }) => value !== null && value !== undefined ? Math.round(Number(value)) : value, { toPlainOnly: true }),
     __metadata("design:type", Number)
 ], User.prototype, "age", void 0);
 __decorate([
@@ -121,6 +122,7 @@ __decorate([
 ], User.prototype, "maritalStatus", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'int', nullable: true, name: 'number_of_children' }),
+    (0, class_transformer_1.Transform)(({ value }) => value !== null && value !== undefined ? Math.round(Number(value)) : value, { toPlainOnly: true }),
     __metadata("design:type", Number)
 ], User.prototype, "numberOfChildren", void 0);
 __decorate([
@@ -145,12 +147,12 @@ __decorate([
 ], User.prototype, "religiosityLevel", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 5, scale: 2, nullable: true }),
-    (0, class_transformer_1.Transform)(({ value }) => value ? parseFloat(value) : value),
+    (0, class_transformer_1.Transform)(({ value }) => value !== null && value !== undefined ? Math.round(Number(value)) : value, { toPlainOnly: true }),
     __metadata("design:type", Number)
 ], User.prototype, "weight", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 5, scale: 2, nullable: true }),
-    (0, class_transformer_1.Transform)(({ value }) => value ? parseFloat(value) : value),
+    (0, class_transformer_1.Transform)(({ value }) => value !== null && value !== undefined ? Math.round(Number(value)) : value, { toPlainOnly: true }),
     __metadata("design:type", Number)
 ], User.prototype, "height", void 0);
 __decorate([
@@ -191,30 +193,32 @@ __decorate([
 ], User.prototype, "bio", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'int', nullable: true, name: 'preferred_age_from' }),
+    (0, class_transformer_1.Transform)(({ value }) => value !== null && value !== undefined ? Math.round(Number(value)) : value, { toPlainOnly: true }),
     __metadata("design:type", Number)
 ], User.prototype, "preferredAgeFrom", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'int', nullable: true, name: 'preferred_age_to' }),
+    (0, class_transformer_1.Transform)(({ value }) => value !== null && value !== undefined ? Math.round(Number(value)) : value, { toPlainOnly: true }),
     __metadata("design:type", Number)
 ], User.prototype, "preferredAgeTo", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_min_weight' }),
-    (0, class_transformer_1.Transform)(({ value }) => value ? parseFloat(value) : value),
+    (0, class_transformer_1.Transform)(({ value }) => value !== null && value !== undefined ? Math.round(Number(value)) : value, { toPlainOnly: true }),
     __metadata("design:type", Number)
 ], User.prototype, "preferredMinWeight", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_max_weight' }),
-    (0, class_transformer_1.Transform)(({ value }) => value ? parseFloat(value) : value),
+    (0, class_transformer_1.Transform)(({ value }) => value !== null && value !== undefined ? Math.round(Number(value)) : value, { toPlainOnly: true }),
     __metadata("design:type", Number)
 ], User.prototype, "preferredMaxWeight", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_min_height' }),
-    (0, class_transformer_1.Transform)(({ value }) => value ? parseFloat(value) : value),
+    (0, class_transformer_1.Transform)(({ value }) => value !== null && value !== undefined ? Math.round(Number(value)) : value, { toPlainOnly: true }),
     __metadata("design:type", Number)
 ], User.prototype, "preferredMinHeight", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_max_height' }),
-    (0, class_transformer_1.Transform)(({ value }) => value ? parseFloat(value) : value),
+    (0, class_transformer_1.Transform)(({ value }) => value !== null && value !== undefined ? Math.round(Number(value)) : value, { toPlainOnly: true }),
     __metadata("design:type", Number)
 ], User.prototype, "preferredMaxHeight", void 0);
 __decorate([

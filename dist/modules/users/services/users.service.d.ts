@@ -12,6 +12,7 @@ export declare class UsersService {
     private readonly userPresenceRepository;
     private readonly logger;
     constructor(userRepository: UserRepository, likeRepository: Repository<Like>, userPresenceRepository: UserPresenceRepository);
+    private sanitizeNumericFields;
     updateProfile(userId: string, profileData: UpdateProfileDto): Promise<User>;
     getAllUsers(queryDto: GetUsersDto, currentUserId?: string): Promise<{
         users: any[];

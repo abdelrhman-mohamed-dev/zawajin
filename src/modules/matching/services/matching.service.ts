@@ -23,6 +23,28 @@ export class MatchingService {
     private readonly preferencesRepository: MatchingPreferencesRepository,
   ) {}
 
+  /**
+   * Converts numeric fields to integers to remove .00 decimals
+   */
+  private sanitizeNumericFields(data: any): any {
+    const numericFields = [
+      'age', 'numberOfChildren', 'weight', 'height',
+      'preferredAgeFrom', 'preferredAgeTo',
+      'preferredMinWeight', 'preferredMaxWeight',
+      'preferredMinHeight', 'preferredMaxHeight'
+    ];
+
+    const sanitized = { ...data };
+
+    numericFields.forEach(field => {
+      if (sanitized[field] !== null && sanitized[field] !== undefined) {
+        sanitized[field] = Math.round(Number(sanitized[field]));
+      }
+    });
+
+    return sanitized;
+  }
+
   async updatePreferences(
     userId: string,
     data: UpdatePreferencesDto,
@@ -287,7 +309,7 @@ export class MatchingService {
           preferences,
         );
 
-        return {
+        return this.sanitizeNumericFields({
           userId: user.id,
           fullName: user.fullName,
           age: user.age,
@@ -331,7 +353,7 @@ export class MatchingService {
           compatibilityScore: compatibility.totalScore,
           scoreBreakdown: compatibility.breakdown,
           hasLiked: likedUserIds.has(user.id),
-        };
+        });
       })
       .filter((rec) => {
         // Filter by minimum compatibility score if provided

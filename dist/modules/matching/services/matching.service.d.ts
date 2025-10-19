@@ -11,6 +11,7 @@ export declare class MatchingService {
     private readonly likeRepository;
     private readonly preferencesRepository;
     constructor(userRepository: Repository<User>, likeRepository: Repository<Like>, preferencesRepository: MatchingPreferencesRepository);
+    private sanitizeNumericFields;
     updatePreferences(userId: string, data: UpdatePreferencesDto): Promise<MatchingPreferences>;
     getPreferences(userId: string): Promise<MatchingPreferences>;
     getRecommendations(userId: string, query: GetRecommendationsDto): Promise<IRecommendationsResponse>;

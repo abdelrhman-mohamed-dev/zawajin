@@ -36,6 +36,21 @@ let AuthController = AuthController_1 = class AuthController {
         this.userPresenceRepository = userPresenceRepository;
         this.logger = new common_1.Logger(AuthController_1.name);
     }
+    sanitizeNumericFields(data) {
+        const numericFields = [
+            'age', 'numberOfChildren', 'weight', 'height',
+            'preferredAgeFrom', 'preferredAgeTo',
+            'preferredMinWeight', 'preferredMaxWeight',
+            'preferredMinHeight', 'preferredMaxHeight'
+        ];
+        const sanitized = { ...data };
+        numericFields.forEach(field => {
+            if (sanitized[field] !== null && sanitized[field] !== undefined) {
+                sanitized[field] = Math.round(Number(sanitized[field]));
+            }
+        });
+        return sanitized;
+    }
     async register(registerDto) {
         try {
             this.logger.log(`Registration request for email: ${registerDto.email}`);
@@ -115,11 +130,12 @@ let AuthController = AuthController_1 = class AuthController {
             const isOnline = presence ? presence.isOnline : true;
             const lastSeenAt = presence ? presence.lastSeenAt : null;
             const { passwordHash, fcmToken, ...userWithoutSensitiveData } = user;
+            const sanitizedUser = this.sanitizeNumericFields(userWithoutSensitiveData);
             return {
                 success: true,
                 message: await i18n.t('auth.user_profile_retrieved'),
                 data: {
-                    ...userWithoutSensitiveData,
+                    ...sanitizedUser,
                     isOnline,
                     lastSeenAt,
                     profileCompletion,
