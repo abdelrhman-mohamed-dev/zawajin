@@ -5,6 +5,7 @@ const core_1 = require("@nestjs/core");
 const config_1 = require("@nestjs/config");
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
+const core_2 = require("@nestjs/core");
 const app_module_1 = require("./app.module");
 const firebase_config_1 = require("./config/firebase.config");
 const admin = require("firebase-admin");
@@ -27,6 +28,7 @@ async function createNestApp() {
         forbidNonWhitelisted: true,
         transform: true,
     }));
+    app.useGlobalInterceptors(new common_1.ClassSerializerInterceptor(app.get(core_2.Reflector)));
     app.enableCors({
         origin: true,
         credentials: true,
@@ -80,6 +82,7 @@ async function bootstrap() {
         forbidNonWhitelisted: true,
         transform: true,
     }));
+    app.useGlobalInterceptors(new common_1.ClassSerializerInterceptor(app.get(core_2.Reflector)));
     app.enableCors({
         origin: true,
         credentials: true,

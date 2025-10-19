@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
   Index,
 } from 'typeorm';
+import { Transform } from 'class-transformer';
 
 @Entity('subscription_plans')
 @Index(['isActive', 'displayOrder'])
@@ -17,9 +18,11 @@ export class SubscriptionPlan {
   name: string;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
+  @Transform(({ value }) => value ? parseFloat(value) : value)
   priceMonthly: number;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
+  @Transform(({ value }) => value ? parseFloat(value) : value)
   priceYearly: number;
 
   @Column({ type: 'jsonb' })

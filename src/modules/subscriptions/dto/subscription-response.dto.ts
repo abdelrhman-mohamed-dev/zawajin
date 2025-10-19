@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import {
   SubscriptionStatus,
   BillingCycle,
@@ -13,9 +14,11 @@ export class SubscriptionPlanResponseDto {
   name: string;
 
   @ApiProperty()
+  @Transform(({ value }) => value ? parseFloat(value) : value)
   priceMonthly: number;
 
   @ApiProperty()
+  @Transform(({ value }) => value ? parseFloat(value) : value)
   priceYearly: number;
 
   @ApiProperty({ type: [String] })
@@ -75,6 +78,7 @@ export class SubscriptionResponseDto {
   billingCycle: BillingCycle;
 
   @ApiProperty()
+  @Transform(({ value }) => value ? parseFloat(value) : value)
   amount: number;
 
   @ApiProperty()
@@ -104,6 +108,7 @@ export class SubscriptionHistoryResponseDto {
   action: string;
 
   @ApiProperty()
+  @Transform(({ value }) => value ? parseFloat(value) : value)
   amount: number;
 
   @ApiProperty()

@@ -8,6 +8,7 @@ import {
   JoinColumn,
   Index,
 } from 'typeorm';
+import { Transform } from 'class-transformer';
 import { User } from '../../auth/entities/user.entity';
 import { SubscriptionPlan } from './subscription-plan.entity';
 
@@ -80,6 +81,7 @@ export class Subscription {
   billingCycle: BillingCycle;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
+  @Transform(({ value }) => value ? parseFloat(value) : value)
   amount: number;
 
   @Column({ type: 'varchar', length: 3, default: 'USD' })

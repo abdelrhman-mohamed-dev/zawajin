@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Subscription = exports.BillingCycle = exports.SubscriptionStatus = exports.PaymentMethod = void 0;
 const typeorm_1 = require("typeorm");
+const class_transformer_1 = require("class-transformer");
 const user_entity_1 = require("../../auth/entities/user.entity");
 const subscription_plan_entity_1 = require("./subscription-plan.entity");
 var PaymentMethod;
@@ -94,6 +95,7 @@ __decorate([
 ], Subscription.prototype, "billingCycle", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 10, scale: 2 }),
+    (0, class_transformer_1.Transform)(({ value }) => value ? parseFloat(value) : value),
     __metadata("design:type", Number)
 ], Subscription.prototype, "amount", void 0);
 __decorate([

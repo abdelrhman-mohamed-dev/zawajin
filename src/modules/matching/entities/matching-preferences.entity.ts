@@ -8,6 +8,7 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm';
+import { Transform } from 'class-transformer';
 import { User } from '../../auth/entities/user.entity';
 
 @Entity('matching_preferences')
@@ -140,15 +141,19 @@ export class MatchingPreferences {
 
   // Physical attributes preferences
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_min_height' })
+  @Transform(({ value }) => value ? parseFloat(value) : value)
   preferredMinHeight: number;
 
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_max_height' })
+  @Transform(({ value }) => value ? parseFloat(value) : value)
   preferredMaxHeight: number;
 
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_min_weight' })
+  @Transform(({ value }) => value ? parseFloat(value) : value)
   preferredMinWeight: number;
 
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_max_weight' })
+  @Transform(({ value }) => value ? parseFloat(value) : value)
   preferredMaxWeight: number;
 
   @Column({

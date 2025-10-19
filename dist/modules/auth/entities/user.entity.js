@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const typeorm_1 = require("typeorm");
+const class_transformer_1 = require("class-transformer");
 let User = class User {
     generateChartNumber() {
         if (!this.chartNumber) {
@@ -144,10 +145,12 @@ __decorate([
 ], User.prototype, "religiosityLevel", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 5, scale: 2, nullable: true }),
+    (0, class_transformer_1.Transform)(({ value }) => value ? parseFloat(value) : value),
     __metadata("design:type", Number)
 ], User.prototype, "weight", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 5, scale: 2, nullable: true }),
+    (0, class_transformer_1.Transform)(({ value }) => value ? parseFloat(value) : value),
     __metadata("design:type", Number)
 ], User.prototype, "height", void 0);
 __decorate([
@@ -196,18 +199,22 @@ __decorate([
 ], User.prototype, "preferredAgeTo", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_min_weight' }),
+    (0, class_transformer_1.Transform)(({ value }) => value ? parseFloat(value) : value),
     __metadata("design:type", Number)
 ], User.prototype, "preferredMinWeight", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_max_weight' }),
+    (0, class_transformer_1.Transform)(({ value }) => value ? parseFloat(value) : value),
     __metadata("design:type", Number)
 ], User.prototype, "preferredMaxWeight", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_min_height' }),
+    (0, class_transformer_1.Transform)(({ value }) => value ? parseFloat(value) : value),
     __metadata("design:type", Number)
 ], User.prototype, "preferredMinHeight", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_max_height' }),
+    (0, class_transformer_1.Transform)(({ value }) => value ? parseFloat(value) : value),
     __metadata("design:type", Number)
 ], User.prototype, "preferredMaxHeight", void 0);
 __decorate([

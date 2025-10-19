@@ -7,6 +7,7 @@ import {
   Index,
   BeforeInsert,
 } from 'typeorm';
+import { Transform } from 'class-transformer';
 
 @Entity('users')
 @Index('idx_users_email', ['email'])
@@ -107,9 +108,11 @@ export class User {
 
   // Profile fields - Section 2: Physical Attributes
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true })
+  @Transform(({ value }) => value ? parseFloat(value) : value)
   weight: number;
 
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true })
+  @Transform(({ value }) => value ? parseFloat(value) : value)
   height: number;
 
   @Column({ type: 'varchar', length: 50, nullable: true, name: 'skin_color' })
@@ -147,15 +150,19 @@ export class User {
   preferredAgeTo: number;
 
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_min_weight' })
+  @Transform(({ value }) => value ? parseFloat(value) : value)
   preferredMinWeight: number;
 
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_max_weight' })
+  @Transform(({ value }) => value ? parseFloat(value) : value)
   preferredMaxWeight: number;
 
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_min_height' })
+  @Transform(({ value }) => value ? parseFloat(value) : value)
   preferredMinHeight: number;
 
   @Column({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_max_height' })
+  @Transform(({ value }) => value ? parseFloat(value) : value)
   preferredMaxHeight: number;
 
   @Column({ type: 'varchar', length: 100, nullable: true, name: 'preferred_nationality' })

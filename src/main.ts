@@ -1,7 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, ClassSerializerInterceptor } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { getFirebaseConfig } from './config/firebase.config';
 import * as admin from 'firebase-admin';
@@ -33,6 +34,9 @@ async function createNestApp() {
       transform: true,
     }),
   );
+
+  // Global serialization interceptor
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   // Enable CORS
   app.enableCors({
@@ -107,6 +111,9 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  // Global serialization interceptor
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   // Enable CORS
   app.enableCors({

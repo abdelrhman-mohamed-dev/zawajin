@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MatchingPreferences = void 0;
 const typeorm_1 = require("typeorm");
+const class_transformer_1 = require("class-transformer");
 const user_entity_1 = require("../../auth/entities/user.entity");
 let MatchingPreferences = class MatchingPreferences {
 };
@@ -154,18 +155,22 @@ __decorate([
 ], MatchingPreferences.prototype, "professionImportance", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_min_height' }),
+    (0, class_transformer_1.Transform)(({ value }) => value ? parseFloat(value) : value),
     __metadata("design:type", Number)
 ], MatchingPreferences.prototype, "preferredMinHeight", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_max_height' }),
+    (0, class_transformer_1.Transform)(({ value }) => value ? parseFloat(value) : value),
     __metadata("design:type", Number)
 ], MatchingPreferences.prototype, "preferredMaxHeight", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_min_weight' }),
+    (0, class_transformer_1.Transform)(({ value }) => value ? parseFloat(value) : value),
     __metadata("design:type", Number)
 ], MatchingPreferences.prototype, "preferredMinWeight", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'decimal', precision: 5, scale: 2, nullable: true, name: 'preferred_max_weight' }),
+    (0, class_transformer_1.Transform)(({ value }) => value ? parseFloat(value) : value),
     __metadata("design:type", Number)
 ], MatchingPreferences.prototype, "preferredMaxWeight", void 0);
 __decorate([

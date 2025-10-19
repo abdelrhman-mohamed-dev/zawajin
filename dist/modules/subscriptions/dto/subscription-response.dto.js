@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SubscriptionHistoryResponseDto = exports.SubscriptionResponseDto = exports.SubscriptionPlanResponseDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
+const class_transformer_1 = require("class-transformer");
 const subscription_entity_1 = require("../entities/subscription.entity");
 class SubscriptionPlanResponseDto {
 }
@@ -25,10 +26,12 @@ __decorate([
 ], SubscriptionPlanResponseDto.prototype, "name", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
+    (0, class_transformer_1.Transform)(({ value }) => value ? parseFloat(value) : value),
     __metadata("design:type", Number)
 ], SubscriptionPlanResponseDto.prototype, "priceMonthly", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
+    (0, class_transformer_1.Transform)(({ value }) => value ? parseFloat(value) : value),
     __metadata("design:type", Number)
 ], SubscriptionPlanResponseDto.prototype, "priceYearly", void 0);
 __decorate([
@@ -108,6 +111,7 @@ __decorate([
 ], SubscriptionResponseDto.prototype, "billingCycle", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
+    (0, class_transformer_1.Transform)(({ value }) => value ? parseFloat(value) : value),
     __metadata("design:type", Number)
 ], SubscriptionResponseDto.prototype, "amount", void 0);
 __decorate([
@@ -147,6 +151,7 @@ __decorate([
 ], SubscriptionHistoryResponseDto.prototype, "action", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)(),
+    (0, class_transformer_1.Transform)(({ value }) => value ? parseFloat(value) : value),
     __metadata("design:type", Number)
 ], SubscriptionHistoryResponseDto.prototype, "amount", void 0);
 __decorate([
