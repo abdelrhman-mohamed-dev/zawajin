@@ -22,7 +22,7 @@ export declare class ChatService {
     constructor(conversationRepository: ConversationRepository, messageRepository: MessageRepository, userPresenceRepository: UserPresenceRepository, engagementRequestRepository: EngagementRequestRepository, likeRepository: Repository<Like>, blockRepository: Repository<Block>);
     createConversation(userId: string, createConversationDto: CreateConversationDto): Promise<Conversation>;
     getUserConversations(userId: string, page?: number, limit?: number): Promise<{
-        conversations: Conversation[];
+        conversations: any[];
         total: number;
         page: number;
         totalPages: number;

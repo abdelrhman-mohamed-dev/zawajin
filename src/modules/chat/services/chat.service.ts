@@ -88,7 +88,7 @@ export class ChatService {
     userId: string,
     page: number = 1,
     limit: number = 20,
-  ): Promise<{ conversations: Conversation[]; total: number; page: number; totalPages: number }> {
+  ): Promise<{ conversations: any[]; total: number; page: number; totalPages: number }> {
     const [conversations, total] =
       await this.conversationRepository.findUserConversations(
         userId,
@@ -96,8 +96,50 @@ export class ChatService {
         limit,
       );
 
+    // Get all unique participant IDs
+    const participantIds = new Set<string>();
+    conversations.forEach(conv => {
+      if (conv.participant1?.id) participantIds.add(conv.participant1.id);
+      if (conv.participant2?.id) participantIds.add(conv.participant2.id);
+    });
+
+    // Get online status for all participants
+    const presencePromises = Array.from(participantIds).map(id =>
+      this.userPresenceRepository.getUserPresence(id)
+    );
+    const presences = await Promise.all(presencePromises);
+    const presenceMap = new Map(
+      Array.from(participantIds).map((id, index) => [
+        id,
+        {
+          isOnline: presences[index] ? presences[index].isOnline : true,
+          lastSeenAt: presences[index] ? presences[index].lastSeenAt : null
+        }
+      ])
+    );
+
+    // Add online status to participants
+    const conversationsWithPresence = conversations.map(conv => {
+      const participant1Presence = conv.participant1 ? presenceMap.get(conv.participant1.id) : null;
+      const participant2Presence = conv.participant2 ? presenceMap.get(conv.participant2.id) : null;
+
+      return {
+        ...conv,
+        participant1: conv.participant1 ? {
+          ...conv.participant1,
+          isOnline: participant1Presence?.isOnline ?? true,
+          lastSeenAt: participant1Presence?.lastSeenAt ?? null,
+        } : null,
+        participant2: conv.participant2 ? {
+          ...conv.participant2,
+          isOnline: participant2Presence?.isOnline ?? true,
+          lastSeenAt: participant2Presence?.lastSeenAt ?? null,
+        } : null,
+      };
+    });
+
     return {
-      conversations,
+      conversations: conversationsWithPresence,
       total,
       page,
       totalPages: Math.ceil(total / limit),

@@ -9,7 +9,7 @@ export declare class ChatController {
     constructor(chatService: ChatService);
     createConversation(req: any, createConversationDto: CreateConversationDto): Promise<import("../entities/conversation.entity").Conversation>;
     getUserConversations(req: any, paginationDto: PaginationDto): Promise<{
-        conversations: import("../entities/conversation.entity").Conversation[];
+        conversations: any[];
         total: number;
         page: number;
         totalPages: number;
