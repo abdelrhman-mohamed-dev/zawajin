@@ -145,12 +145,13 @@ let InteractionsService = InteractionsService_1 = class InteractionsService {
     async getRecentVisitors(userId, limit = 10) {
         this.logger.log(`Getting recent visitors for user ${userId}`);
         const visits = await this.profileVisitRepository.findRecentVisitors(userId, limit);
-        return visits.map((visit) => ({
-            visitorId: visit.visitorId,
-            chartNumber: visit.visitor.chartNumber,
-            fullName: visit.visitor.fullName,
-            visitedAt: visit.createdAt,
-        }));
+        return visits.map((visit) => {
+            const { passwordHash, fcmToken, ...visitorData } = visit.visitor;
+            return {
+                ...visitorData,
+                visitedAt: visit.createdAt,
+            };
+        });
     }
 };
 exports.InteractionsService = InteractionsService;

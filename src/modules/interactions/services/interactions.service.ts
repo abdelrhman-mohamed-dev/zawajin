@@ -195,11 +195,14 @@ export class InteractionsService {
     this.logger.log(`Getting recent visitors for user ${userId}`);
     const visits = await this.profileVisitRepository.findRecentVisitors(userId, limit);
 
-    return visits.map((visit) => ({
-      visitorId: visit.visitorId,
-      chartNumber: visit.visitor.chartNumber,
-      fullName: visit.visitor.fullName,
-      visitedAt: visit.createdAt,
-    }));
+    return visits.map((visit) => {
+      // Exclude sensitive fields: passwordHash, fcmToken
+      const { passwordHash, fcmToken, ...visitorData } = visit.visitor;
+
+      return {
+        ...visitorData,
+        visitedAt: visit.createdAt,
+      };
+    });
   }
 }
