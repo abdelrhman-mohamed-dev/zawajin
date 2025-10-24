@@ -2,6 +2,8 @@ import {
   Injectable,
   NotFoundException,
   Logger,
+  Inject,
+  forwardRef,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -12,6 +14,7 @@ import { User } from '../../auth/entities/user.entity';
 import { Like } from '../../interactions/entities/like.entity';
 import { UserPresenceRepository } from '../../chat/repositories/user-presence.repository';
 import { UserPresence } from '../../chat/entities/user-presence.entity';
+import { ChatGateway } from '../../chat/gateways/chat.gateway';
 
 @Injectable()
 export class UsersService {
@@ -22,6 +25,8 @@ export class UsersService {
     @InjectRepository(Like)
     private readonly likeRepository: Repository<Like>,
     private readonly userPresenceRepository: UserPresenceRepository,
+    @Inject(forwardRef(() => ChatGateway))
+    private readonly chatGateway: ChatGateway,
   ) {}
 
   /**
@@ -275,7 +280,10 @@ export class UsersService {
 
     const presence = await this.userPresenceRepository.setUserStatus(userId, isOnline);
 
-    this.logger.log(`User status updated successfully for user: ${userId}`);
+    // Broadcast status change to all connected clients via socket
+    this.chatGateway.broadcastUserStatusChange(userId, isOnline);
+
+    this.logger.log(`User status updated successfully for user: ${userId} and broadcasted`);
 
     return presence;
   }

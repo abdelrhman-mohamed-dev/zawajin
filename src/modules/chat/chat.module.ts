@@ -46,6 +46,6 @@ import { WsJwtGuard } from './guards/ws-jwt.guard';
     EngagementRequestRepository,
     WsJwtGuard,
   ],
-  exports: [ChatService],
+  exports: [ChatService, ChatGateway, UserPresenceRepository],
 })
 export class ChatModule {}

@@ -53,8 +53,9 @@ let ChatGateway = class ChatGateway {
             client.data.email = payload.email;
             this.logger.log(`Client connected: ${client.id}, User: ${userId}`);
             await this.userPresenceRepository.setUserOnline(userId, client.id);
-            this.server.emit('user_online', { userId });
             client.join(`user:${userId}`);
+            this.broadcastUserStatusChange(userId, true);
+            this.server.emit('user_online', { userId, timestamp: new Date().toISOString() });
         }
         catch (error) {
             this.logger.error(`Connection error: ${error.message}`);
@@ -78,7 +79,8 @@ let ChatGateway = class ChatGateway {
             if (userId) {
                 this.logger.log(`Client disconnected: ${client.id}, User: ${userId}`);
                 await this.userPresenceRepository.setUserOffline(userId);
-                this.server.emit('user_offline', { userId });
+                this.broadcastUserStatusChange(userId, false);
+                this.server.emit('user_offline', { userId, timestamp: new Date().toISOString() });
                 this.typingUsers.delete(client.id);
             }
         }
@@ -203,6 +205,21 @@ let ChatGateway = class ChatGateway {
             this.logger.error(`Message read error: ${error.message}`);
             return { success: false, error: error.message };
         }
+    }
+    broadcastNotification(userId, notification) {
+        this.server.to(`user:${userId}`).emit('notification_received', {
+            ...notification,
+            timestamp: notification.timestamp || new Date().toISOString(),
+        });
+        this.logger.log(`Notification sent to user ${userId}: ${notification.type}`);
+    }
+    broadcastUserStatusChange(userId, isOnline) {
+        this.server.emit('user_status_changed', {
+            userId,
+            isOnline,
+            timestamp: new Date().toISOString(),
+        });
+        this.logger.log(`User ${userId} status broadcasted: ${isOnline ? 'online' : 'offline'}`);
     }
     async handleSendEngagementRequest(client, data) {
         try {

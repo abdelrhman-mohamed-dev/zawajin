@@ -71,11 +71,14 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       // Set user online
       await this.userPresenceRepository.setUserOnline(userId, client.id);
 
-      // Notify user's contacts that they are online
-      this.server.emit('user_online', { userId });
-
       // Join user to their personal room for private events
       client.join(`user:${userId}`);
+
+      // Broadcast online status to all connected clients
+      this.broadcastUserStatusChange(userId, true);
+
+      // Also emit the legacy event for backward compatibility
+      this.server.emit('user_online', { userId, timestamp: new Date().toISOString() });
     } catch (error) {
       this.logger.error(`Connection error: ${error.message}`);
       client.disconnect();
@@ -108,8 +111,11 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
         // Set user offline
         await this.userPresenceRepository.setUserOffline(userId);
 
-        // Notify user's contacts that they are offline
-        this.server.emit('user_offline', { userId });
+        // Broadcast offline status to all connected clients
+        this.broadcastUserStatusChange(userId, false);
+
+        // Also emit the legacy event for backward compatibility
+        this.server.emit('user_offline', { userId, timestamp: new Date().toISOString() });
 
         // Clean up typing indicators
         this.typingUsers.delete(client.id);
@@ -326,6 +332,39 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       this.logger.error(`Message read error: ${error.message}`);
       return { success: false, error: error.message };
     }
+  }
+
+  // ======================== NOTIFICATION EVENTS ========================
+
+  /**
+   * Broadcast notification to a specific user
+   * Used for real-time in-app notifications
+   */
+  broadcastNotification(userId: string, notification: {
+    id?: string;
+    type: string;
+    title: string;
+    body: string;
+    data?: Record<string, any>;
+    timestamp?: string;
+  }) {
+    this.server.to(`user:${userId}`).emit('notification_received', {
+      ...notification,
+      timestamp: notification.timestamp || new Date().toISOString(),
+    });
+    this.logger.log(`Notification sent to user ${userId}: ${notification.type}`);
+  }
+
+  /**
+   * Broadcast online status change to all connected clients
+   */
+  broadcastUserStatusChange(userId: string, isOnline: boolean) {
+    this.server.emit('user_status_changed', {
+      userId,
+      isOnline,
+      timestamp: new Date().toISOString(),
+    });
+    this.logger.log(`User ${userId} status broadcasted: ${isOnline ? 'online' : 'offline'}`);
   }
 
   // ======================== ENGAGEMENT WEBSOCKET EVENTS ========================

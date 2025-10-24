@@ -58,7 +58,7 @@ exports.ChatModule = ChatModule = __decorate([
             engagement_request_repository_1.EngagementRequestRepository,
             ws_jwt_guard_1.WsJwtGuard,
         ],
-        exports: [chat_service_1.ChatService],
+        exports: [chat_service_1.ChatService, chat_gateway_1.ChatGateway, user_presence_repository_1.UserPresenceRepository],
     })
 ], ChatModule);
 //# sourceMappingURL=chat.module.js.map

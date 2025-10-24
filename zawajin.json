@@ -355,9 +355,72 @@
                 "status"
               ]
             },
-            "description": "Update the current user's online or offline status. Set isOnline to true to appear online to other users, or false to appear offline. This status is displayed to other users on the platform."
+            "description": "Update the current user's online or offline status. Set isOnline to true to appear online to other users, or false to appear offline. This status is displayed to other users on the platform and broadcasted in real-time via Socket.IO to all connected clients."
           },
-          "response": []
+          "response": [
+            {
+              "name": "Success - Set Online",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"isOnline\": true\n}"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"User status updated successfully / تم تحديث حالة المستخدم بنجاح\",\n    \"data\": {\n        \"userId\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"isOnline\": true,\n        \"lastSeenAt\": \"2025-10-24T10:30:00.000Z\",\n        \"socketId\": null,\n        \"updatedAt\": \"2025-10-24T10:30:00.000Z\"\n    },\n    \"timestamp\": \"2025-10-24T10:30:00.000Z\"\n}"
+            },
+            {
+              "name": "Success - Set Offline",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{authToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"isOnline\": false\n}"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"User status updated successfully / تم تحديث حالة المستخدم بنجاح\",\n    \"data\": {\n        \"userId\": \"123e4567-e89b-12d3-a456-426614174000\",\n        \"isOnline\": false,\n        \"lastSeenAt\": \"2025-10-24T10:30:00.000Z\",\n        \"socketId\": null,\n        \"updatedAt\": \"2025-10-24T10:30:00.000Z\"\n    },\n    \"timestamp\": \"2025-10-24T10:30:00.000Z\"\n}"
+            }
+          ]
         },
         {
           "name": "Get User Statistics (Public)",
@@ -1270,6 +1333,141 @@
                 "history"
               ]
             }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Notifications & Real-Time",
+      "item": [
+        {
+          "name": "Send Push Notification (Single Device)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"token\": \"fcm-device-token-here\",\n    \"title\": \"New Match!\",\n    \"body\": \"You have a new match with Sarah\",\n    \"data\": {\n        \"type\": \"new_match\",\n        \"matchId\": \"123e4567-e89b-12d3-a456-426614174000\"\n    }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/notifications/send",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "send"
+              ]
+            },
+            "description": "Send a push notification to a single device using Firebase Cloud Messaging (FCM). This is for testing purposes. In production, notifications are sent automatically via Socket.IO for online users and FCM for offline users."
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"token\": \"fcm-device-token\",\n    \"title\": \"New Match!\",\n    \"body\": \"You have a new match\",\n    \"data\": {\n        \"type\": \"new_match\",\n        \"matchId\": \"123\"\n    }\n}"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"messageId\": \"projects/zawajin/messages/0:1234567890\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Send Push Notification (Multiple Devices)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"tokens\": [\n        \"fcm-device-token-1\",\n        \"fcm-device-token-2\",\n        \"fcm-device-token-3\"\n    ],\n    \"title\": \"System Announcement\",\n    \"body\": \"The app will undergo maintenance tonight at 2 AM\",\n    \"data\": {\n        \"type\": \"system\",\n        \"priority\": \"high\"\n    }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/notifications/send-multicast",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "notifications",
+                "send-multicast"
+              ]
+            },
+            "description": "Send a push notification to multiple devices at once using Firebase Cloud Messaging multicast."
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"tokens\": [\"token1\", \"token2\"],\n    \"title\": \"System Announcement\",\n    \"body\": \"Maintenance tonight\"\n}"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"successCount\": 2,\n    \"failureCount\": 0,\n    \"responses\": [\n        {\"success\": true, \"messageId\": \"msg-1\"},\n        {\"success\": true, \"messageId\": \"msg-2\"}\n    ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Socket.IO Connection Guide",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/socket.io",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "socket.io"
+              ]
+            },
+            "description": "# Socket.IO Real-Time Communication\n\n## Connection\n\n**Endpoint:** `http://localhost:3000` (or your server URL)\n**Path:** `/socket.io`\n**Authentication:** JWT token required in handshake\n\n### JavaScript/React Example:\n```javascript\nimport io from 'socket.io-client';\n\nconst socket = io('http://localhost:3000', {\n  path: '/socket.io',\n  auth: {\n    token: 'YOUR_JWT_TOKEN'\n  },\n  transports: ['websocket']\n});\n\nsocket.on('connect', () => {\n  console.log('Connected to server');\n});\n```\n\n### Swift/iOS Example:\n```swift\nimport SocketIO\n\nlet manager = SocketManager(\n  socketURL: URL(string: \"http://localhost:3000\")!,\n  config: [\n    .log(true),\n    .extraHeaders([\"Authorization\": \"Bearer \\(token)\"])\n  ]\n)\n\nlet socket = manager.defaultSocket\nsocket.connect()\n```\n\n### Kotlin/Android Example:\n```kotlin\nval opts = IO.Options().apply {\n  extraHeaders = mapOf(\"Authorization\" to listOf(\"Bearer $token\"))\n}\n\nval socket = IO.socket(\"http://localhost:3000\", opts)\nsocket.connect()\n```\n\n## Events to Listen For\n\n### 1. Online Status Events\n\n**Event:** `user_status_changed` (Recommended)\n```javascript\nsocket.on('user_status_changed', (data) => {\n  console.log('User status:', data);\n  // data = { userId: string, isOnline: boolean, timestamp: string }\n});\n```\n\n**Legacy Events:** `user_online` | `user_offline`\n```javascript\nsocket.on('user_online', (data) => {\n  console.log('User came online:', data.userId);\n});\n\nsocket.on('user_offline', (data) => {\n  console.log('User went offline:', data.userId);\n});\n```\n\n### 2. Notification Events\n\n**Event:** `notification_received`\n```javascript\nsocket.on('notification_received', (notification) => {\n  console.log('New notification:', notification);\n  // notification = {\n  //   id: string,\n  //   type: 'new_message' | 'new_match' | 'new_like' | 'engagement_request' | 'system',\n  //   title: string,\n  //   body: string,\n  //   data: object,\n  //   timestamp: string\n  // }\n});\n```\n\n### 3. Chat Events\n\n**Event:** `message_received`\n```javascript\nsocket.on('message_received', (data) => {\n  console.log('New message:', data);\n  // data = { message: object, conversationId: string }\n});\n```\n\n**Event:** `user_typing`\n```javascript\nsocket.on('user_typing', (data) => {\n  console.log('User typing:', data);\n  // data = { userId: string, conversationId: string, isTyping: boolean }\n});\n```\n\n**Event:** `message_read`\n```javascript\nsocket.on('message_read', (data) => {\n  console.log('Messages read:', data);\n  // data = { conversationId: string, readBy: string }\n});\n```\n\n### 4. Engagement Events\n\n**Event:** `engagement_request_received`\n```javascript\nsocket.on('engagement_request_received', (data) => {\n  console.log('New engagement request:', data.request);\n});\n```\n\n**Event:** `engagement_request_responded`\n```javascript\nsocket.on('engagement_request_responded', (data) => {\n  console.log('Engagement response:', data);\n  // data = { request: object, status: 'accepted' | 'refused' }\n});\n```\n\n## Events to Emit\n\n### Join Conversation\n```javascript\nsocket.emit('join_conversation', { conversationId: 'abc-123' });\n```\n\n### Leave Conversation\n```javascript\nsocket.emit('leave_conversation', { conversationId: 'abc-123' });\n```\n\n### Send Message\n```javascript\nsocket.emit('send_message', {\n  conversationId: 'abc-123',\n  message: {\n    content: 'Hello!',\n    messageType: 'text'\n  }\n});\n```\n\n### Typing Indicators\n```javascript\n// Start typing\nsocket.emit('typing_start', { conversationId: 'abc-123' });\n\n// Stop typing\nsocket.emit('typing_stop', { conversationId: 'abc-123' });\n```\n\n### Mark Messages as Read\n```javascript\nsocket.emit('message_read', { conversationId: 'abc-123' });\n```\n\n### Send Engagement Request\n```javascript\nsocket.emit('send_engagement_request', {\n  recipientId: 'user-id',\n  conversationId: 'conversation-id',\n  message: 'Will you marry me?'\n});\n```\n\n### Respond to Engagement Request\n```javascript\nsocket.emit('respond_engagement_request', {\n  requestId: 'request-id',\n  response: {\n    status: 'accepted' // or 'refused'\n  }\n});\n```\n\n### Cancel Engagement Request\n```javascript\nsocket.emit('cancel_engagement_request', {\n  requestId: 'request-id',\n  recipientId: 'recipient-user-id'\n});\n```\n\n## Important Notes\n\n1. **Authentication Required:** All socket connections require a valid JWT token\n2. **Auto Reconnection:** Socket.IO handles reconnection automatically\n3. **Online Status:** Status is automatically updated on connect/disconnect\n4. **Manual Status:** Use `POST /users/status` to manually set online/offline\n5. **Global Broadcast:** Status changes are broadcasted to ALL connected clients\n6. **Hybrid Notifications:** Online users receive via Socket.IO, offline users via FCM\n\n## Complete Demo\n\nSee the demo at: `demo/realtime-demo.html` for a complete working example.\n\nFor detailed documentation, see: `REALTIME_FEATURES.md`"
           },
           "response": []
         }

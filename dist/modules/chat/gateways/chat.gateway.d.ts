@@ -78,6 +78,15 @@ export declare class ChatGateway implements OnGatewayConnection, OnGatewayDiscon
         success: boolean;
         error: any;
     }>;
+    broadcastNotification(userId: string, notification: {
+        id?: string;
+        type: string;
+        title: string;
+        body: string;
+        data?: Record<string, any>;
+        timestamp?: string;
+    }): void;
+    broadcastUserStatusChange(userId: string, isOnline: boolean): void;
     handleSendEngagementRequest(client: Socket, data: SendEngagementDto): Promise<{
         success: boolean;
         request: import("../entities/engagement-request.entity").EngagementRequest;

@@ -20,11 +20,13 @@ const typeorm_2 = require("typeorm");
 const user_repository_1 = require("../../auth/repositories/user.repository");
 const like_entity_1 = require("../../interactions/entities/like.entity");
 const user_presence_repository_1 = require("../../chat/repositories/user-presence.repository");
+const chat_gateway_1 = require("../../chat/gateways/chat.gateway");
 let UsersService = UsersService_1 = class UsersService {
-    constructor(userRepository, likeRepository, userPresenceRepository) {
+    constructor(userRepository, likeRepository, userPresenceRepository, chatGateway) {
         this.userRepository = userRepository;
         this.likeRepository = likeRepository;
         this.userPresenceRepository = userPresenceRepository;
+        this.chatGateway = chatGateway;
         this.logger = new common_1.Logger(UsersService_1.name);
     }
     sanitizeNumericFields(user) {
@@ -190,7 +192,8 @@ let UsersService = UsersService_1 = class UsersService {
             throw new common_1.NotFoundException('User not found / المستخدم غير موجود');
         }
         const presence = await this.userPresenceRepository.setUserStatus(userId, isOnline);
-        this.logger.log(`User status updated successfully for user: ${userId}`);
+        this.chatGateway.broadcastUserStatusChange(userId, isOnline);
+        this.logger.log(`User status updated successfully for user: ${userId} and broadcasted`);
         return presence;
     }
 };
@@ -198,8 +201,10 @@ exports.UsersService = UsersService;
 exports.UsersService = UsersService = UsersService_1 = __decorate([
     (0, common_1.Injectable)(),
     __param(1, (0, typeorm_1.InjectRepository)(like_entity_1.Like)),
+    __param(3, (0, common_1.Inject)((0, common_1.forwardRef)(() => chat_gateway_1.ChatGateway))),
     __metadata("design:paramtypes", [user_repository_1.UserRepository,
         typeorm_2.Repository,
-        user_presence_repository_1.UserPresenceRepository])
+        user_presence_repository_1.UserPresenceRepository,
+        chat_gateway_1.ChatGateway])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

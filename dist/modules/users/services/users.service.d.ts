@@ -6,12 +6,14 @@ import { User } from '../../auth/entities/user.entity';
 import { Like } from '../../interactions/entities/like.entity';
 import { UserPresenceRepository } from '../../chat/repositories/user-presence.repository';
 import { UserPresence } from '../../chat/entities/user-presence.entity';
+import { ChatGateway } from '../../chat/gateways/chat.gateway';
 export declare class UsersService {
     private readonly userRepository;
     private readonly likeRepository;
     private readonly userPresenceRepository;
+    private readonly chatGateway;
     private readonly logger;
-    constructor(userRepository: UserRepository, likeRepository: Repository<Like>, userPresenceRepository: UserPresenceRepository);
+    constructor(userRepository: UserRepository, likeRepository: Repository<Like>, userPresenceRepository: UserPresenceRepository, chatGateway: ChatGateway);
     private sanitizeNumericFields;
     updateProfile(userId: string, profileData: UpdateProfileDto): Promise<User>;
     getAllUsers(queryDto: GetUsersDto, currentUserId?: string): Promise<{
