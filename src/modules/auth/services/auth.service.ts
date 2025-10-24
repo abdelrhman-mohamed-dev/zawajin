@@ -441,45 +441,22 @@ export class AuthService {
     completedFields: string[];
     missingFields: string[];
   } {
-    // Define all profile fields that should be filled
+    // Define the 15 profile fields that should be filled for completion calculation
     const profileFields = [
-      // Basic Info
+      { key: 'username', label: 'Username' },
       { key: 'dateOfBirth', label: 'Date of Birth' },
-      { key: 'age', label: 'Age' },
       { key: 'location', label: 'Location' },
-      { key: 'origin', label: 'Origin' },
+      { key: 'tribe', label: 'Tribe' },
       { key: 'maritalStatus', label: 'Marital Status' },
-      { key: 'profession', label: 'Profession' },
-
-      // Physical Attributes
+      { key: 'educationLevel', label: 'Education Level' },
+      { key: 'natureOfWork', label: 'Nature of Work' },
       { key: 'weight', label: 'Weight' },
       { key: 'height', label: 'Height' },
-      { key: 'bodyColor', label: 'Body Color' },
-      { key: 'hairColor', label: 'Hair Color' },
-      { key: 'hairType', label: 'Hair Type' },
-      { key: 'eyeColor', label: 'Eye Color' },
+      { key: 'skinColor', label: 'Skin Color' },
+      { key: 'beauty', label: 'Beauty' },
       { key: 'houseAvailable', label: 'House Available' },
-      { key: 'natureOfWork', label: 'Nature of Work' },
       { key: 'bio', label: 'Bio' },
-
-      // Religious Info
-      { key: 'religiousPractice', label: 'Religious Practice' },
-      { key: 'sect', label: 'Sect' },
-      { key: 'prayerLevel', label: 'Prayer Level' },
-
-      // Partner Preferences
-      { key: 'preferredMinWeight', label: 'Preferred Min Weight' },
-      { key: 'preferredMaxWeight', label: 'Preferred Max Weight' },
-      { key: 'preferredMinHeight', label: 'Preferred Min Height' },
-      { key: 'preferredMaxHeight', label: 'Preferred Max Height' },
-      { key: 'preferredBodyColors', label: 'Preferred Body Colors' },
-      { key: 'preferredHairColors', label: 'Preferred Hair Colors' },
-      { key: 'preferredEyeColors', label: 'Preferred Eye Colors' },
-      { key: 'partnerPreferencesBio', label: 'Partner Preferences Bio' },
-
-      // Marriage Preferences
       { key: 'marriageType', label: 'Marriage Type' },
-      { key: 'acceptPolygamy', label: 'Accept Polygamy' },
     ];
 
     const completedFields: string[] = [];
