@@ -150,8 +150,21 @@ let InteractionsService = InteractionsService_1 = class InteractionsService {
             return {
                 ...visitorData,
                 visitedAt: visit.createdAt,
+                seen: visit.seen,
             };
         });
+    }
+    async markVisitAsSeen(userId, visitorId) {
+        this.logger.log(`Marking visit from ${visitorId} as seen by ${userId}`);
+        await this.profileVisitRepository.markAsSeen(userId, visitorId);
+    }
+    async markAllVisitsAsSeen(userId) {
+        this.logger.log(`Marking all visits as seen for user ${userId}`);
+        await this.profileVisitRepository.markAllAsSeen(userId);
+    }
+    async getUnseenVisitsCount(userId) {
+        this.logger.log(`Getting unseen visits count for user ${userId}`);
+        return await this.profileVisitRepository.countUnseenVisits(userId);
     }
 };
 exports.InteractionsService = InteractionsService;

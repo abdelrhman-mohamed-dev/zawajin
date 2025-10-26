@@ -25,6 +25,12 @@ export class VisitorDto {
   })
   visitedAt: Date;
 
+  @ApiProperty({
+    description: 'Whether the profile owner has seen this visit',
+    example: false,
+  })
+  seen: boolean;
+
   @ApiProperty({ description: 'Email address' })
   email: string;
 

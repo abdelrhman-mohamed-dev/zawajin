@@ -118,8 +118,14 @@ export class ChatService {
       ])
     );
 
-    // Add online status to participants
-    const conversationsWithPresence = conversations.map(conv => {
+    // Get unread message counts for all conversations
+    const unreadCountPromises = conversations.map(conv =>
+      this.messageRepository.getUnreadCount(conv.id, userId)
+    );
+    const unreadCounts = await Promise.all(unreadCountPromises);
+
+    // Add online status and unread count to participants
+    const conversationsWithPresence = conversations.map((conv, index) => {
       const participant1Presence = conv.participant1 ? presenceMap.get(conv.participant1.id) : null;
       const participant2Presence = conv.participant2 ? presenceMap.get(conv.participant2.id) : null;
 
@@ -135,6 +141,7 @@ export class ChatService {
           isOnline: participant2Presence?.isOnline ?? true,
           lastSeenAt: participant2Presence?.lastSeenAt ?? null,
         } : null,
+        unreadCount: unreadCounts[index] || 0,
       };
     });
 

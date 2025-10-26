@@ -32,6 +32,9 @@ export class ProfileVisit {
   @JoinColumn({ name: 'profile_owner_id' })
   profileOwner: User;
 
+  @Column({ type: 'boolean', default: false })
+  seen: boolean;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 }

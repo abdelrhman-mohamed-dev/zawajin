@@ -123,12 +123,41 @@ let InteractionsController = class InteractionsController {
     }
     async getRecentVisitors(req) {
         const visitors = await this.interactionsService.getRecentVisitors(req.user.sub);
+        const unseenVisits = await this.interactionsService.getUnseenVisitsCount(req.user.sub);
         return {
             success: true,
             message: 'Recent visitors retrieved successfully / تم استرجاع الزوار الأخيرين بنجاح',
             data: {
                 visitors,
                 total: visitors.length,
+                unseenVisits,
+            },
+            timestamp: new Date().toISOString(),
+        };
+    }
+    async markVisitAsSeen(req, visitorId) {
+        await this.interactionsService.markVisitAsSeen(req.user.sub, visitorId);
+        return {
+            success: true,
+            message: 'Visit marked as seen successfully / تم تحديد الزيارة كمقروءة بنجاح',
+            timestamp: new Date().toISOString(),
+        };
+    }
+    async markAllVisitsAsSeen(req) {
+        await this.interactionsService.markAllVisitsAsSeen(req.user.sub);
+        return {
+            success: true,
+            message: 'All visits marked as seen successfully / تم تحديد جميع الزيارات كمقروءة بنجاح',
+            timestamp: new Date().toISOString(),
+        };
+    }
+    async getUnseenVisitsCount(req) {
+        const unseenVisits = await this.interactionsService.getUnseenVisitsCount(req.user.sub);
+        return {
+            success: true,
+            message: 'Unseen visits count retrieved successfully / تم استرجاع عدد الزيارات غير المقروءة بنجاح',
+            data: {
+                unseenVisits,
             },
             timestamp: new Date().toISOString(),
         };
@@ -373,9 +402,11 @@ __decorate([
                             firstName: 'Ahmed',
                             lastName: 'Ali',
                             visitedAt: '2025-10-17T10:30:00Z',
+                            seen: false,
                         },
                     ],
                     total: 1,
+                    unseenVisits: 1,
                 },
                 timestamp: '2025-10-17T10:30:00.000Z',
             },
@@ -387,6 +418,73 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], InteractionsController.prototype, "getRecentVisitors", null);
+__decorate([
+    (0, common_1.Post)('profile/visitors/:visitorId/mark-seen'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    (0, swagger_1.ApiOperation)({ summary: 'Mark a specific visitor as seen' }),
+    (0, swagger_1.ApiParam)({ name: 'visitorId', description: 'Visitor user ID to mark as seen' }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Visit marked as seen successfully',
+        schema: {
+            example: {
+                success: true,
+                message: 'Visit marked as seen successfully / تم تحديد الزيارة كمقروءة بنجاح',
+                timestamp: '2025-10-17T10:30:00.000Z',
+            },
+        },
+    }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: 'Unauthorized' }),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Param)('visitorId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", Promise)
+], InteractionsController.prototype, "markVisitAsSeen", null);
+__decorate([
+    (0, common_1.Post)('profile/visitors/mark-all-seen'),
+    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    (0, swagger_1.ApiOperation)({ summary: 'Mark all visits as seen for current user' }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'All visits marked as seen successfully',
+        schema: {
+            example: {
+                success: true,
+                message: 'All visits marked as seen successfully / تم تحديد جميع الزيارات كمقروءة بنجاح',
+                timestamp: '2025-10-17T10:30:00.000Z',
+            },
+        },
+    }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: 'Unauthorized' }),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], InteractionsController.prototype, "markAllVisitsAsSeen", null);
+__decorate([
+    (0, common_1.Get)('profile/visitors/unseen-count'),
+    (0, swagger_1.ApiOperation)({ summary: 'Get count of unseen visits for current user' }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Unseen visits count retrieved successfully',
+        schema: {
+            example: {
+                success: true,
+                message: 'Unseen visits count retrieved successfully / تم استرجاع عدد الزيارات غير المقروءة بنجاح',
+                data: {
+                    unseenVisits: 5,
+                },
+                timestamp: '2025-10-17T10:30:00.000Z',
+            },
+        },
+    }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: 'Unauthorized' }),
+    __param(0, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], InteractionsController.prototype, "getUnseenVisitsCount", null);
 exports.InteractionsController = InteractionsController = __decorate([
     (0, swagger_1.ApiTags)('User Interactions'),
     (0, common_1.Controller)('users'),

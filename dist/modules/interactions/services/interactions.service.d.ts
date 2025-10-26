@@ -24,4 +24,7 @@ export declare class InteractionsService {
     recordProfileVisit(visitorId: string, profileOwnerId: string): Promise<void>;
     getProfileVisitStats(userId: string): Promise<ProfileVisitStatsDto>;
     getRecentVisitors(userId: string, limit?: number): Promise<VisitorDto[]>;
+    markVisitAsSeen(userId: string, visitorId: string): Promise<void>;
+    markAllVisitsAsSeen(userId: string): Promise<void>;
+    getUnseenVisitsCount(userId: string): Promise<number>;
 }

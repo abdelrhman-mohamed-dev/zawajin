@@ -80,6 +80,25 @@ export declare class InteractionsController {
         data: {
             visitors: import("../dto/visitor.dto").VisitorDto[];
             total: number;
+            unseenVisits: number;
+        };
+        timestamp: string;
+    }>;
+    markVisitAsSeen(req: any, visitorId: string): Promise<{
+        success: boolean;
+        message: string;
+        timestamp: string;
+    }>;
+    markAllVisitsAsSeen(req: any): Promise<{
+        success: boolean;
+        message: string;
+        timestamp: string;
+    }>;
+    getUnseenVisitsCount(req: any): Promise<{
+        success: boolean;
+        message: string;
+        data: {
+            unseenVisits: number;
         };
         timestamp: string;
     }>;

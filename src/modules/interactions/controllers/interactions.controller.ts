@@ -319,9 +319,11 @@ export class InteractionsController {
               firstName: 'Ahmed',
               lastName: 'Ali',
               visitedAt: '2025-10-17T10:30:00Z',
+              seen: false,
             },
           ],
           total: 1,
+          unseenVisits: 1,
         },
         timestamp: '2025-10-17T10:30:00.000Z',
       },
@@ -330,6 +332,7 @@ export class InteractionsController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async getRecentVisitors(@Request() req) {
     const visitors = await this.interactionsService.getRecentVisitors(req.user.sub);
+    const unseenVisits = await this.interactionsService.getUnseenVisitsCount(req.user.sub);
 
     return {
       success: true,
@@ -337,6 +340,88 @@ export class InteractionsController {
       data: {
         visitors,
         total: visitors.length,
+        unseenVisits,
+      },
+      timestamp: new Date().toISOString(),
+    };
+  }
+
+  @Post('profile/visitors/:visitorId/mark-seen')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Mark a specific visitor as seen' })
+  @ApiParam({ name: 'visitorId', description: 'Visitor user ID to mark as seen' })
+  @ApiResponse({
+    status: 200,
+    description: 'Visit marked as seen successfully',
+    schema: {
+      example: {
+        success: true,
+        message: 'Visit marked as seen successfully / تم تحديد الزيارة كمقروءة بنجاح',
+        timestamp: '2025-10-17T10:30:00.000Z',
+      },
+    },
+  })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async markVisitAsSeen(@Request() req, @Param('visitorId') visitorId: string) {
+    await this.interactionsService.markVisitAsSeen(req.user.sub, visitorId);
+
+    return {
+      success: true,
+      message: 'Visit marked as seen successfully / تم تحديد الزيارة كمقروءة بنجاح',
+      timestamp: new Date().toISOString(),
+    };
+  }
+
+  @Post('profile/visitors/mark-all-seen')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Mark all visits as seen for current user' })
+  @ApiResponse({
+    status: 200,
+    description: 'All visits marked as seen successfully',
+    schema: {
+      example: {
+        success: true,
+        message: 'All visits marked as seen successfully / تم تحديد جميع الزيارات كمقروءة بنجاح',
+        timestamp: '2025-10-17T10:30:00.000Z',
+      },
+    },
+  })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async markAllVisitsAsSeen(@Request() req) {
+    await this.interactionsService.markAllVisitsAsSeen(req.user.sub);
+
+    return {
+      success: true,
+      message: 'All visits marked as seen successfully / تم تحديد جميع الزيارات كمقروءة بنجاح',
+      timestamp: new Date().toISOString(),
+    };
+  }
+
+  @Get('profile/visitors/unseen-count')
+  @ApiOperation({ summary: 'Get count of unseen visits for current user' })
+  @ApiResponse({
+    status: 200,
+    description: 'Unseen visits count retrieved successfully',
+    schema: {
+      example: {
+        success: true,
+        message: 'Unseen visits count retrieved successfully / تم استرجاع عدد الزيارات غير المقروءة بنجاح',
+        data: {
+          unseenVisits: 5,
+        },
+        timestamp: '2025-10-17T10:30:00.000Z',
+      },
+    },
+  })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async getUnseenVisitsCount(@Request() req) {
+    const unseenVisits = await this.interactionsService.getUnseenVisitsCount(req.user.sub);
+
+    return {
+      success: true,
+      message: 'Unseen visits count retrieved successfully / تم استرجاع عدد الزيارات غير المقروءة بنجاح',
+      data: {
+        unseenVisits,
       },
       timestamp: new Date().toISOString(),
     };

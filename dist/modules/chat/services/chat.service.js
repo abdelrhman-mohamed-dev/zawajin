@@ -83,7 +83,9 @@ let ChatService = class ChatService {
                 lastSeenAt: presences[index] ? presences[index].lastSeenAt : null
             }
         ]));
-        const conversationsWithPresence = conversations.map(conv => {
+        const unreadCountPromises = conversations.map(conv => this.messageRepository.getUnreadCount(conv.id, userId));
+        const unreadCounts = await Promise.all(unreadCountPromises);
+        const conversationsWithPresence = conversations.map((conv, index) => {
             const participant1Presence = conv.participant1 ? presenceMap.get(conv.participant1.id) : null;
             const participant2Presence = conv.participant2 ? presenceMap.get(conv.participant2.id) : null;
             return {
@@ -98,6 +100,7 @@ let ChatService = class ChatService {
                     isOnline: participant2Presence?.isOnline ?? true,
                     lastSeenAt: participant2Presence?.lastSeenAt ?? null,
                 } : null,
+                unreadCount: unreadCounts[index] || 0,
             };
         });
         return {

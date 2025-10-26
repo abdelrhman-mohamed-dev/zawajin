@@ -59,4 +59,30 @@ export class ProfileVisitRepository {
       uniqueVisitors,
     };
   }
+
+  async markAsSeen(profileOwnerId: string, visitorId: string): Promise<void> {
+    await this.profileVisitRepo
+      .createQueryBuilder()
+      .update(ProfileVisit)
+      .set({ seen: true })
+      .where('profileOwnerId = :profileOwnerId', { profileOwnerId })
+      .andWhere('visitorId = :visitorId', { visitorId })
+      .execute();
+  }
+
+  async markAllAsSeen(profileOwnerId: string): Promise<void> {
+    await this.profileVisitRepo
+      .createQueryBuilder()
+      .update(ProfileVisit)
+      .set({ seen: true })
+      .where('profileOwnerId = :profileOwnerId', { profileOwnerId })
+      .andWhere('seen = :seen', { seen: false })
+      .execute();
+  }
+
+  async countUnseenVisits(profileOwnerId: string): Promise<number> {
+    return await this.profileVisitRepo.count({
+      where: { profileOwnerId, seen: false },
+    });
+  }
 }

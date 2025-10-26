@@ -202,7 +202,23 @@ export class InteractionsService {
       return {
         ...visitorData,
         visitedAt: visit.createdAt,
+        seen: visit.seen,
       };
     });
+  }
+
+  async markVisitAsSeen(userId: string, visitorId: string): Promise<void> {
+    this.logger.log(`Marking visit from ${visitorId} as seen by ${userId}`);
+    await this.profileVisitRepository.markAsSeen(userId, visitorId);
+  }
+
+  async markAllVisitsAsSeen(userId: string): Promise<void> {
+    this.logger.log(`Marking all visits as seen for user ${userId}`);
+    await this.profileVisitRepository.markAllAsSeen(userId);
+  }
+
+  async getUnseenVisitsCount(userId: string): Promise<number> {
+    this.logger.log(`Getting unseen visits count for user ${userId}`);
+    return await this.profileVisitRepository.countUnseenVisits(userId);
   }
 }
