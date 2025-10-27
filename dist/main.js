@@ -102,6 +102,12 @@ async function bootstrap() {
             else if (filePath.endsWith('.ogg')) {
                 res.setHeader('Content-Type', 'audio/ogg');
             }
+            else if (filePath.endsWith('.m4a')) {
+                res.setHeader('Content-Type', 'audio/mp4');
+            }
+            else if (filePath.endsWith('.aac')) {
+                res.setHeader('Content-Type', 'audio/aac');
+            }
         },
     });
     app.use('/uploads', serveStatic);
