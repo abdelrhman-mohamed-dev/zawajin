@@ -20,15 +20,16 @@ let MailService = MailService_1 = class MailService {
     constructor(configService) {
         this.configService = configService;
         this.logger = new common_1.Logger(MailService_1.name);
-        this.transporter = nodemailer.createTransport({
+        const mailConfig = {
             host: this.configService.get('MAIL_HOST', 'smtp.gmail.com'),
             port: this.configService.get('MAIL_PORT', 587),
-            secure: false,
             auth: {
                 user: this.configService.get('MAIL_USER'),
                 pass: this.configService.get('MAIL_PASSWORD'),
             },
-        });
+        };
+        this.transporter = nodemailer.createTransport(mailConfig);
+        this.logger.log(`Mail service initialized with host: ${mailConfig.host}, port: ${mailConfig.port}, user: ${mailConfig.auth.user}`);
     }
     async sendOtpEmail(to, otpCode) {
         try {

@@ -10,15 +10,19 @@ export class MailService {
   private transporter: nodemailer.Transporter;
 
   constructor(private readonly configService: ConfigService) {
-    this.transporter = nodemailer.createTransport({
+    const mailConfig: any = {
       host: this.configService.get<string>('MAIL_HOST', 'smtp.gmail.com'),
       port: this.configService.get<number>('MAIL_PORT', 587),
-      secure: false,
       auth: {
         user: this.configService.get<string>('MAIL_USER'),
         pass: this.configService.get<string>('MAIL_PASSWORD'),
       },
-    });
+    };
+
+    this.transporter = nodemailer.createTransport(mailConfig);
+
+    // Log configuration for debugging (without password)
+    this.logger.log(`Mail service initialized with host: ${mailConfig.host}, port: ${mailConfig.port}, user: ${mailConfig.auth.user}`);
   }
 
   async sendOtpEmail(to: string, otpCode: string): Promise<boolean> {
