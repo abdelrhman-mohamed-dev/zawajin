@@ -76,9 +76,9 @@ export enum EmploymentType {
 }
 
 export enum FinancialStatus {
-  POOR = 'poor',
-  GOOD = 'good',
   EXCELLENT = 'excellent',
+  GOOD = 'good',
+  AVERAGE = 'average',
 }
 
 export enum HealthStatus {
