@@ -113,9 +113,10 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({
         type: 'enum',
-        enum: ['single', 'divorced', 'widowed', 'married', 'virgin', 'widow'],
+        enum: ['single', 'divorced', 'widowed', 'married', 'f_single', 'f_divorced', 'f_widowed', 'virgin', 'widow'],
         nullable: true,
         name: 'marital_status',
+        comment: 'Marital status: single/divorced/widowed/married for men, f_single/f_divorced/f_widowed or virgin/widow for women',
     }),
     (0, typeorm_1.Index)('idx_users_marital_status'),
     __metadata("design:type", String)

@@ -34,7 +34,10 @@
       "divorced": "مطلق",
       "widowed": "أرمل",
       "virgin": "عذراء",
-      "widow": "أرملة"
+      "widow": "أرملة",
+      "f_single": "عذراء",
+      "f_divorced": "مطلقة",
+      "f_widowed": "أرملة"
     },
     "education_level": {
       "secondary": "ثانوي",
@@ -45,7 +48,9 @@
     "employment_type": {
       "unemployed": "عاطل عن العمل",
       "employed": "موظف",
-      "self_employed": "عمل حر"
+      "self_employed": "عمل حر",
+      "f_unemployed": "عاطلة عن العمل",
+      "f_employed": "موظفة"
     },
     "financial_status": {
       "poor": "ضعيف",
@@ -55,12 +60,18 @@
     "health_status": {
       "healthy": "سليم",
       "chronically_ill": "مريض مزمن",
-      "disabled": "معاق"
+      "disabled": "معاق",
+      "f_healthy": "سليمة",
+      "f_chronically_ill": "مريضة مرض مزمن",
+      "f_disabled": "معاقة"
     },
     "religiosity_level": {
       "normal": "عادي",
       "conservative": "محافظ",
-      "committed": "ملتزم"
+      "committed": "ملتزم",
+      "f_normal": "عادية",
+      "f_conservative": "محافظة",
+      "f_committed": "ملتزمة"
     },
     "skin_color": {
       "white": "أبيض",
@@ -72,7 +83,48 @@
       "average": "متوسط",
       "handsome": "وسيم",
       "beautiful": "جميلة",
-      "very_beautiful": "جميلة جدا"
+      "very_beautiful": "جميلة جدا",
+      "attractive": "جذاب",
+      "very_attractive": "جذاب جداً",
+      "f_acceptable": "مقبولة",
+      "f_average": "متوسطة",
+      "f_beautiful": "جميلة",
+      "f_very_beautiful": "جميلة جداً"
+    },
+    "body_color": {
+      "very_fair": "فاتح جداً",
+      "fair": "فاتح",
+      "medium": "متوسط",
+      "olive": "زيتوني",
+      "brown": "بني",
+      "dark_brown": "بني داكن"
+    },
+    "hair_color": {
+      "black": "أسود",
+      "dark_brown": "بني داكن",
+      "brown": "بني",
+      "light_brown": "بني فاتح",
+      "blonde": "أشقر",
+      "red": "أحمر",
+      "gray": "رمادي",
+      "white": "أبيض"
+    },
+    "hair_type": {
+      "straight": "ناعم",
+      "wavy": "مموج",
+      "curly": "كيرلي",
+      "coily": "مجعد",
+      "bald": "أصلع"
+    },
+    "eye_color": {
+      "brown": "بني",
+      "dark_brown": "بني داكن",
+      "hazel": "عسلي",
+      "green": "أخضر",
+      "blue": "أزرق",
+      "gray": "رمادي",
+      "amber": "عنبري",
+      "black": "أسود"
     },
     "polygamy_status": {
       "yes": "نعم",

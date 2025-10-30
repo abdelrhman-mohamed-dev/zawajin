@@ -27,6 +27,7 @@ let UsersController = class UsersController {
         this.usersService = usersService;
     }
     async updateProfile(req, updateProfileDto, i18n) {
+        await this.usersService.validateProfileByGender(req.user.sub, updateProfileDto);
         const user = await this.usersService.updateProfile(req.user.sub, updateProfileDto);
         return {
             success: true,

@@ -297,7 +297,7 @@
           ]
         },
         {
-          "name": "Update User Profile",
+          "name": "Update User Profile (Male)",
           "request": {
             "method": "PUT",
             "header": [
@@ -312,7 +312,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"username\": \"ahmed_khan\",\n    \"dateOfBirth\": \"1995-05-15\",\n    \"age\": 30,\n    \"location\": {\n        \"city\": \"Dubai\",\n        \"country\": \"UAE\"\n    },\n    \"origin\": \"Pakistani\",\n    \"nationality\": \"Saudi\",\n    \"placeOfResidence\": \"Riyadh\",\n    \"tribe\": \"tribal\",\n    \"maritalStatus\": \"single\",\n    \"numberOfChildren\": 0,\n    \"profession\": \"Software Engineer\",\n    \"educationLevel\": \"university\",\n    \"natureOfWork\": \"employed\",\n    \"financialStatus\": \"good\",\n    \"healthStatus\": \"healthy\",\n    \"religiosityLevel\": \"committed\",\n    \"weight\": 70.5,\n    \"height\": 175.5,\n    \"skinColor\": \"white\",\n    \"beauty\": \"handsome\",\n    \"bodyColor\": \"medium\",\n    \"hairColor\": \"black\",\n    \"hairType\": \"straight\",\n    \"eyeColor\": \"brown\",\n    \"houseAvailable\": true,\n    \"bio\": \"A kind and practicing Muslim looking for a life partner.\",\n    \"detailedProfile\": \"Looking for a serious relationship that leads to marriage. I value family and faith.\",\n    \"preferredMinWeight\": 50,\n    \"preferredMaxWeight\": 80,\n    \"preferredMinHeight\": 150,\n    \"preferredMaxHeight\": 180,\n    \"preferredBodyColors\": [\n        \"fair\",\n        \"medium\"\n    ],\n    \"preferredHairColors\": [\n        \"black\",\n        \"dark_brown\"\n    ],\n    \"preferredEyeColors\": [\n        \"brown\",\n        \"hazel\"\n    ],\n    \"partnerPreferencesBio\": \"Looking for someone who is kind, religious, and family-oriented.\",\n    \"marriageType\": \"traditional\",\n    \"acceptPolygamy\": false,\n    \"polygamyStatus\": \"no\",\n    \"religiousPractice\": \"Religious\",\n    \"sect\": \"Sunni\",\n    \"prayerLevel\": \"Prays 5 times a day\",\n    \"preferredAgeFrom\": 25,\n    \"preferredAgeTo\": 35,\n    \"preferredNationality\": \"Saudi\",\n    \"preferredResidencePlace\": \"Riyadh\",\n    \"preferredEducationLevel\": \"university\",\n    \"preferredWorkNature\": \"employed\",\n    \"preferredMaritalStatus\": \"single\",\n    \"preferredFinancialStatus\": \"good\",\n    \"preferredHasHouse\": true,\n    \"preferredHealthStatus\": \"healthy\",\n    \"preferredBeauty\": \"average\",\n    \"preferredSkinColor\": \"white\",\n    \"preferredReligiosityLevel\": \"committed\",\n    \"preferredAcceptPolygamy\": \"no\",\n    \"preferredMarriageType\": \"religious\"\n}"
+              "raw": "{\n    \"username\": \"ahmed_khan\",\n    \"dateOfBirth\": \"1995-05-15\",\n    \"age\": 30,\n    \"location\": {\n        \"city\": \"Dubai\",\n        \"country\": \"UAE\"\n    },\n    \"origin\": \"Pakistani\",\n    \"nationality\": \"Saudi\",\n    \"placeOfResidence\": \"Riyadh\",\n    \"tribe\": \"tribal\",\n    \"maritalStatus\": \"single\",\n    \"numberOfChildren\": 0,\n    \"profession\": \"Software Engineer\",\n    \"educationLevel\": \"university\",\n    \"natureOfWork\": \"employed\",\n    \"financialStatus\": \"good\",\n    \"healthStatus\": \"healthy\",\n    \"religiosityLevel\": \"committed\",\n    \"weight\": 70.5,\n    \"height\": 175.5,\n    \"skinColor\": \"white\",\n    \"beauty\": \"handsome\",\n    \"bodyColor\": \"medium\",\n    \"hairColor\": \"black\",\n    \"hairType\": \"straight\",\n    \"eyeColor\": \"brown\",\n    \"houseAvailable\": true,\n    \"bio\": \"A kind and practicing Muslim looking for a life partner.\",\n    \"detailedProfile\": \"Looking for a serious relationship that leads to marriage. I value family and faith.\",\n    \"preferredMinWeight\": 50,\n    \"preferredMaxWeight\": 80,\n    \"preferredMinHeight\": 150,\n    \"preferredMaxHeight\": 180,\n    \"preferredBodyColors\": [\n        \"fair\",\n        \"medium\"\n    ],\n    \"preferredHairColors\": [\n        \"black\",\n        \"dark_brown\"\n    ],\n    \"preferredEyeColors\": [\n        \"brown\",\n        \"hazel\"\n    ],\n    \"partnerPreferencesBio\": \"Looking for someone who is kind, religious, and family-oriented.\",\n    \"marriageType\": \"traditional\",\n    \"polygamyStatus\": \"no\",\n    \"religiousPractice\": \"Religious\",\n    \"sect\": \"Sunni\",\n    \"prayerLevel\": \"Prays 5 times a day\",\n    \"preferredAgeFrom\": 25,\n    \"preferredAgeTo\": 35,\n    \"preferredNationality\": \"Saudi\",\n    \"preferredResidencePlace\": \"Riyadh\",\n    \"preferredEducationLevel\": \"university\",\n    \"preferredWorkNature\": \"f_employed\",\n    \"preferredMaritalStatus\": \"f_single\",\n    \"preferredFinancialStatus\": \"good\",\n    \"preferredHasHouse\": true,\n    \"preferredHealthStatus\": \"f_healthy\",\n    \"preferredBeauty\": \"f_beautiful\",\n    \"preferredSkinColor\": \"white\",\n    \"preferredReligiosityLevel\": \"f_committed\",\n    \"preferredAcceptPolygamy\": \"no\",\n    \"preferredMarriageType\": \"religious\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/users/profile",
@@ -323,7 +323,40 @@
                 "users",
                 "profile"
               ]
-            }
+            },
+            "description": "Update profile for MALE users. Note:\n- maritalStatus: single, divorced, widowed, married\n- healthStatus: healthy, chronically_ill, disabled\n- religiosityLevel: normal, conservative, committed\n- natureOfWork: unemployed, employed, self_employed\n- beauty: acceptable, average, handsome\n- polygamyStatus: yes, no, thinking (REQUIRED for males)\n- acceptPolygamy: NOT ALLOWED for males"
+          },
+          "response": []
+        },
+        {
+          "name": "Update User Profile (Female)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"sara_ahmed\",\n    \"dateOfBirth\": \"1998-08-20\",\n    \"age\": 27,\n    \"location\": {\n        \"city\": \"Cairo\",\n        \"country\": \"Egypt\"\n    },\n    \"origin\": \"Egyptian\",\n    \"nationality\": \"Egyptian\",\n    \"placeOfResidence\": \"Cairo\",\n    \"tribe\": \"non_tribal\",\n    \"maritalStatus\": \"f_single\",\n    \"numberOfChildren\": 0,\n    \"profession\": \"Teacher\",\n    \"educationLevel\": \"university\",\n    \"natureOfWork\": \"f_employed\",\n    \"financialStatus\": \"good\",\n    \"healthStatus\": \"f_healthy\",\n    \"religiosityLevel\": \"f_committed\",\n    \"weight\": 60,\n    \"height\": 165,\n    \"skinColor\": \"white\",\n    \"beauty\": \"f_beautiful\",\n    \"bodyColor\": \"fair\",\n    \"hairColor\": \"black\",\n    \"hairType\": \"straight\",\n    \"eyeColor\": \"brown\",\n    \"houseAvailable\": false,\n    \"bio\": \"A practicing Muslim woman seeking a compatible life partner.\",\n    \"detailedProfile\": \"I value family, faith, and kindness. Looking for someone who shares similar values.\",\n    \"preferredMinWeight\": 70,\n    \"preferredMaxWeight\": 90,\n    \"preferredMinHeight\": 175,\n    \"preferredMaxHeight\": 185,\n    \"preferredBodyColors\": [\n        \"medium\",\n        \"olive\"\n    ],\n    \"preferredHairColors\": [\n        \"black\",\n        \"dark_brown\"\n    ],\n    \"preferredEyeColors\": [\n        \"brown\",\n        \"hazel\"\n    ],\n    \"partnerPreferencesBio\": \"Looking for a kind, religious, and responsible man.\",\n    \"marriageType\": \"traditional\",\n    \"acceptPolygamy\": false,\n    \"religiousPractice\": \"Religious\",\n    \"sect\": \"Sunni\",\n    \"prayerLevel\": \"Prays 5 times a day\",\n    \"preferredAgeFrom\": 28,\n    \"preferredAgeTo\": 40,\n    \"preferredNationality\": \"Egyptian\",\n    \"preferredResidencePlace\": \"Cairo\",\n    \"preferredEducationLevel\": \"university\",\n    \"preferredWorkNature\": \"employed\",\n    \"preferredMaritalStatus\": \"single\",\n    \"preferredFinancialStatus\": \"good\",\n    \"preferredHasHouse\": true,\n    \"preferredHealthStatus\": \"healthy\",\n    \"preferredBeauty\": \"handsome\",\n    \"preferredSkinColor\": \"white\",\n    \"preferredReligiosityLevel\": \"committed\",\n    \"preferredMarriageType\": \"traditional\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "profile"
+              ]
+            },
+            "description": "Update profile for FEMALE users. Note:\n- maritalStatus: f_single, f_divorced, f_widowed (or virgin, widow)\n- healthStatus: f_healthy, f_chronically_ill, f_disabled\n- religiosityLevel: f_normal, f_conservative, f_committed\n- natureOfWork: f_unemployed, f_employed, self_employed\n- beauty: f_acceptable, f_average, f_beautiful, f_very_beautiful\n- acceptPolygamy: true/false/null (boolean, REQUIRED for females)\n- polygamyStatus: NOT ALLOWED for females"
           },
           "response": []
         },

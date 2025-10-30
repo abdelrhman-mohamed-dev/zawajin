@@ -43,6 +43,12 @@ export class UsersController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 404, description: 'User not found' })
   async updateProfile(@Request() req, @Body() updateProfileDto: UpdateProfileDto, @I18n() i18n: I18nContext) {
+    // Validate profile data based on user's gender
+    await this.usersService.validateProfileByGender(
+      req.user.sub,
+      updateProfileDto,
+    );
+
     const user = await this.usersService.updateProfile(
       req.user.sub,
       updateProfileDto,

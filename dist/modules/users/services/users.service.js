@@ -44,6 +44,99 @@ let UsersService = UsersService_1 = class UsersService {
         });
         return sanitized;
     }
+    async validateProfileByGender(userId, profileData) {
+        const user = await this.userRepository.findById(userId);
+        if (!user) {
+            throw new common_1.NotFoundException('User not found / المستخدم غير موجود');
+        }
+        const gender = user.gender.toLowerCase();
+        const maleMaritalStatuses = ['single', 'divorced', 'widowed', 'married'];
+        const femaleMaritalStatuses = [
+            'f_single',
+            'f_divorced',
+            'f_widowed',
+            'virgin',
+            'widow',
+        ];
+        const maleHealthStatuses = ['healthy', 'chronically_ill', 'disabled'];
+        const femaleHealthStatuses = [
+            'f_healthy',
+            'f_chronically_ill',
+            'f_disabled',
+        ];
+        const maleReligiosityLevels = ['normal', 'conservative', 'committed'];
+        const femaleReligiosityLevels = [
+            'f_normal',
+            'f_conservative',
+            'f_committed',
+        ];
+        const maleEmploymentTypes = ['unemployed', 'employed', 'self_employed'];
+        const femaleEmploymentTypes = [
+            'f_unemployed',
+            'f_employed',
+            'self_employed',
+        ];
+        const maleBeautyValues = ['acceptable', 'average', 'handsome'];
+        const femaleBeautyValues = [
+            'f_acceptable',
+            'f_average',
+            'f_beautiful',
+            'f_very_beautiful',
+            'beautiful',
+            'very_beautiful',
+        ];
+        if (gender === 'male') {
+            if (profileData.acceptPolygamy !== undefined && profileData.acceptPolygamy !== null) {
+                throw new common_1.BadRequestException('Male users cannot have acceptPolygamy field. Use polygamyStatus instead.');
+            }
+            if (profileData.maritalStatus &&
+                !maleMaritalStatuses.includes(profileData.maritalStatus)) {
+                throw new common_1.BadRequestException(`Invalid marital status for male users. Must be one of: ${maleMaritalStatuses.join(', ')}`);
+            }
+            if (profileData.healthStatus &&
+                !maleHealthStatuses.includes(profileData.healthStatus)) {
+                throw new common_1.BadRequestException(`Invalid health status for male users. Must be one of: ${maleHealthStatuses.join(', ')}`);
+            }
+            if (profileData.religiosityLevel &&
+                !maleReligiosityLevels.includes(profileData.religiosityLevel)) {
+                throw new common_1.BadRequestException(`Invalid religiosity level for male users. Must be one of: ${maleReligiosityLevels.join(', ')}`);
+            }
+            if (profileData.natureOfWork &&
+                !maleEmploymentTypes.includes(profileData.natureOfWork)) {
+                throw new common_1.BadRequestException(`Invalid employment type for male users. Must be one of: ${maleEmploymentTypes.join(', ')}`);
+            }
+            if (profileData.beauty && !maleBeautyValues.includes(profileData.beauty)) {
+                throw new common_1.BadRequestException(`Invalid beauty value for male users. Must be one of: ${maleBeautyValues.join(', ')}`);
+            }
+        }
+        if (gender === 'female') {
+            if (profileData.polygamyStatus !== undefined &&
+                profileData.polygamyStatus !== null &&
+                typeof profileData.polygamyStatus === 'string') {
+                throw new common_1.BadRequestException('Female users cannot have polygamyStatus field. Use acceptPolygamy (boolean) instead.');
+            }
+            if (profileData.maritalStatus &&
+                !femaleMaritalStatuses.includes(profileData.maritalStatus)) {
+                throw new common_1.BadRequestException(`Invalid marital status for female users. Must be one of: ${femaleMaritalStatuses.join(', ')}`);
+            }
+            if (profileData.healthStatus &&
+                !femaleHealthStatuses.includes(profileData.healthStatus)) {
+                throw new common_1.BadRequestException(`Invalid health status for female users. Must be one of: ${femaleHealthStatuses.join(', ')}`);
+            }
+            if (profileData.religiosityLevel &&
+                !femaleReligiosityLevels.includes(profileData.religiosityLevel)) {
+                throw new common_1.BadRequestException(`Invalid religiosity level for female users. Must be one of: ${femaleReligiosityLevels.join(', ')}`);
+            }
+            if (profileData.natureOfWork &&
+                !femaleEmploymentTypes.includes(profileData.natureOfWork)) {
+                throw new common_1.BadRequestException(`Invalid employment type for female users. Must be one of: ${femaleEmploymentTypes.join(', ')}`);
+            }
+            if (profileData.beauty &&
+                !femaleBeautyValues.includes(profileData.beauty)) {
+                throw new common_1.BadRequestException(`Invalid beauty value for female users. Must be one of: ${femaleBeautyValues.join(', ')}`);
+            }
+        }
+    }
     async updateProfile(userId, profileData) {
         this.logger.log(`Updating profile for user: ${userId}`);
         const user = await this.userRepository.findById(userId);

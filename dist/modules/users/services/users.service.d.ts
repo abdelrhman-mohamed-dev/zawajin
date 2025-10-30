@@ -15,6 +15,7 @@ export declare class UsersService {
     private readonly logger;
     constructor(userRepository: UserRepository, likeRepository: Repository<Like>, userPresenceRepository: UserPresenceRepository, chatGateway: ChatGateway);
     private sanitizeNumericFields;
+    validateProfileByGender(userId: string, profileData: UpdateProfileDto): Promise<void>;
     updateProfile(userId: string, profileData: UpdateProfileDto): Promise<User>;
     getAllUsers(queryDto: GetUsersDto, currentUserId?: string): Promise<{
         users: any[];

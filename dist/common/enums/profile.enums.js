@@ -56,10 +56,13 @@ var Tribe;
 })(Tribe || (exports.Tribe = Tribe = {}));
 var MaritalStatus;
 (function (MaritalStatus) {
-    MaritalStatus["MARRIED"] = "married";
     MaritalStatus["SINGLE"] = "single";
     MaritalStatus["DIVORCED"] = "divorced";
     MaritalStatus["WIDOWED"] = "widowed";
+    MaritalStatus["MARRIED"] = "married";
+    MaritalStatus["F_SINGLE"] = "f_single";
+    MaritalStatus["F_DIVORCED"] = "f_divorced";
+    MaritalStatus["F_WIDOWED"] = "f_widowed";
     MaritalStatus["VIRGIN"] = "virgin";
     MaritalStatus["WIDOW"] = "widow";
 })(MaritalStatus || (exports.MaritalStatus = MaritalStatus = {}));
@@ -75,24 +78,32 @@ var EmploymentType;
     EmploymentType["UNEMPLOYED"] = "unemployed";
     EmploymentType["EMPLOYED"] = "employed";
     EmploymentType["SELF_EMPLOYED"] = "self_employed";
+    EmploymentType["F_UNEMPLOYED"] = "f_unemployed";
+    EmploymentType["F_EMPLOYED"] = "f_employed";
 })(EmploymentType || (exports.EmploymentType = EmploymentType = {}));
 var FinancialStatus;
 (function (FinancialStatus) {
-    FinancialStatus["POOR"] = "poor";
-    FinancialStatus["GOOD"] = "good";
     FinancialStatus["EXCELLENT"] = "excellent";
+    FinancialStatus["GOOD"] = "good";
+    FinancialStatus["AVERAGE"] = "average";
 })(FinancialStatus || (exports.FinancialStatus = FinancialStatus = {}));
 var HealthStatus;
 (function (HealthStatus) {
     HealthStatus["HEALTHY"] = "healthy";
     HealthStatus["CHRONICALLY_ILL"] = "chronically_ill";
     HealthStatus["DISABLED"] = "disabled";
+    HealthStatus["F_HEALTHY"] = "f_healthy";
+    HealthStatus["F_CHRONICALLY_ILL"] = "f_chronically_ill";
+    HealthStatus["F_DISABLED"] = "f_disabled";
 })(HealthStatus || (exports.HealthStatus = HealthStatus = {}));
 var ReligiosityLevel;
 (function (ReligiosityLevel) {
     ReligiosityLevel["NORMAL"] = "normal";
     ReligiosityLevel["CONSERVATIVE"] = "conservative";
     ReligiosityLevel["COMMITTED"] = "committed";
+    ReligiosityLevel["F_NORMAL"] = "f_normal";
+    ReligiosityLevel["F_CONSERVATIVE"] = "f_conservative";
+    ReligiosityLevel["F_COMMITTED"] = "f_committed";
 })(ReligiosityLevel || (exports.ReligiosityLevel = ReligiosityLevel = {}));
 var SkinColor;
 (function (SkinColor) {
@@ -105,8 +116,14 @@ var Beauty;
     Beauty["ACCEPTABLE"] = "acceptable";
     Beauty["AVERAGE"] = "average";
     Beauty["HANDSOME"] = "handsome";
+    Beauty["F_ACCEPTABLE"] = "f_acceptable";
+    Beauty["F_AVERAGE"] = "f_average";
+    Beauty["F_BEAUTIFUL"] = "f_beautiful";
+    Beauty["F_VERY_BEAUTIFUL"] = "f_very_beautiful";
     Beauty["BEAUTIFUL"] = "beautiful";
     Beauty["VERY_BEAUTIFUL"] = "very_beautiful";
+    Beauty["ATTRACTIVE"] = "attractive";
+    Beauty["VERY_ATTRACTIVE"] = "very_attractive";
 })(Beauty || (exports.Beauty = Beauty = {}));
 var PolygamyStatus;
 (function (PolygamyStatus) {

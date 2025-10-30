@@ -1,6 +1,7 @@
 import {
   Injectable,
   NotFoundException,
+  BadRequestException,
   Logger,
   Inject,
   forwardRef,
@@ -49,6 +50,178 @@ export class UsersService {
     });
 
     return sanitized;
+  }
+
+  async validateProfileByGender(userId: string, profileData: UpdateProfileDto): Promise<void> {
+    const user = await this.userRepository.findById(userId);
+    if (!user) {
+      throw new NotFoundException('User not found / المستخدم غير موجود');
+    }
+
+    const gender = user.gender.toLowerCase();
+
+    // Define gender-specific enum values
+    const maleMaritalStatuses = ['single', 'divorced', 'widowed', 'married'];
+    const femaleMaritalStatuses = [
+      'f_single',
+      'f_divorced',
+      'f_widowed',
+      'virgin',
+      'widow',
+    ];
+
+    const maleHealthStatuses = ['healthy', 'chronically_ill', 'disabled'];
+    const femaleHealthStatuses = [
+      'f_healthy',
+      'f_chronically_ill',
+      'f_disabled',
+    ];
+
+    const maleReligiosityLevels = ['normal', 'conservative', 'committed'];
+    const femaleReligiosityLevels = [
+      'f_normal',
+      'f_conservative',
+      'f_committed',
+    ];
+
+    const maleEmploymentTypes = ['unemployed', 'employed', 'self_employed'];
+    const femaleEmploymentTypes = [
+      'f_unemployed',
+      'f_employed',
+      'self_employed',
+    ];
+
+    const maleBeautyValues = ['acceptable', 'average', 'handsome'];
+    const femaleBeautyValues = [
+      'f_acceptable',
+      'f_average',
+      'f_beautiful',
+      'f_very_beautiful',
+      'beautiful',
+      'very_beautiful',
+    ];
+
+    // Validation for males
+    if (gender === 'male') {
+      // Males should NOT have acceptPolygamy field
+      if (profileData.acceptPolygamy !== undefined && profileData.acceptPolygamy !== null) {
+        throw new BadRequestException(
+          'Male users cannot have acceptPolygamy field. Use polygamyStatus instead.',
+        );
+      }
+
+      // Validate marital status for males
+      if (
+        profileData.maritalStatus &&
+        !maleMaritalStatuses.includes(profileData.maritalStatus)
+      ) {
+        throw new BadRequestException(
+          `Invalid marital status for male users. Must be one of: ${maleMaritalStatuses.join(', ')}`,
+        );
+      }
+
+      // Validate health status for males
+      if (
+        profileData.healthStatus &&
+        !maleHealthStatuses.includes(profileData.healthStatus as string)
+      ) {
+        throw new BadRequestException(
+          `Invalid health status for male users. Must be one of: ${maleHealthStatuses.join(', ')}`,
+        );
+      }
+
+      // Validate religiosity level for males
+      if (
+        profileData.religiosityLevel &&
+        !maleReligiosityLevels.includes(profileData.religiosityLevel as string)
+      ) {
+        throw new BadRequestException(
+          `Invalid religiosity level for male users. Must be one of: ${maleReligiosityLevels.join(', ')}`,
+        );
+      }
+
+      // Validate employment type for males
+      if (
+        profileData.natureOfWork &&
+        !maleEmploymentTypes.includes(profileData.natureOfWork as string)
+      ) {
+        throw new BadRequestException(
+          `Invalid employment type for male users. Must be one of: ${maleEmploymentTypes.join(', ')}`,
+        );
+      }
+
+      // Validate beauty for males
+      if (profileData.beauty && !maleBeautyValues.includes(profileData.beauty as string)) {
+        throw new BadRequestException(
+          `Invalid beauty value for male users. Must be one of: ${maleBeautyValues.join(', ')}`,
+        );
+      }
+    }
+
+    // Validation for females
+    if (gender === 'female') {
+      // Females should NOT have polygamyStatus field (string enum)
+      // They can only have acceptPolygamy (boolean)
+      if (
+        profileData.polygamyStatus !== undefined &&
+        profileData.polygamyStatus !== null &&
+        typeof profileData.polygamyStatus === 'string'
+      ) {
+        throw new BadRequestException(
+          'Female users cannot have polygamyStatus field. Use acceptPolygamy (boolean) instead.',
+        );
+      }
+
+      // Validate marital status for females
+      if (
+        profileData.maritalStatus &&
+        !femaleMaritalStatuses.includes(profileData.maritalStatus)
+      ) {
+        throw new BadRequestException(
+          `Invalid marital status for female users. Must be one of: ${femaleMaritalStatuses.join(', ')}`,
+        );
+      }
+
+      // Validate health status for females
+      if (
+        profileData.healthStatus &&
+        !femaleHealthStatuses.includes(profileData.healthStatus as string)
+      ) {
+        throw new BadRequestException(
+          `Invalid health status for female users. Must be one of: ${femaleHealthStatuses.join(', ')}`,
+        );
+      }
+
+      // Validate religiosity level for females
+      if (
+        profileData.religiosityLevel &&
+        !femaleReligiosityLevels.includes(profileData.religiosityLevel as string)
+      ) {
+        throw new BadRequestException(
+          `Invalid religiosity level for female users. Must be one of: ${femaleReligiosityLevels.join(', ')}`,
+        );
+      }
+
+      // Validate employment type for females
+      if (
+        profileData.natureOfWork &&
+        !femaleEmploymentTypes.includes(profileData.natureOfWork as string)
+      ) {
+        throw new BadRequestException(
+          `Invalid employment type for female users. Must be one of: ${femaleEmploymentTypes.join(', ')}`,
+        );
+      }
+
+      // Validate beauty for females
+      if (
+        profileData.beauty &&
+        !femaleBeautyValues.includes(profileData.beauty as string)
+      ) {
+        throw new BadRequestException(
+          `Invalid beauty value for female users. Must be one of: ${femaleBeautyValues.join(', ')}`,
+        );
+      }
+    }
   }
 
   async updateProfile(userId: string, profileData: UpdateProfileDto): Promise<User> {

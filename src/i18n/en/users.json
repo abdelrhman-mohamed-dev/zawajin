@@ -34,7 +34,10 @@
       "divorced": "Divorced",
       "widowed": "Widowed",
       "virgin": "Virgin",
-      "widow": "Widow"
+      "widow": "Widow",
+      "f_single": "Single",
+      "f_divorced": "Divorced",
+      "f_widowed": "Widowed"
     },
     "education_level": {
       "secondary": "Secondary",
@@ -45,7 +48,9 @@
     "employment_type": {
       "unemployed": "Unemployed",
       "employed": "Employed",
-      "self_employed": "Self-Employed"
+      "self_employed": "Self-Employed",
+      "f_unemployed": "Unemployed",
+      "f_employed": "Employed"
     },
     "financial_status": {
       "poor": "Poor",
@@ -55,12 +60,18 @@
     "health_status": {
       "healthy": "Healthy",
       "chronically_ill": "Chronically Ill",
-      "disabled": "Disabled"
+      "disabled": "Disabled",
+      "f_healthy": "Healthy",
+      "f_chronically_ill": "Chronically Ill",
+      "f_disabled": "Disabled"
     },
     "religiosity_level": {
       "normal": "Normal",
       "conservative": "Conservative",
-      "committed": "Committed"
+      "committed": "Committed",
+      "f_normal": "Normal",
+      "f_conservative": "Conservative",
+      "f_committed": "Committed"
     },
     "skin_color": {
       "white": "White",
@@ -72,7 +83,48 @@
       "average": "Average",
       "handsome": "Handsome",
       "beautiful": "Beautiful",
-      "very_beautiful": "Very Beautiful"
+      "very_beautiful": "Very Beautiful",
+      "attractive": "Attractive",
+      "very_attractive": "Very Attractive",
+      "f_acceptable": "Acceptable",
+      "f_average": "Average",
+      "f_beautiful": "Beautiful",
+      "f_very_beautiful": "Very Beautiful"
+    },
+    "body_color": {
+      "very_fair": "Very Fair",
+      "fair": "Fair",
+      "medium": "Medium",
+      "olive": "Olive",
+      "brown": "Brown",
+      "dark_brown": "Dark Brown"
+    },
+    "hair_color": {
+      "black": "Black",
+      "dark_brown": "Dark Brown",
+      "brown": "Brown",
+      "light_brown": "Light Brown",
+      "blonde": "Blonde",
+      "red": "Red",
+      "gray": "Gray",
+      "white": "White"
+    },
+    "hair_type": {
+      "straight": "Straight",
+      "wavy": "Wavy",
+      "curly": "Curly",
+      "coily": "Coily",
+      "bald": "Bald"
+    },
+    "eye_color": {
+      "brown": "Brown",
+      "dark_brown": "Dark Brown",
+      "hazel": "Hazel",
+      "green": "Green",
+      "blue": "Blue",
+      "gray": "Gray",
+      "amber": "Amber",
+      "black": "Black"
     },
     "polygamy_status": {
       "yes": "Yes",

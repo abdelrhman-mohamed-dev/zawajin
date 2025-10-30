@@ -46,10 +46,13 @@ export declare enum Tribe {
     OTHER = "other"
 }
 export declare enum MaritalStatus {
-    MARRIED = "married",
     SINGLE = "single",
     DIVORCED = "divorced",
     WIDOWED = "widowed",
+    MARRIED = "married",
+    F_SINGLE = "f_single",
+    F_DIVORCED = "f_divorced",
+    F_WIDOWED = "f_widowed",
     VIRGIN = "virgin",
     WIDOW = "widow"
 }
@@ -62,22 +65,30 @@ export declare enum EducationLevel {
 export declare enum EmploymentType {
     UNEMPLOYED = "unemployed",
     EMPLOYED = "employed",
-    SELF_EMPLOYED = "self_employed"
+    SELF_EMPLOYED = "self_employed",
+    F_UNEMPLOYED = "f_unemployed",
+    F_EMPLOYED = "f_employed"
 }
 export declare enum FinancialStatus {
-    POOR = "poor",
+    EXCELLENT = "excellent",
     GOOD = "good",
-    EXCELLENT = "excellent"
+    AVERAGE = "average"
 }
 export declare enum HealthStatus {
     HEALTHY = "healthy",
     CHRONICALLY_ILL = "chronically_ill",
-    DISABLED = "disabled"
+    DISABLED = "disabled",
+    F_HEALTHY = "f_healthy",
+    F_CHRONICALLY_ILL = "f_chronically_ill",
+    F_DISABLED = "f_disabled"
 }
 export declare enum ReligiosityLevel {
     NORMAL = "normal",
     CONSERVATIVE = "conservative",
-    COMMITTED = "committed"
+    COMMITTED = "committed",
+    F_NORMAL = "f_normal",
+    F_CONSERVATIVE = "f_conservative",
+    F_COMMITTED = "f_committed"
 }
 export declare enum SkinColor {
     WHITE = "white",
@@ -88,8 +99,14 @@ export declare enum Beauty {
     ACCEPTABLE = "acceptable",
     AVERAGE = "average",
     HANDSOME = "handsome",
+    F_ACCEPTABLE = "f_acceptable",
+    F_AVERAGE = "f_average",
+    F_BEAUTIFUL = "f_beautiful",
+    F_VERY_BEAUTIFUL = "f_very_beautiful",
     BEAUTIFUL = "beautiful",
-    VERY_BEAUTIFUL = "very_beautiful"
+    VERY_BEAUTIFUL = "very_beautiful",
+    ATTRACTIVE = "attractive",
+    VERY_ATTRACTIVE = "very_attractive"
 }
 export declare enum PolygamyStatus {
     YES = "yes",
