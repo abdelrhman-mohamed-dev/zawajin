@@ -31,6 +31,7 @@ import {
   SkinColor,
   Beauty,
   PolygamyStatus,
+  HijabStyle,
 } from '../../../common/enums/profile.enums';
 
 class LocationDto {
@@ -285,6 +286,16 @@ export class UpdateProfileDto {
   @IsOptional()
   @IsEnum(EyeColor)
   eyeColor?: EyeColor;
+
+  @ApiProperty({
+    example: HijabStyle.HIJAB,
+    description: 'Hijab style (for female users only)',
+    enum: HijabStyle,
+    required: false,
+  })
+  @IsOptional()
+  @IsEnum(HijabStyle)
+  hijabStyle?: HijabStyle;
 
   @ApiProperty({
     example: true,
