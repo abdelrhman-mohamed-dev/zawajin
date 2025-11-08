@@ -53,17 +53,14 @@ export enum Tribe {
 
 export enum MaritalStatus {
   // For men
+  MARRIED = 'married',
   SINGLE = 'single',
   DIVORCED = 'divorced',
   WIDOWED = 'widowed',
-  MARRIED = 'married',
-  // For women (with f_ prefix from frontend)
-  F_SINGLE = 'f_single',
+  // For women
+  VIRGIN = 'virgin',
   F_DIVORCED = 'f_divorced',
   F_WIDOWED = 'f_widowed',
-  // Alternative naming (without prefix)
-  VIRGIN = 'virgin',
-  WIDOW = 'widow',
 }
 
 export enum EducationLevel {

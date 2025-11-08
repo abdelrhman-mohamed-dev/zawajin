@@ -63,11 +63,9 @@ export class UsersService {
     // Define gender-specific enum values
     const maleMaritalStatuses = ['single', 'divorced', 'widowed', 'married'];
     const femaleMaritalStatuses = [
-      'f_single',
+      'virgin',
       'f_divorced',
       'f_widowed',
-      'virgin',
-      'widow',
     ];
 
     const maleHealthStatuses = ['healthy', 'chronically_ill', 'disabled'];
