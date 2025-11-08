@@ -136,6 +136,15 @@ export class User {
   @Column({ type: 'varchar', length: 50, nullable: true, name: 'eye_color' })
   eyeColor: string;
 
+  @Column({
+    type: 'enum',
+    enum: ['hijab', 'niqab', 'no_hijab'],
+    nullable: true,
+    name: 'hijab_style',
+    comment: 'Hijab style - for female users only',
+  })
+  hijabStyle: string;
+
   @Column({ type: 'boolean', nullable: true, name: 'house_available' })
   houseAvailable: boolean;
 

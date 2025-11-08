@@ -26,7 +26,10 @@
     "tribe": {
       "tribal": "Tribal",
       "non_tribal": "Non-tribal",
-      "other": "Other"
+      "other": "Other",
+      "f_tribal": "Tribal",
+      "f_non_tribal": "Non-tribal",
+      "f_other": "Other"
     },
     "marital_status": {
       "married": "Married",
@@ -41,14 +44,19 @@
       "secondary": "Secondary",
       "diploma": "Diploma",
       "university": "University",
-      "higher_education": "Higher Education"
+      "higher_education": "Higher Education",
+      "f_secondary": "Secondary",
+      "f_diploma": "Diploma",
+      "f_university": "University",
+      "f_higher_education": "Higher Education"
     },
     "employment_type": {
       "unemployed": "Unemployed",
       "employed": "Employed",
       "self_employed": "Self-Employed",
       "f_unemployed": "Unemployed",
-      "f_employed": "Employed"
+      "f_employed": "Employed",
+      "f_housewife": "Housewife"
     },
     "financial_status": {
       "poor": "Poor",
@@ -74,7 +82,10 @@
     "skin_color": {
       "white": "White",
       "brown": "Brown",
-      "black": "Black"
+      "black": "Dark",
+      "f_white": "White",
+      "f_brown": "Brown",
+      "f_black": "Dark"
     },
     "beauty": {
       "acceptable": "Acceptable",
@@ -128,6 +139,11 @@
       "yes": "Yes",
       "no": "No",
       "thinking": "I need to think about it"
+    },
+    "hijab_style": {
+      "hijab": "Hijab",
+      "niqab": "Niqab",
+      "no_hijab": "No Hijab"
     }
   }
 }

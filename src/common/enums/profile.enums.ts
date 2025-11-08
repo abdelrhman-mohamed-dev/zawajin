@@ -46,9 +46,14 @@ export enum MarriageType {
 }
 
 export enum Tribe {
+  // For men
   TRIBAL = 'tribal',
   NON_TRIBAL = 'non_tribal',
   OTHER = 'other',
+  // For women
+  F_TRIBAL = 'f_tribal',
+  F_NON_TRIBAL = 'f_non_tribal',
+  F_OTHER = 'f_other',
 }
 
 export enum MaritalStatus {
@@ -64,10 +69,16 @@ export enum MaritalStatus {
 }
 
 export enum EducationLevel {
+  // For men
   SECONDARY = 'secondary',
   DIPLOMA = 'diploma',
   UNIVERSITY = 'university',
   HIGHER_EDUCATION = 'higher_education',
+  // For women
+  F_SECONDARY = 'f_secondary',
+  F_DIPLOMA = 'f_diploma',
+  F_UNIVERSITY = 'f_university',
+  F_HIGHER_EDUCATION = 'f_higher_education',
 }
 
 export enum EmploymentType {
@@ -78,6 +89,7 @@ export enum EmploymentType {
   // For women (with f_ prefix from frontend)
   F_UNEMPLOYED = 'f_unemployed',
   F_EMPLOYED = 'f_employed',
+  F_HOUSEWIFE = 'f_housewife',
   // Note: self_employed is used for both genders
 }
 
@@ -110,9 +122,14 @@ export enum ReligiosityLevel {
 }
 
 export enum SkinColor {
+  // For men
   WHITE = 'white',
   BROWN = 'brown',
   BLACK = 'black',
+  // For women
+  F_WHITE = 'f_white',
+  F_BROWN = 'f_brown',
+  F_BLACK = 'f_black',
 }
 
 export enum Beauty {
@@ -137,4 +154,10 @@ export enum PolygamyStatus {
   YES = 'yes',
   NO = 'no',
   THINKING = 'thinking',
+}
+
+export enum HijabStyle {
+  HIJAB = 'hijab',
+  NIQAB = 'niqab',
+  NO_HIJAB = 'no_hijab',
 }

@@ -181,6 +181,16 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "eyeColor", void 0);
 __decorate([
+    (0, typeorm_1.Column)({
+        type: 'enum',
+        enum: ['hijab', 'niqab', 'no_hijab'],
+        nullable: true,
+        name: 'hijab_style',
+        comment: 'Hijab style - for female users only',
+    }),
+    __metadata("design:type", String)
+], User.prototype, "hijabStyle", void 0);
+__decorate([
     (0, typeorm_1.Column)({ type: 'boolean', nullable: true, name: 'house_available' }),
     __metadata("design:type", Boolean)
 ], User.prototype, "houseAvailable", void 0);

@@ -26,7 +26,10 @@
     "tribe": {
       "tribal": "قبلي",
       "non_tribal": "غير قبلي",
-      "other": "أخرى"
+      "other": "غير ذلك",
+      "f_tribal": "قبلية",
+      "f_non_tribal": "غير قبلية",
+      "f_other": "غير ذلك"
     },
     "marital_status": {
       "married": "متزوج",
@@ -41,14 +44,19 @@
       "secondary": "ثانوي",
       "diploma": "دبلوم",
       "university": "جامعي",
-      "higher_education": "دراسات عليا"
+      "higher_education": "دراسات عليا",
+      "f_secondary": "ثانوي",
+      "f_diploma": "دبلوم",
+      "f_university": "جامعية",
+      "f_higher_education": "دراسات عليا"
     },
     "employment_type": {
       "unemployed": "عاطل عن العمل",
       "employed": "موظف",
       "self_employed": "عمل حر",
       "f_unemployed": "عاطلة عن العمل",
-      "f_employed": "موظفة"
+      "f_employed": "موظفة",
+      "f_housewife": "ربة منزل"
     },
     "financial_status": {
       "poor": "ضعيف",
@@ -74,7 +82,10 @@
     "skin_color": {
       "white": "أبيض",
       "brown": "حنطي",
-      "black": "أسمر"
+      "black": "أسمر",
+      "f_white": "بيضاء",
+      "f_brown": "حنطية",
+      "f_black": "سمراء"
     },
     "beauty": {
       "acceptable": "مقبول",
@@ -128,6 +139,11 @@
       "yes": "نعم",
       "no": "لا",
       "thinking": "أحتاج للتفكير"
+    },
+    "hijab_style": {
+      "hijab": "محجبة",
+      "niqab": "منقبة",
+      "no_hijab": "غير محجبة"
     }
   }
 }

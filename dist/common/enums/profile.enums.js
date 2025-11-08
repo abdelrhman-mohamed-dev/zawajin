@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PolygamyStatus = exports.Beauty = exports.SkinColor = exports.ReligiosityLevel = exports.HealthStatus = exports.FinancialStatus = exports.EmploymentType = exports.EducationLevel = exports.MaritalStatus = exports.Tribe = exports.MarriageType = exports.EyeColor = exports.HairType = exports.HairColor = exports.BodyColor = void 0;
+exports.HijabStyle = exports.PolygamyStatus = exports.Beauty = exports.SkinColor = exports.ReligiosityLevel = exports.HealthStatus = exports.FinancialStatus = exports.EmploymentType = exports.EducationLevel = exports.MaritalStatus = exports.Tribe = exports.MarriageType = exports.EyeColor = exports.HairType = exports.HairColor = exports.BodyColor = void 0;
 var BodyColor;
 (function (BodyColor) {
     BodyColor["VERY_FAIR"] = "very_fair";
@@ -53,18 +53,19 @@ var Tribe;
     Tribe["TRIBAL"] = "tribal";
     Tribe["NON_TRIBAL"] = "non_tribal";
     Tribe["OTHER"] = "other";
+    Tribe["F_TRIBAL"] = "f_tribal";
+    Tribe["F_NON_TRIBAL"] = "f_non_tribal";
+    Tribe["F_OTHER"] = "f_other";
 })(Tribe || (exports.Tribe = Tribe = {}));
 var MaritalStatus;
 (function (MaritalStatus) {
+    MaritalStatus["MARRIED"] = "married";
     MaritalStatus["SINGLE"] = "single";
     MaritalStatus["DIVORCED"] = "divorced";
     MaritalStatus["WIDOWED"] = "widowed";
-    MaritalStatus["MARRIED"] = "married";
-    MaritalStatus["F_SINGLE"] = "f_single";
+    MaritalStatus["VIRGIN"] = "virgin";
     MaritalStatus["F_DIVORCED"] = "f_divorced";
     MaritalStatus["F_WIDOWED"] = "f_widowed";
-    MaritalStatus["VIRGIN"] = "virgin";
-    MaritalStatus["WIDOW"] = "widow";
 })(MaritalStatus || (exports.MaritalStatus = MaritalStatus = {}));
 var EducationLevel;
 (function (EducationLevel) {
@@ -72,6 +73,10 @@ var EducationLevel;
     EducationLevel["DIPLOMA"] = "diploma";
     EducationLevel["UNIVERSITY"] = "university";
     EducationLevel["HIGHER_EDUCATION"] = "higher_education";
+    EducationLevel["F_SECONDARY"] = "f_secondary";
+    EducationLevel["F_DIPLOMA"] = "f_diploma";
+    EducationLevel["F_UNIVERSITY"] = "f_university";
+    EducationLevel["F_HIGHER_EDUCATION"] = "f_higher_education";
 })(EducationLevel || (exports.EducationLevel = EducationLevel = {}));
 var EmploymentType;
 (function (EmploymentType) {
@@ -80,6 +85,7 @@ var EmploymentType;
     EmploymentType["SELF_EMPLOYED"] = "self_employed";
     EmploymentType["F_UNEMPLOYED"] = "f_unemployed";
     EmploymentType["F_EMPLOYED"] = "f_employed";
+    EmploymentType["F_HOUSEWIFE"] = "f_housewife";
 })(EmploymentType || (exports.EmploymentType = EmploymentType = {}));
 var FinancialStatus;
 (function (FinancialStatus) {
@@ -110,6 +116,9 @@ var SkinColor;
     SkinColor["WHITE"] = "white";
     SkinColor["BROWN"] = "brown";
     SkinColor["BLACK"] = "black";
+    SkinColor["F_WHITE"] = "f_white";
+    SkinColor["F_BROWN"] = "f_brown";
+    SkinColor["F_BLACK"] = "f_black";
 })(SkinColor || (exports.SkinColor = SkinColor = {}));
 var Beauty;
 (function (Beauty) {
@@ -131,4 +140,10 @@ var PolygamyStatus;
     PolygamyStatus["NO"] = "no";
     PolygamyStatus["THINKING"] = "thinking";
 })(PolygamyStatus || (exports.PolygamyStatus = PolygamyStatus = {}));
+var HijabStyle;
+(function (HijabStyle) {
+    HijabStyle["HIJAB"] = "hijab";
+    HijabStyle["NIQAB"] = "niqab";
+    HijabStyle["NO_HIJAB"] = "no_hijab";
+})(HijabStyle || (exports.HijabStyle = HijabStyle = {}));
 //# sourceMappingURL=profile.enums.js.map

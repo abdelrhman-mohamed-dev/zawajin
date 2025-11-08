@@ -43,31 +43,37 @@ export declare enum MarriageType {
 export declare enum Tribe {
     TRIBAL = "tribal",
     NON_TRIBAL = "non_tribal",
-    OTHER = "other"
+    OTHER = "other",
+    F_TRIBAL = "f_tribal",
+    F_NON_TRIBAL = "f_non_tribal",
+    F_OTHER = "f_other"
 }
 export declare enum MaritalStatus {
+    MARRIED = "married",
     SINGLE = "single",
     DIVORCED = "divorced",
     WIDOWED = "widowed",
-    MARRIED = "married",
-    F_SINGLE = "f_single",
-    F_DIVORCED = "f_divorced",
-    F_WIDOWED = "f_widowed",
     VIRGIN = "virgin",
-    WIDOW = "widow"
+    F_DIVORCED = "f_divorced",
+    F_WIDOWED = "f_widowed"
 }
 export declare enum EducationLevel {
     SECONDARY = "secondary",
     DIPLOMA = "diploma",
     UNIVERSITY = "university",
-    HIGHER_EDUCATION = "higher_education"
+    HIGHER_EDUCATION = "higher_education",
+    F_SECONDARY = "f_secondary",
+    F_DIPLOMA = "f_diploma",
+    F_UNIVERSITY = "f_university",
+    F_HIGHER_EDUCATION = "f_higher_education"
 }
 export declare enum EmploymentType {
     UNEMPLOYED = "unemployed",
     EMPLOYED = "employed",
     SELF_EMPLOYED = "self_employed",
     F_UNEMPLOYED = "f_unemployed",
-    F_EMPLOYED = "f_employed"
+    F_EMPLOYED = "f_employed",
+    F_HOUSEWIFE = "f_housewife"
 }
 export declare enum FinancialStatus {
     EXCELLENT = "excellent",
@@ -93,7 +99,10 @@ export declare enum ReligiosityLevel {
 export declare enum SkinColor {
     WHITE = "white",
     BROWN = "brown",
-    BLACK = "black"
+    BLACK = "black",
+    F_WHITE = "f_white",
+    F_BROWN = "f_brown",
+    F_BLACK = "f_black"
 }
 export declare enum Beauty {
     ACCEPTABLE = "acceptable",
@@ -112,4 +121,9 @@ export declare enum PolygamyStatus {
     YES = "yes",
     NO = "no",
     THINKING = "thinking"
+}
+export declare enum HijabStyle {
+    HIJAB = "hijab",
+    NIQAB = "niqab",
+    NO_HIJAB = "no_hijab"
 }

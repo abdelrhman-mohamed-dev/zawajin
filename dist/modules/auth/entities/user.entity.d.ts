@@ -37,6 +37,7 @@ export declare class User {
     hairColor: string;
     hairType: string;
     eyeColor: string;
+    hijabStyle: string;
     houseAvailable: boolean;
     natureOfWork: string;
     bio: string;

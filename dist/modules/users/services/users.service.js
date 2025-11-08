@@ -52,11 +52,9 @@ let UsersService = UsersService_1 = class UsersService {
         const gender = user.gender.toLowerCase();
         const maleMaritalStatuses = ['single', 'divorced', 'widowed', 'married'];
         const femaleMaritalStatuses = [
-            'f_single',
+            'virgin',
             'f_divorced',
             'f_widowed',
-            'virgin',
-            'widow',
         ];
         const maleHealthStatuses = ['healthy', 'chronically_ill', 'disabled'];
         const femaleHealthStatuses = [
