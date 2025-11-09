@@ -18,6 +18,7 @@ import { SeedModule } from './database/seeds/seed.module';
 import { ChatModule } from './modules/chat/chat.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { MatchingModule } from './modules/matching/matching.module';
+import { ContactUsModule } from './modules/contact-us/contact-us.module';
 
 @Module({
   imports: [
@@ -57,6 +58,7 @@ import { MatchingModule } from './modules/matching/matching.module';
     ChatModule,
     AdminModule,
     MatchingModule,
+    ContactUsModule,
   ],
   controllers: [],
   providers: [],

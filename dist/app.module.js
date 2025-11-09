@@ -27,6 +27,7 @@ const seed_module_1 = require("./database/seeds/seed.module");
 const chat_module_1 = require("./modules/chat/chat.module");
 const admin_module_1 = require("./modules/admin/admin.module");
 const matching_module_1 = require("./modules/matching/matching.module");
+const contact_us_module_1 = require("./modules/contact-us/contact-us.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -69,6 +70,7 @@ exports.AppModule = AppModule = __decorate([
             chat_module_1.ChatModule,
             admin_module_1.AdminModule,
             matching_module_1.MatchingModule,
+            contact_us_module_1.ContactUsModule,
         ],
         controllers: [],
         providers: [],

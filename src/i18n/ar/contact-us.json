@@ -1,0 +1,32 @@
+{
+  "USER_NOT_FOUND": "المستخدم غير موجود",
+  "EMAIL_AND_NAME_REQUIRED": "البريد الإلكتروني والاسم مطلوبان للمستخدمين الزوار",
+  "MESSAGE_NOT_FOUND": "رسالة التواصل غير موجودة",
+  "ADMIN_NOT_FOUND": "المشرف غير موجود",
+  "message_created": "تم إرسال رسالتك بنجاح. سنعود إليك قريباً.",
+  "message_updated": "تم تحديث رسالة التواصل بنجاح",
+  "message_deleted": "تم حذف رسالة التواصل بنجاح",
+  "messages_retrieved": "تم استرجاع رسائل التواصل بنجاح",
+  "statistics_retrieved": "تم استرجاع إحصائيات التواصل بنجاح",
+  "validation": {
+    "email_invalid": "يرجى تقديم عنوان بريد إلكتروني صالح",
+    "message_too_short": "يجب أن تكون الرسالة 10 أحرف على الأقل",
+    "message_too_long": "لا يمكن أن تتجاوز الرسالة 2000 حرف",
+    "satisfaction_rating_invalid": "يجب أن يكون تقييم الرضا بين 1 و 5",
+    "service_rating_invalid": "يجب أن يكون تقييم الخدمة بين 1 و 10",
+    "name_too_short": "يجب أن يكون الاسم حرفين على الأقل",
+    "name_too_long": "لا يمكن أن يتجاوز الاسم 100 حرف"
+  },
+  "status": {
+    "pending": "قيد الانتظار",
+    "in_progress": "قيد المعالجة",
+    "resolved": "تم الحل",
+    "closed": "مغلق"
+  },
+  "priority": {
+    "low": "منخفضة",
+    "medium": "متوسطة",
+    "high": "عالية",
+    "urgent": "عاجلة"
+  }
+}

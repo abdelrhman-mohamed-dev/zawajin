@@ -60,6 +60,7 @@
     },
     "financial_status": {
       "poor": "Poor",
+      "average": "Average",
       "good": "Good",
       "excellent": "Excellent"
     },
@@ -144,6 +145,10 @@
       "hijab": "Hijab",
       "niqab": "Niqab",
       "no_hijab": "No Hijab"
+    },
+    "gender": {
+      "male": "Male",
+      "female": "Female"
     }
   }
 }

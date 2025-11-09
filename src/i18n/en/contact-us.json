@@ -1,0 +1,32 @@
+{
+  "USER_NOT_FOUND": "User not found",
+  "EMAIL_AND_NAME_REQUIRED": "Email and name are required for guest users",
+  "MESSAGE_NOT_FOUND": "Contact message not found",
+  "ADMIN_NOT_FOUND": "Admin not found",
+  "message_created": "Your message has been submitted successfully. We will get back to you soon.",
+  "message_updated": "Contact message updated successfully",
+  "message_deleted": "Contact message deleted successfully",
+  "messages_retrieved": "Contact messages retrieved successfully",
+  "statistics_retrieved": "Contact statistics retrieved successfully",
+  "validation": {
+    "email_invalid": "Please provide a valid email address",
+    "message_too_short": "Message must be at least 10 characters long",
+    "message_too_long": "Message cannot exceed 2000 characters",
+    "satisfaction_rating_invalid": "Satisfaction rating must be between 1 and 5",
+    "service_rating_invalid": "Service rating must be between 1 and 10",
+    "name_too_short": "Name must be at least 2 characters long",
+    "name_too_long": "Name cannot exceed 100 characters"
+  },
+  "status": {
+    "pending": "Pending",
+    "in_progress": "In Progress",
+    "resolved": "Resolved",
+    "closed": "Closed"
+  },
+  "priority": {
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "urgent": "Urgent"
+  }
+}

@@ -1,0 +1,888 @@
+{
+  "info": {
+    "name": "Zawajin - Contact Us API",
+    "description": "Complete API collection for Contact Us / Feedback module in Zawajin matrimonial platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "contact-us-api"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{jwt_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "jwt_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "admin_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "message_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Public Endpoints",
+      "item": [
+        {
+          "name": "Submit Contact Message (Guest User)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.environment.set('message_id', response.id);",
+                  "    pm.test('Message created successfully', function() {",
+                  "        pm.expect(response).to.have.property('id');",
+                  "        pm.expect(response.status).to.equal('pending');",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "en",
+                "description": "Language: en or ar"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"guest@example.com\",\n  \"name\": \"Ahmed Mohamed\",\n  \"message\": \"I have a question about the subscription plans. Can you provide more details about the premium features?\",\n  \"satisfactionRating\": 4,\n  \"serviceRating\": 8\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contact-us",
+              "host": ["{{base_url}}"],
+              "path": ["contact-us"]
+            },
+            "description": "Submit a contact message as a guest user. Email and name are required."
+          },
+          "response": []
+        },
+        {
+          "name": "Submit Contact Message (Authenticated User)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.environment.set('message_id', response.id);",
+                  "    pm.test('Message created successfully', function() {",
+                  "        pm.expect(response).to.have.property('id');",
+                  "        pm.expect(response.status).to.equal('pending');",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "en"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"Great service! I found my perfect match within a week. Thank you!\",\n  \"satisfactionRating\": 5,\n  \"serviceRating\": 10\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contact-us",
+              "host": ["{{base_url}}"],
+              "path": ["contact-us"]
+            },
+            "description": "Submit a contact message as an authenticated user. Email and name will be auto-filled from user profile."
+          },
+          "response": []
+        },
+        {
+          "name": "Submit Feedback - Very Dissatisfied",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "ar"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"name\": \"محمد أحمد\",\n  \"message\": \"واجهت مشاكل كثيرة في استخدام التطبيق. الواجهة غير واضحة والاستجابة بطيئة.\",\n  \"satisfactionRating\": 1,\n  \"serviceRating\": 3\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contact-us",
+              "host": ["{{base_url}}"],
+              "path": ["contact-us"]
+            },
+            "description": "Example of negative feedback (satisfactionRating: 1 = Very Dissatisfied)"
+          },
+          "response": []
+        },
+        {
+          "name": "Submit Message Only (No Ratings)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"inquiry@example.com\",\n  \"name\": \"Sara Ali\",\n  \"message\": \"I would like to know more about your privacy policy and how my data is protected.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contact-us",
+              "host": ["{{base_url}}"],
+              "path": ["contact-us"]
+            },
+            "description": "Submit a contact message without ratings (ratings are optional)"
+          },
+          "response": []
+        }
+      ],
+      "description": "Public endpoints accessible to both authenticated users and guests"
+    },
+    {
+      "name": "User Endpoints",
+      "item": [
+        {
+          "name": "Get My Messages",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "en"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/contact-us/my-messages?page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["contact-us", "my-messages"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Items per page (max 100)"
+                }
+              ]
+            },
+            "description": "Get all contact messages submitted by the current authenticated user"
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Messages - Page 2",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "en"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/contact-us/my-messages?page=2&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["contact-us", "my-messages"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "2"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Pagination example - Get page 2 of messages"
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints for authenticated users to manage their own messages",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{jwt_token}}",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Admin Endpoints",
+      "item": [
+        {
+          "name": "Get All Messages",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "en"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/contact-us?page=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["contact-us"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "key": "status",
+                  "value": "pending",
+                  "disabled": true,
+                  "description": "Filter by status: pending, in_progress, resolved, closed"
+                },
+                {
+                  "key": "priority",
+                  "value": "high",
+                  "disabled": true,
+                  "description": "Filter by priority: low, medium, high, urgent"
+                },
+                {
+                  "key": "assignedToAdminId",
+                  "value": "",
+                  "disabled": true,
+                  "description": "Filter by assigned admin UUID"
+                },
+                {
+                  "key": "userId",
+                  "value": "",
+                  "disabled": true,
+                  "description": "Filter by user UUID"
+                }
+              ]
+            },
+            "description": "Get all contact messages with optional filtering (Admin only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Pending Messages",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "en"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/contact-us?status=pending&page=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["contact-us"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "pending"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Filter messages by status: pending"
+          },
+          "response": []
+        },
+        {
+          "name": "Get High Priority Messages",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "en"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/contact-us?priority=high&page=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["contact-us"],
+              "query": [
+                {
+                  "key": "priority",
+                  "value": "high"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Filter messages by priority: high"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Urgent Messages",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/contact-us?priority=urgent&status=pending",
+              "host": ["{{base_url}}"],
+              "path": ["contact-us"],
+              "query": [
+                {
+                  "key": "priority",
+                  "value": "urgent"
+                },
+                {
+                  "key": "status",
+                  "value": "pending"
+                }
+              ]
+            },
+            "description": "Filter by multiple criteria: urgent priority + pending status"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Message by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "en"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/contact-us/{{message_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["contact-us", "{{message_id}}"]
+            },
+            "description": "Get a specific contact message by ID (Admin only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "en"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/contact-us/statistics",
+              "host": ["{{base_url}}"],
+              "path": ["contact-us", "statistics"]
+            },
+            "description": "Get contact messages statistics: total, by status, average response time (Admin only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Message - Mark In Progress",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "en"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"in_progress\",\n  \"priority\": \"high\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contact-us/{{message_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["contact-us", "{{message_id}}"]
+            },
+            "description": "Update message status to in_progress and set priority to high"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Message - Assign to Admin",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assignedToAdminId\": \"admin-uuid-here\",\n  \"status\": \"in_progress\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contact-us/{{message_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["contact-us", "{{message_id}}"]
+            },
+            "description": "Assign message to a specific admin"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Message - Add Admin Response",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"adminResponse\": \"Thank you for your feedback! We have reviewed your concern and will implement the improvements in the next update. We appreciate your patience.\",\n  \"status\": \"resolved\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contact-us/{{message_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["contact-us", "{{message_id}}"]
+            },
+            "description": "Add admin response and mark as resolved"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Message - Set Urgent Priority",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"priority\": \"urgent\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contact-us/{{message_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["contact-us", "{{message_id}}"]
+            },
+            "description": "Escalate message priority to urgent"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Message - Mark Resolved",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"resolved\",\n  \"adminResponse\": \"Your issue has been resolved. Please let us know if you need further assistance.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contact-us/{{message_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["contact-us", "{{message_id}}"]
+            },
+            "description": "Mark message as resolved with admin response"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Message - Close Message",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"closed\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contact-us/{{message_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["contact-us", "{{message_id}}"]
+            },
+            "description": "Close the message (no further action needed)"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Message",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept-Language",
+                "value": "en"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/contact-us/{{message_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["contact-us", "{{message_id}}"]
+            },
+            "description": "Permanently delete a contact message (Admin only - requires super_admin or admin role)"
+          },
+          "response": []
+        }
+      ],
+      "description": "Admin-only endpoints for managing contact messages",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{admin_token}}",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Authentication (Setup)",
+      "item": [
+        {
+          "name": "Login - Regular User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.environment.set('jwt_token', response.accessToken || response.access_token);",
+                  "    pm.test('Login successful', function() {",
+                  "        pm.expect(response).to.have.property('accessToken');",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"Test@123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Login as a regular user to test authenticated endpoints"
+          },
+          "response": []
+        },
+        {
+          "name": "Login - Admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200 || pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    pm.environment.set('admin_token', response.accessToken || response.access_token);",
+                  "    pm.test('Admin login successful', function() {",
+                  "        pm.expect(response).to.have.property('accessToken');",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@zawajin.com\",\n  \"password\": \"Admin@123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Login as admin to test admin endpoints (use credentials from .env SUPER_ADMIN_EMAIL and SUPER_ADMIN_PASSWORD)"
+          },
+          "response": []
+        }
+      ],
+      "description": "Authentication endpoints to obtain JWT tokens for testing"
+    },
+    {
+      "name": "Examples - Different Scenarios",
+      "item": [
+        {
+          "name": "Scenario 1 - Negative Feedback (Arabic)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept-Language",
+                "value": "ar"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"unsatisfied@example.com\",\n  \"name\": \"علي محمد\",\n  \"message\": \"لم أجد أي تطابقات مناسبة بعد شهر من الاستخدام. النظام لا يعرض لي خيارات متوافقة مع تفضيلاتي.\",\n  \"satisfactionRating\": 2,\n  \"serviceRating\": 4\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contact-us",
+              "host": ["{{base_url}}"],
+              "path": ["contact-us"]
+            },
+            "description": "Example: Dissatisfied user providing feedback in Arabic"
+          },
+          "response": []
+        },
+        {
+          "name": "Scenario 2 - Positive Feedback",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"Excellent platform! The matching algorithm is very accurate and I received many compatible matches. The chat feature works smoothly.\",\n  \"satisfactionRating\": 5,\n  \"serviceRating\": 9\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contact-us",
+              "host": ["{{base_url}}"],
+              "path": ["contact-us"]
+            },
+            "description": "Example: Very satisfied user providing positive feedback"
+          },
+          "response": []
+        },
+        {
+          "name": "Scenario 3 - Technical Support Request",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"support@example.com\",\n  \"name\": \"Fatima Ahmed\",\n  \"message\": \"I'm unable to upload my profile picture. The app shows an error message 'File too large' even though the image is only 2MB. Please help.\",\n  \"satisfactionRating\": 3,\n  \"serviceRating\": 6\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contact-us",
+              "host": ["{{base_url}}"],
+              "path": ["contact-us"]
+            },
+            "description": "Example: User requesting technical support"
+          },
+          "response": []
+        },
+        {
+          "name": "Scenario 4 - Feature Request",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"Could you add a video call feature? It would be great to have video calls before meeting in person. Also, more detailed search filters would be helpful.\",\n  \"satisfactionRating\": 4,\n  \"serviceRating\": 7\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contact-us",
+              "host": ["{{base_url}}"],
+              "path": ["contact-us"]
+            },
+            "description": "Example: User suggesting new features"
+          },
+          "response": []
+        },
+        {
+          "name": "Scenario 5 - Subscription Inquiry",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"inquiry@example.com\",\n  \"name\": \"Omar Hassan\",\n  \"message\": \"What are the differences between Premium and Gold subscriptions? Is there a family discount if multiple family members want to subscribe?\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contact-us",
+              "host": ["{{base_url}}"],
+              "path": ["contact-us"]
+            },
+            "description": "Example: Inquiry about subscription plans"
+          },
+          "response": []
+        }
+      ],
+      "description": "Real-world scenario examples for testing different use cases"
+    }
+  ]
+}

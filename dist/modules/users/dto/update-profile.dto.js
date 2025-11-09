@@ -294,6 +294,17 @@ __decorate([
 ], UpdateProfileDto.prototype, "eyeColor", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
+        example: profile_enums_1.HijabStyle.HIJAB,
+        description: 'Hijab style (for female users only)',
+        enum: profile_enums_1.HijabStyle,
+        required: false,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsEnum)(profile_enums_1.HijabStyle),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "hijabStyle", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({
         example: true,
         description: 'Whether the user owns a house',
         required: false,

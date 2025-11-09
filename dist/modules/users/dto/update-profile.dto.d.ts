@@ -1,4 +1,4 @@
-import { BodyColor, HairColor, HairType, EyeColor, MarriageType, Tribe, MaritalStatus, EducationLevel, EmploymentType, FinancialStatus, HealthStatus, ReligiosityLevel, SkinColor, Beauty, PolygamyStatus } from '../../../common/enums/profile.enums';
+import { BodyColor, HairColor, HairType, EyeColor, MarriageType, Tribe, MaritalStatus, EducationLevel, EmploymentType, FinancialStatus, HealthStatus, ReligiosityLevel, SkinColor, Beauty, PolygamyStatus, HijabStyle } from '../../../common/enums/profile.enums';
 declare class LocationDto {
     city: string;
     country: string;
@@ -27,6 +27,7 @@ export declare class UpdateProfileDto {
     hairColor?: HairColor;
     hairType?: HairType;
     eyeColor?: EyeColor;
+    hijabStyle?: HijabStyle;
     houseAvailable?: boolean;
     natureOfWork?: EmploymentType;
     bio?: string;
