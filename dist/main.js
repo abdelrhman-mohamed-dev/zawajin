@@ -8,6 +8,8 @@ const swagger_1 = require("@nestjs/swagger");
 const core_2 = require("@nestjs/core");
 const app_module_1 = require("./app.module");
 const firebase_config_1 = require("./config/firebase.config");
+const custom_validation_pipe_1 = require("./common/pipes/custom-validation.pipe");
+const translate_response_interceptor_1 = require("./common/interceptors/translate-response.interceptor");
 const admin = require("firebase-admin");
 const platform_express_1 = require("@nestjs/platform-express");
 const express = require('express');
@@ -23,12 +25,13 @@ async function createNestApp() {
     if (firebaseConfig && !admin.apps.length) {
         admin.initializeApp(firebaseConfig);
     }
-    app.useGlobalPipes(new common_1.ValidationPipe({
+    app.useGlobalPipes(new custom_validation_pipe_1.CustomValidationPipe({
         whitelist: true,
         forbidNonWhitelisted: true,
         transform: true,
     }));
     app.useGlobalInterceptors(new common_1.ClassSerializerInterceptor(app.get(core_2.Reflector)));
+    app.useGlobalInterceptors(new translate_response_interceptor_1.TranslateResponseInterceptor());
     app.enableCors({
         origin: true,
         credentials: true,
@@ -77,12 +80,13 @@ async function bootstrap() {
     if (firebaseConfig && !admin.apps.length) {
         admin.initializeApp(firebaseConfig);
     }
-    app.useGlobalPipes(new common_1.ValidationPipe({
+    app.useGlobalPipes(new custom_validation_pipe_1.CustomValidationPipe({
         whitelist: true,
         forbidNonWhitelisted: true,
         transform: true,
     }));
     app.useGlobalInterceptors(new common_1.ClassSerializerInterceptor(app.get(core_2.Reflector)));
+    app.useGlobalInterceptors(new translate_response_interceptor_1.TranslateResponseInterceptor());
     app.enableCors({
         origin: true,
         credentials: true,

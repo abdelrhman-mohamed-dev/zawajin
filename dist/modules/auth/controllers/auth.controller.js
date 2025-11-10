@@ -127,8 +127,8 @@ let AuthController = AuthController_1 = class AuthController {
             const user = await this.userRepository.findById(req.user.sub);
             const profileCompletion = this.authService.calculateProfileCompletion(user);
             const presence = await this.userPresenceRepository.getUserPresence(req.user.sub);
-            const isOnline = presence ? (presence.isOnline && !!presence.socketId) : false;
-            const lastSeenAt = presence ? presence.lastSeenAt : user.createdAt;
+            const isOnline = presence ? presence.isOnline : true;
+            const lastSeenAt = presence ? presence.lastSeenAt : null;
             const { passwordHash, fcmToken, ...userWithoutSensitiveData } = user;
             const sanitizedUser = this.sanitizeNumericFields(userWithoutSensitiveData);
             return {
