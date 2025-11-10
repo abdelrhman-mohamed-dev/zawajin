@@ -282,7 +282,7 @@ export class UsersService {
     const presenceMap = new Map(
       presences.map((presence, index) => [
         userIds[index],
-        { isOnline: presence ? presence.isOnline : true, lastSeenAt: presence ? presence.lastSeenAt : null }
+        { isOnline: presence ? presence.isOnline : false, lastSeenAt: presence ? presence.lastSeenAt : null }
       ])
     );
 
@@ -293,7 +293,7 @@ export class UsersService {
       return this.sanitizeNumericFields({
         ...userWithoutPassword,
         hasLiked: likedUserIds.has(user.id),
-        isOnline: presenceData?.isOnline ?? true,
+        isOnline: presenceData?.isOnline ?? false,
         lastSeenAt: presenceData?.lastSeenAt ?? null,
       });
     });
@@ -324,7 +324,7 @@ export class UsersService {
 
     // Get online status from user presence
     const presence = await this.userPresenceRepository.getUserPresence(userId);
-    const isOnline = presence ? presence.isOnline : true; // Default to true if no presence record
+    const isOnline = presence ? presence.isOnline : false; // Default to false if no presence record
     const lastSeenAt = presence ? presence.lastSeenAt : null;
 
     // Get like relationship information
@@ -405,7 +405,7 @@ export class UsersService {
     const presenceMap = new Map(
       presences.map((presence, index) => [
         userIds[index],
-        { isOnline: presence ? presence.isOnline : true, lastSeenAt: presence ? presence.lastSeenAt : null }
+        { isOnline: presence ? presence.isOnline : false, lastSeenAt: presence ? presence.lastSeenAt : null }
       ])
     );
 
@@ -415,7 +415,7 @@ export class UsersService {
       const presenceData = presenceMap.get(user.id);
       return this.sanitizeNumericFields({
         ...userWithoutSensitiveData,
-        isOnline: presenceData?.isOnline ?? true,
+        isOnline: presenceData?.isOnline ?? false,
         lastSeenAt: presenceData?.lastSeenAt ?? null,
       });
     });

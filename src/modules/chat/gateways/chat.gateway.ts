@@ -68,17 +68,11 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
       this.logger.log(`Client connected: ${client.id}, User: ${userId}`);
 
-      // Set user online
-      await this.userPresenceRepository.setUserOnline(userId, client.id);
-
       // Join user to their personal room for private events
       client.join(`user:${userId}`);
 
-      // Broadcast online status to all connected clients
-      this.broadcastUserStatusChange(userId, true);
-
-      // Also emit the legacy event for backward compatibility
-      this.server.emit('user_online', { userId, timestamp: new Date().toISOString() });
+      // Note: Online status is now managed manually via POST /users/status endpoint
+      // Socket connection does not automatically set user online
     } catch (error) {
       this.logger.error(`Connection error: ${error.message}`);
       client.disconnect();
@@ -108,17 +102,11 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       if (userId) {
         this.logger.log(`Client disconnected: ${client.id}, User: ${userId}`);
 
-        // Set user offline
-        await this.userPresenceRepository.setUserOffline(userId);
-
-        // Broadcast offline status to all connected clients
-        this.broadcastUserStatusChange(userId, false);
-
-        // Also emit the legacy event for backward compatibility
-        this.server.emit('user_offline', { userId, timestamp: new Date().toISOString() });
-
         // Clean up typing indicators
         this.typingUsers.delete(client.id);
+
+        // Note: Online status is now managed manually via POST /users/status endpoint
+        // Socket disconnection does not automatically set user offline
       }
     } catch (error) {
       this.logger.error(`Disconnect error: ${error.message}`);

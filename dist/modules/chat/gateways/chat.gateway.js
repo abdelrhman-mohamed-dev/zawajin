@@ -52,10 +52,7 @@ let ChatGateway = class ChatGateway {
             client.data.userId = userId;
             client.data.email = payload.email;
             this.logger.log(`Client connected: ${client.id}, User: ${userId}`);
-            await this.userPresenceRepository.setUserOnline(userId, client.id);
             client.join(`user:${userId}`);
-            this.broadcastUserStatusChange(userId, true);
-            this.server.emit('user_online', { userId, timestamp: new Date().toISOString() });
         }
         catch (error) {
             this.logger.error(`Connection error: ${error.message}`);
@@ -78,9 +75,6 @@ let ChatGateway = class ChatGateway {
             const userId = client.data.userId;
             if (userId) {
                 this.logger.log(`Client disconnected: ${client.id}, User: ${userId}`);
-                await this.userPresenceRepository.setUserOffline(userId);
-                this.broadcastUserStatusChange(userId, false);
-                this.server.emit('user_offline', { userId, timestamp: new Date().toISOString() });
                 this.typingUsers.delete(client.id);
             }
         }

@@ -169,7 +169,7 @@ let UsersService = UsersService_1 = class UsersService {
         const presences = await Promise.all(presencePromises);
         const presenceMap = new Map(presences.map((presence, index) => [
             userIds[index],
-            { isOnline: presence ? presence.isOnline : true, lastSeenAt: presence ? presence.lastSeenAt : null }
+            { isOnline: presence ? presence.isOnline : false, lastSeenAt: presence ? presence.lastSeenAt : null }
         ]));
         const usersWithLikeStatus = result.users.map((user) => {
             const { passwordHash, ...userWithoutPassword } = user;
@@ -177,7 +177,7 @@ let UsersService = UsersService_1 = class UsersService {
             return this.sanitizeNumericFields({
                 ...userWithoutPassword,
                 hasLiked: likedUserIds.has(user.id),
-                isOnline: presenceData?.isOnline ?? true,
+                isOnline: presenceData?.isOnline ?? false,
                 lastSeenAt: presenceData?.lastSeenAt ?? null,
             });
         });
@@ -200,7 +200,7 @@ let UsersService = UsersService_1 = class UsersService {
             throw new common_1.NotFoundException('User not found / المستخدم غير موجود');
         }
         const presence = await this.userPresenceRepository.getUserPresence(userId);
-        const isOnline = presence ? presence.isOnline : true;
+        const isOnline = presence ? presence.isOnline : false;
         const lastSeenAt = presence ? presence.lastSeenAt : null;
         let likedme = false;
         let isliked = false;
@@ -256,14 +256,14 @@ let UsersService = UsersService_1 = class UsersService {
         const presences = await Promise.all(presencePromises);
         const presenceMap = new Map(presences.map((presence, index) => [
             userIds[index],
-            { isOnline: presence ? presence.isOnline : true, lastSeenAt: presence ? presence.lastSeenAt : null }
+            { isOnline: presence ? presence.isOnline : false, lastSeenAt: presence ? presence.lastSeenAt : null }
         ]));
         const sanitizedUsers = users.map((user) => {
             const { passwordHash, fcmToken, ...userWithoutSensitiveData } = user;
             const presenceData = presenceMap.get(user.id);
             return this.sanitizeNumericFields({
                 ...userWithoutSensitiveData,
-                isOnline: presenceData?.isOnline ?? true,
+                isOnline: presenceData?.isOnline ?? false,
                 lastSeenAt: presenceData?.lastSeenAt ?? null,
             });
         });
