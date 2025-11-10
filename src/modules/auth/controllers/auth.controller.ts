@@ -833,11 +833,9 @@ export class AuthController {
       const profileCompletion = this.authService.calculateProfileCompletion(user);
 
       // Get online status from user presence
-      // Check if user has an active socket connection by verifying presence record
       const presence = await this.userPresenceRepository.getUserPresence(req.user.sub);
-      // User is online only if they have a presence record with isOnline=true and an active socketId
-      const isOnline = presence ? (presence.isOnline && !!presence.socketId) : false;
-      const lastSeenAt = presence ? presence.lastSeenAt : user.createdAt;
+      const isOnline = presence ? presence.isOnline : true; // Default to true if no presence record
+      const lastSeenAt = presence ? presence.lastSeenAt : null;
 
       // Remove sensitive data
       const { passwordHash, fcmToken, ...userWithoutSensitiveData } = user;
