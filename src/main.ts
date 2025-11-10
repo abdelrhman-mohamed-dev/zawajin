@@ -5,8 +5,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { getFirebaseConfig } from './config/firebase.config';
-import { CustomValidationPipe } from './common/pipes/custom-validation.pipe';
-import { TranslateResponseInterceptor } from './common/interceptors/translate-response.interceptor';
 import * as admin from 'firebase-admin';
 import { ExpressAdapter } from '@nestjs/platform-express';
 const express = require('express');
@@ -28,9 +26,9 @@ async function createNestApp() {
     admin.initializeApp(firebaseConfig);
   }
 
-  // Global validation pipe with i18n support
+  // Global validation pipe
   app.useGlobalPipes(
-    new CustomValidationPipe({
+    new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
       transform: true,
@@ -39,9 +37,6 @@ async function createNestApp() {
 
   // Global serialization interceptor
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
-
-  // Global translation interceptor for enum values
-  app.useGlobalInterceptors(new TranslateResponseInterceptor());
 
   // Enable CORS
   app.enableCors({
@@ -108,9 +103,9 @@ async function bootstrap() {
     admin.initializeApp(firebaseConfig);
   }
 
-  // Global validation pipe with i18n support
+  // Global validation pipe
   app.useGlobalPipes(
-    new CustomValidationPipe({
+    new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
       transform: true,
@@ -119,9 +114,6 @@ async function bootstrap() {
 
   // Global serialization interceptor
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
-
-  // Global translation interceptor for enum values
-  app.useGlobalInterceptors(new TranslateResponseInterceptor());
 
   // Enable CORS
   app.enableCors({
