@@ -72,6 +72,11 @@ export class TranslateResponseInterceptor implements NestInterceptor {
       return data;
     }
 
+    // Handle Date objects - preserve them as-is
+    if (data instanceof Date) {
+      return data;
+    }
+
     // Handle arrays
     if (Array.isArray(data)) {
       return data.map(item => this.translateData(item, i18n));
@@ -90,11 +95,11 @@ export class TranslateResponseInterceptor implements NestInterceptor {
 
           // Only use translation if it exists (not the key itself)
           translated[key] = translatedValue !== translationKey ? translatedValue : value;
-        } else if (value !== null && typeof value === 'object') {
-          // Recursively translate nested objects
+        } else if (value !== null && typeof value === 'object' && !(value instanceof Date)) {
+          // Recursively translate nested objects (but skip Date instances)
           translated[key] = this.translateData(value, i18n);
         } else {
-          // Keep the value as is
+          // Keep the value as is (including Date objects)
           translated[key] = value;
         }
       }
