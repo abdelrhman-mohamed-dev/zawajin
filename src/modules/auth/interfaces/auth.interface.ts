@@ -44,6 +44,8 @@ export interface LoginResponse {
     isEmailVerified: boolean;
     isPhoneVerified: boolean;
     termsAccepted: boolean;
+    role: string;
+    permissions: string[] | null;
     access_token: string;
     refresh_token: string;
   };
