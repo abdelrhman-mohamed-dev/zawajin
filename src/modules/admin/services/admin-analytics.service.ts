@@ -132,24 +132,28 @@ export class AdminAnalyticsService {
     }
 
     // Query users grouped by country and city
-    const queryBuilder = this.userRepository
-      .createQueryBuilder('user')
-      .select("user.location->>'country'", 'country')
-      .addSelect("user.location->>'city'", 'city')
-      .addSelect('COUNT(*)', 'count')
-      .where('user.isDeleted = :isDeleted', { isDeleted: false })
-      .andWhere("user.location->>'country' IS NOT NULL");
+    let query = `
+      SELECT
+        location->>'country' as country,
+        location->>'city' as city,
+        COUNT(*) as count
+      FROM users
+      WHERE "isDeleted" = false
+        AND location->>'country' IS NOT NULL
+    `;
 
+    const params: any[] = [];
     if (period && period !== 'all') {
-      queryBuilder.andWhere('user.createdAt >= :startDate', { startDate });
+      params.push(startDate);
+      query += ` AND "createdAt" >= $1`;
     }
 
-    queryBuilder
-      .groupBy("user.location->>'country'")
-      .addGroupBy("user.location->>'city'")
-      .orderBy('count', 'DESC');
+    query += `
+      GROUP BY location->>'country', location->>'city'
+      ORDER BY count DESC
+    `;
 
-    const results = await queryBuilder.getRawMany();
+    const results = await this.userRepository.query(query, params);
 
     // Group by country
     const countryMap = new Map<string, { count: number; cities: Map<string, number> }>();
@@ -229,42 +233,52 @@ export class AdminAnalyticsService {
     const previousPeriodEnd = currentPeriodStart;
 
     // Get current period users by country
-    const currentUsers = await this.userRepository
-      .createQueryBuilder('user')
-      .select("user.location->>'country'", 'country')
-      .addSelect('COUNT(*)', 'count')
-      .where('user.isDeleted = :isDeleted', { isDeleted: false })
-      .andWhere("user.location->>'country' IS NOT NULL")
-      .groupBy("user.location->>'country'")
-      .getRawMany();
+    const currentUsersQuery = `
+      SELECT
+        location->>'country' as country,
+        COUNT(*) as count
+      FROM users
+      WHERE "isDeleted" = false
+        AND location->>'country' IS NOT NULL
+      GROUP BY location->>'country'
+      ORDER BY count DESC
+    `;
+    const currentUsers = await this.userRepository.query(currentUsersQuery);
 
     // Get previous period users by country for growth calculation
-    const previousUsers = await this.userRepository
-      .createQueryBuilder('user')
-      .select("user.location->>'country'", 'country')
-      .addSelect('COUNT(*)', 'count')
-      .where('user.isDeleted = :isDeleted', { isDeleted: false })
-      .andWhere('user.createdAt >= :start', { start: previousPeriodStart })
-      .andWhere('user.createdAt < :end', { end: previousPeriodEnd })
-      .andWhere("user.location->>'country' IS NOT NULL")
-      .groupBy("user.location->>'country'")
-      .getRawMany();
+    const previousUsersQuery = `
+      SELECT
+        location->>'country' as country,
+        COUNT(*) as count
+      FROM users
+      WHERE "isDeleted" = false
+        AND "createdAt" >= $1
+        AND "createdAt" < $2
+        AND location->>'country' IS NOT NULL
+      GROUP BY location->>'country'
+    `;
+    const previousUsers = await this.userRepository.query(previousUsersQuery, [
+      previousPeriodStart,
+      previousPeriodEnd,
+    ]);
 
     const previousCountMap = new Map<string, number>(
       previousUsers.map(row => [row.country, parseInt(row.count)])
     );
 
     // Get revenue by country
-    const revenueByCountry = await this.subscriptionRepository
-      .createQueryBuilder('sub')
-      .leftJoin('sub.user', 'user')
-      .leftJoin('sub.plan', 'plan')
-      .select("user.location->>'country'", 'country')
-      .addSelect('SUM(plan.price)', 'revenue')
-      .where('sub.status = :status', { status: SubscriptionStatus.ACTIVE })
-      .andWhere("user.location->>'country' IS NOT NULL")
-      .groupBy("user.location->>'country'")
-      .getRawMany();
+    const revenueQuery = `
+      SELECT
+        u.location->>'country' as country,
+        SUM(sp.price) as revenue
+      FROM user_subscriptions sub
+      LEFT JOIN users u ON u.id = sub."userId"
+      LEFT JOIN subscription_plans sp ON sp.id = sub."planId"
+      WHERE sub.status = 'active'
+        AND u.location->>'country' IS NOT NULL
+      GROUP BY u.location->>'country'
+    `;
+    const revenueByCountry = await this.subscriptionRepository.query(revenueQuery);
 
     const revenueMap = new Map<string, number>(
       revenueByCountry.map(row => [row.country, parseFloat(row.revenue) || 0])
