@@ -205,6 +205,8 @@ let AuthService = AuthService_1 = class AuthService {
                 isEmailVerified: user.isEmailVerified,
                 isPhoneVerified: user.isPhoneVerified,
                 termsAccepted: user.termsAccepted,
+                role: user.role,
+                permissions: user.permissions,
                 access_token: tokens.access_token,
                 refresh_token: tokens.refresh_token,
             },

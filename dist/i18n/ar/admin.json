@@ -29,7 +29,13 @@
     "planDeactivated": "تم تعطيل خطة الاشتراك بنجاح",
     "subscriptionsFetched": "تم جلب الاشتراكات بنجاح",
     "subscriptionUpdated": "تم تحديث الاشتراك بنجاح",
-    "analyticsFetched": "تم جلب بيانات التحليلات بنجاح"
+    "analyticsFetched": "تم جلب بيانات التحليلات بنجاح",
+    "conversationsFetched": "تم جلب المحادثات بنجاح",
+    "conversationFetched": "تم جلب المحادثة بنجاح",
+    "conversationClosed": "تم إغلاق المحادثة بنجاح",
+    "messagesFetched": "تم جلب الرسائل بنجاح",
+    "messageDeleted": "تم حذف الرسالة بنجاح",
+    "statisticsFetched": "تم جلب الإحصائيات بنجاح"
   },
   "errors": {
     "unauthorized": "وصول غير مصرح به",
@@ -56,7 +62,9 @@
     "planNotFound": "خطة الاشتراك غير موجودة",
     "planAlreadyExists": "توجد خطة بهذا الاسم بالفعل",
     "planNameExists": "توجد خطة بهذا الاسم بالفعل",
-    "planHasActiveSubscriptions": "لا يمكن إلغاء تفعيل الخطة التي تحتوي على {{count}} اشتراكات نشطة"
+    "planHasActiveSubscriptions": "لا يمكن إلغاء تفعيل الخطة التي تحتوي على {{count}} اشتراكات نشطة",
+    "conversationNotFound": "المحادثة غير موجودة",
+    "messageNotFound": "الرسالة غير موجودة"
   },
   "notifications": {
     "banned": {

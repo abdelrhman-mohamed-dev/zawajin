@@ -29,7 +29,13 @@
     "planDeactivated": "Subscription plan deactivated successfully",
     "subscriptionsFetched": "Subscriptions fetched successfully",
     "subscriptionUpdated": "Subscription updated successfully",
-    "analyticsFetched": "Analytics data fetched successfully"
+    "analyticsFetched": "Analytics data fetched successfully",
+    "conversationsFetched": "Conversations fetched successfully",
+    "conversationFetched": "Conversation fetched successfully",
+    "conversationClosed": "Conversation closed successfully",
+    "messagesFetched": "Messages fetched successfully",
+    "messageDeleted": "Message deleted successfully",
+    "statisticsFetched": "Statistics fetched successfully"
   },
   "errors": {
     "unauthorized": "Unauthorized access",
@@ -56,7 +62,9 @@
     "planNotFound": "Subscription plan not found",
     "planAlreadyExists": "A plan with this name already exists",
     "planNameExists": "A plan with this name already exists",
-    "planHasActiveSubscriptions": "Cannot deactivate plan with {{count}} active subscriptions"
+    "planHasActiveSubscriptions": "Cannot deactivate plan with {{count}} active subscriptions",
+    "conversationNotFound": "Conversation not found",
+    "messageNotFound": "Message not found"
   },
   "notifications": {
     "banned": {

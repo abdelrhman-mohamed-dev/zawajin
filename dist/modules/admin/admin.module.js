@@ -30,11 +30,15 @@ const admin_role_service_1 = require("./services/admin-role.service");
 const admin_report_service_1 = require("./services/admin-report.service");
 const admin_subscription_service_1 = require("./services/admin-subscription.service");
 const admin_analytics_service_1 = require("./services/admin-analytics.service");
+const admin_chat_service_1 = require("./services/admin-chat.service");
 const admin_user_controller_1 = require("./controllers/admin-user.controller");
 const admin_role_controller_1 = require("./controllers/admin-role.controller");
 const admin_report_controller_1 = require("./controllers/admin-report.controller");
 const admin_subscription_controller_1 = require("./controllers/admin-subscription.controller");
 const admin_analytics_controller_1 = require("./controllers/admin-analytics.controller");
+const admin_chat_controller_1 = require("./controllers/admin-chat.controller");
+const conversation_repository_1 = require("../chat/repositories/conversation.repository");
+const message_repository_1 = require("../chat/repositories/message.repository");
 const mail_module_1 = require("../mail/mail.module");
 const firebase_service_1 = require("../../services/firebase.service");
 let AdminModule = class AdminModule {
@@ -64,6 +68,7 @@ exports.AdminModule = AdminModule = __decorate([
             admin_report_controller_1.AdminReportController,
             admin_subscription_controller_1.AdminSubscriptionController,
             admin_analytics_controller_1.AdminAnalyticsController,
+            admin_chat_controller_1.AdminChatController,
         ],
         providers: [
             user_repository_1.UserRepository,
@@ -71,11 +76,14 @@ exports.AdminModule = AdminModule = __decorate([
             activity_log_repository_1.ActivityLogRepository,
             admin_action_repository_1.AdminActionRepository,
             admin_notification_repository_1.AdminNotificationRepository,
+            conversation_repository_1.ConversationRepository,
+            message_repository_1.MessageRepository,
             admin_user_service_1.AdminUserService,
             admin_role_service_1.AdminRoleService,
             admin_report_service_1.AdminReportService,
             admin_subscription_service_1.AdminSubscriptionService,
             admin_analytics_service_1.AdminAnalyticsService,
+            admin_chat_service_1.AdminChatService,
             firebase_service_1.FirebaseService,
         ],
         exports: [admin_user_service_1.AdminUserService, admin_report_service_1.AdminReportService, admin_analytics_service_1.AdminAnalyticsService],

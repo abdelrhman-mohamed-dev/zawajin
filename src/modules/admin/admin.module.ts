@@ -21,11 +21,15 @@ import { AdminRoleService } from './services/admin-role.service';
 import { AdminReportService } from './services/admin-report.service';
 import { AdminSubscriptionService } from './services/admin-subscription.service';
 import { AdminAnalyticsService } from './services/admin-analytics.service';
+import { AdminChatService } from './services/admin-chat.service';
 import { AdminUserController } from './controllers/admin-user.controller';
 import { AdminRoleController } from './controllers/admin-role.controller';
 import { AdminReportController } from './controllers/admin-report.controller';
 import { AdminSubscriptionController } from './controllers/admin-subscription.controller';
 import { AdminAnalyticsController } from './controllers/admin-analytics.controller';
+import { AdminChatController } from './controllers/admin-chat.controller';
+import { ConversationRepository } from '../chat/repositories/conversation.repository';
+import { MessageRepository } from '../chat/repositories/message.repository';
 import { MailModule } from '../mail/mail.module';
 import { FirebaseService } from '../../services/firebase.service';
 
@@ -52,6 +56,7 @@ import { FirebaseService } from '../../services/firebase.service';
     AdminReportController,
     AdminSubscriptionController,
     AdminAnalyticsController,
+    AdminChatController,
   ],
   providers: [
     UserRepository,
@@ -59,11 +64,14 @@ import { FirebaseService } from '../../services/firebase.service';
     ActivityLogRepository,
     AdminActionRepository,
     AdminNotificationRepository,
+    ConversationRepository,
+    MessageRepository,
     AdminUserService,
     AdminRoleService,
     AdminReportService,
     AdminSubscriptionService,
     AdminAnalyticsService,
+    AdminChatService,
     FirebaseService,
   ],
   exports: [AdminUserService, AdminReportService, AdminAnalyticsService],
