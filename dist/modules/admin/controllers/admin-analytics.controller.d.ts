@@ -47,4 +47,18 @@ export declare class AdminAnalyticsController {
             churn: number;
         };
     }>;
+    getVisitorsByCountry(region?: string, period?: string, req?: any): Promise<{
+        success: boolean;
+        data: {
+            countries: import("../dto/country-analytics.dto").CountryData[];
+        };
+    }>;
+    getTopCountries(req: any): Promise<{
+        success: boolean;
+        data: {
+            countries: import("../dto/country-analytics.dto").CountryStats[];
+            totalUsers: any;
+            totalRevenue: number;
+        };
+    }>;
 }

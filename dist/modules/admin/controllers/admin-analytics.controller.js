@@ -22,6 +22,7 @@ const permissions_guard_1 = require("../../../common/guards/permissions.guard");
 const roles_decorator_1 = require("../../../common/decorators/roles.decorator");
 const permissions_decorator_1 = require("../../../common/decorators/permissions.decorator");
 const admin_analytics_service_1 = require("../services/admin-analytics.service");
+const country_analytics_dto_1 = require("../dto/country-analytics.dto");
 let AdminAnalyticsController = class AdminAnalyticsController {
     constructor(adminAnalyticsService) {
         this.adminAnalyticsService = adminAnalyticsService;
@@ -45,6 +46,14 @@ let AdminAnalyticsController = class AdminAnalyticsController {
     async getSubscriptionAnalytics(req) {
         const lang = req.headers['accept-language'] || 'en';
         return this.adminAnalyticsService.getSubscriptionAnalytics(lang);
+    }
+    async getVisitorsByCountry(region, period, req) {
+        const lang = req?.headers['accept-language'] || 'en';
+        return this.adminAnalyticsService.getVisitorsByCountry(region, period, lang);
+    }
+    async getTopCountries(req) {
+        const lang = req.headers['accept-language'] || 'en';
+        return this.adminAnalyticsService.getTopCountries(lang);
     }
 };
 exports.AdminAnalyticsController = AdminAnalyticsController;
@@ -103,6 +112,58 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AdminAnalyticsController.prototype, "getSubscriptionAnalytics", null);
+__decorate([
+    (0, common_1.Get)('visitors-by-country'),
+    (0, permissions_decorator_1.RequirePermissions)('view_analytics'),
+    (0, throttler_1.Throttle)({ default: { limit: 50, ttl: 60000 } }),
+    (0, swagger_1.ApiOperation)({
+        summary: 'Get visitors by country for map visualization',
+        description: 'Returns country data with coordinates, cities breakdown, and color-coded markers'
+    }),
+    (0, swagger_1.ApiQuery)({
+        name: 'region',
+        required: false,
+        enum: ['all', 'middle_east', 'europe', 'asia', 'africa', 'americas'],
+        example: 'middle_east',
+        description: 'Filter by geographic region'
+    }),
+    (0, swagger_1.ApiQuery)({
+        name: 'period',
+        required: false,
+        enum: ['all', 'week', 'month', 'year'],
+        example: 'month',
+        description: 'Time period for user registration data'
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Country visitors data fetched successfully',
+        type: country_analytics_dto_1.VisitorsByCountryResponse
+    }),
+    __param(0, (0, common_1.Query)('region')),
+    __param(1, (0, common_1.Query)('period')),
+    __param(2, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, Object]),
+    __metadata("design:returntype", Promise)
+], AdminAnalyticsController.prototype, "getVisitorsByCountry", null);
+__decorate([
+    (0, common_1.Get)('top-countries'),
+    (0, permissions_decorator_1.RequirePermissions)('view_analytics'),
+    (0, throttler_1.Throttle)({ default: { limit: 50, ttl: 60000 } }),
+    (0, swagger_1.ApiOperation)({
+        summary: 'Get top countries ranked table',
+        description: 'Returns ranked countries with user count, growth %, and revenue statistics'
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Top countries data fetched successfully',
+        type: country_analytics_dto_1.TopCountriesResponse
+    }),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AdminAnalyticsController.prototype, "getTopCountries", null);
 exports.AdminAnalyticsController = AdminAnalyticsController = __decorate([
     (0, swagger_1.ApiTags)('Admin - Analytics'),
     (0, swagger_1.ApiBearerAuth)(),

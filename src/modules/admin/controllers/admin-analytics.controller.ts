@@ -1,5 +1,5 @@
-import { Controller, Get, UseGuards, Req } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { Controller, Get, UseGuards, Req, Query } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../../../common/guards/roles.guard';
@@ -7,6 +7,7 @@ import { PermissionsGuard } from '../../../common/guards/permissions.guard';
 import { Roles } from '../../../common/decorators/roles.decorator';
 import { RequirePermissions } from '../../../common/decorators/permissions.decorator';
 import { AdminAnalyticsService } from '../services/admin-analytics.service';
+import { VisitorsByCountryResponse, TopCountriesResponse } from '../dto/country-analytics.dto';
 
 @ApiTags('Admin - Analytics')
 @ApiBearerAuth()
@@ -64,5 +65,57 @@ export class AdminAnalyticsController {
   async getSubscriptionAnalytics(@Req() req: any) {
     const lang = req.headers['accept-language'] || 'en';
     return this.adminAnalyticsService.getSubscriptionAnalytics(lang);
+  }
+
+  @Get('visitors-by-country')
+  @RequirePermissions('view_analytics')
+  @Throttle({ default: { limit: 50, ttl: 60000 } })
+  @ApiOperation({
+    summary: 'Get visitors by country for map visualization',
+    description: 'Returns country data with coordinates, cities breakdown, and color-coded markers'
+  })
+  @ApiQuery({
+    name: 'region',
+    required: false,
+    enum: ['all', 'middle_east', 'europe', 'asia', 'africa', 'americas'],
+    example: 'middle_east',
+    description: 'Filter by geographic region'
+  })
+  @ApiQuery({
+    name: 'period',
+    required: false,
+    enum: ['all', 'week', 'month', 'year'],
+    example: 'month',
+    description: 'Time period for user registration data'
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Country visitors data fetched successfully',
+    type: VisitorsByCountryResponse
+  })
+  async getVisitorsByCountry(
+    @Query('region') region?: string,
+    @Query('period') period?: string,
+    @Req() req?: any,
+  ) {
+    const lang = req?.headers['accept-language'] || 'en';
+    return this.adminAnalyticsService.getVisitorsByCountry(region, period, lang);
+  }
+
+  @Get('top-countries')
+  @RequirePermissions('view_analytics')
+  @Throttle({ default: { limit: 50, ttl: 60000 } })
+  @ApiOperation({
+    summary: 'Get top countries ranked table',
+    description: 'Returns ranked countries with user count, growth %, and revenue statistics'
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Top countries data fetched successfully',
+    type: TopCountriesResponse
+  })
+  async getTopCountries(@Req() req: any) {
+    const lang = req.headers['accept-language'] || 'en';
+    return this.adminAnalyticsService.getTopCountries(lang);
   }
 }
