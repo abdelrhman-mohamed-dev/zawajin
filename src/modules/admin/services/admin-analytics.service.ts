@@ -138,14 +138,14 @@ export class AdminAnalyticsService {
         location->>'city' as city,
         COUNT(*) as count
       FROM users
-      WHERE "isDeleted" = false
+      WHERE is_deleted = false
         AND location->>'country' IS NOT NULL
     `;
 
     const params: any[] = [];
     if (period && period !== 'all') {
       params.push(startDate);
-      query += ` AND "createdAt" >= $1`;
+      query += ` AND created_at >= $1`;
     }
 
     query += `
@@ -238,7 +238,7 @@ export class AdminAnalyticsService {
         location->>'country' as country,
         COUNT(*) as count
       FROM users
-      WHERE "isDeleted" = false
+      WHERE is_deleted = false
         AND location->>'country' IS NOT NULL
       GROUP BY location->>'country'
       ORDER BY count DESC
@@ -251,9 +251,9 @@ export class AdminAnalyticsService {
         location->>'country' as country,
         COUNT(*) as count
       FROM users
-      WHERE "isDeleted" = false
-        AND "createdAt" >= $1
-        AND "createdAt" < $2
+      WHERE is_deleted = false
+        AND created_at >= $1
+        AND created_at < $2
         AND location->>'country' IS NOT NULL
       GROUP BY location->>'country'
     `;
@@ -270,8 +270,8 @@ export class AdminAnalyticsService {
     const revenueQuery = `
       SELECT
         u.location->>'country' as country,
-        SUM(sp.price) as revenue
-      FROM user_subscriptions sub
+        COALESCE(SUM(sp.price), 0) as revenue
+      FROM subscriptions sub
       LEFT JOIN users u ON u.id = sub."userId"
       LEFT JOIN subscription_plans sp ON sp.id = sub."planId"
       WHERE sub.status = 'active'
