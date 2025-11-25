@@ -35,7 +35,12 @@
     "conversationClosed": "تم إغلاق المحادثة بنجاح",
     "messagesFetched": "تم جلب الرسائل بنجاح",
     "messageDeleted": "تم حذف الرسالة بنجاح",
-    "statisticsFetched": "تم جلب الإحصائيات بنجاح"
+    "statisticsFetched": "تم جلب الإحصائيات بنجاح",
+    "settingsFetched": "تم جلب الإعدادات بنجاح",
+    "settingFetched": "تم جلب الإعداد بنجاح",
+    "settingCreated": "تم إنشاء الإعداد بنجاح",
+    "settingUpdated": "تم تحديث الإعداد بنجاح",
+    "settingDeleted": "تم حذف الإعداد بنجاح"
   },
   "errors": {
     "unauthorized": "وصول غير مصرح به",
@@ -64,7 +69,9 @@
     "planNameExists": "توجد خطة بهذا الاسم بالفعل",
     "planHasActiveSubscriptions": "لا يمكن إلغاء تفعيل الخطة التي تحتوي على {{count}} اشتراكات نشطة",
     "conversationNotFound": "المحادثة غير موجودة",
-    "messageNotFound": "الرسالة غير موجودة"
+    "messageNotFound": "الرسالة غير موجودة",
+    "settingNotFound": "الإعداد غير موجود",
+    "settingKeyExists": "الإعداد بهذا المفتاح موجود بالفعل"
   },
   "notifications": {
     "banned": {

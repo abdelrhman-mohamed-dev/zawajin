@@ -35,7 +35,12 @@
     "conversationClosed": "Conversation closed successfully",
     "messagesFetched": "Messages fetched successfully",
     "messageDeleted": "Message deleted successfully",
-    "statisticsFetched": "Statistics fetched successfully"
+    "statisticsFetched": "Statistics fetched successfully",
+    "settingsFetched": "Settings fetched successfully",
+    "settingFetched": "Setting fetched successfully",
+    "settingCreated": "Setting created successfully",
+    "settingUpdated": "Setting updated successfully",
+    "settingDeleted": "Setting deleted successfully"
   },
   "errors": {
     "unauthorized": "Unauthorized access",
@@ -64,7 +69,9 @@
     "planNameExists": "A plan with this name already exists",
     "planHasActiveSubscriptions": "Cannot deactivate plan with {{count}} active subscriptions",
     "conversationNotFound": "Conversation not found",
-    "messageNotFound": "Message not found"
+    "messageNotFound": "Message not found",
+    "settingNotFound": "Setting not found",
+    "settingKeyExists": "Setting with this key already exists"
   },
   "notifications": {
     "banned": {

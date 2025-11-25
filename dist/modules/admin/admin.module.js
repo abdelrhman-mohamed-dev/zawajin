@@ -14,6 +14,7 @@ const user_report_entity_1 = require("./entities/user-report.entity");
 const activity_log_entity_1 = require("./entities/activity-log.entity");
 const admin_action_entity_1 = require("./entities/admin-action.entity");
 const admin_notification_entity_1 = require("./entities/admin-notification.entity");
+const system_settings_entity_1 = require("./entities/system-settings.entity");
 const subscription_entity_1 = require("../subscriptions/entities/subscription.entity");
 const subscription_plan_entity_1 = require("../subscriptions/entities/subscription-plan.entity");
 const subscription_history_entity_1 = require("../subscriptions/entities/subscription-history.entity");
@@ -31,12 +32,15 @@ const admin_report_service_1 = require("./services/admin-report.service");
 const admin_subscription_service_1 = require("./services/admin-subscription.service");
 const admin_analytics_service_1 = require("./services/admin-analytics.service");
 const admin_chat_service_1 = require("./services/admin-chat.service");
+const admin_settings_service_1 = require("./services/admin-settings.service");
 const admin_user_controller_1 = require("./controllers/admin-user.controller");
 const admin_role_controller_1 = require("./controllers/admin-role.controller");
 const admin_report_controller_1 = require("./controllers/admin-report.controller");
 const admin_subscription_controller_1 = require("./controllers/admin-subscription.controller");
 const admin_analytics_controller_1 = require("./controllers/admin-analytics.controller");
 const admin_chat_controller_1 = require("./controllers/admin-chat.controller");
+const admin_settings_controller_1 = require("./controllers/admin-settings.controller");
+const public_settings_controller_1 = require("./controllers/public-settings.controller");
 const conversation_repository_1 = require("../chat/repositories/conversation.repository");
 const message_repository_1 = require("../chat/repositories/message.repository");
 const mail_module_1 = require("../mail/mail.module");
@@ -53,6 +57,7 @@ exports.AdminModule = AdminModule = __decorate([
                 activity_log_entity_1.ActivityLog,
                 admin_action_entity_1.AdminAction,
                 admin_notification_entity_1.AdminNotification,
+                system_settings_entity_1.SystemSettings,
                 subscription_entity_1.Subscription,
                 subscription_plan_entity_1.SubscriptionPlan,
                 subscription_history_entity_1.SubscriptionHistory,
@@ -69,6 +74,8 @@ exports.AdminModule = AdminModule = __decorate([
             admin_subscription_controller_1.AdminSubscriptionController,
             admin_analytics_controller_1.AdminAnalyticsController,
             admin_chat_controller_1.AdminChatController,
+            admin_settings_controller_1.AdminSettingsController,
+            public_settings_controller_1.PublicSettingsController,
         ],
         providers: [
             user_repository_1.UserRepository,
@@ -84,6 +91,7 @@ exports.AdminModule = AdminModule = __decorate([
             admin_subscription_service_1.AdminSubscriptionService,
             admin_analytics_service_1.AdminAnalyticsService,
             admin_chat_service_1.AdminChatService,
+            admin_settings_service_1.AdminSettingsService,
             firebase_service_1.FirebaseService,
         ],
         exports: [admin_user_service_1.AdminUserService, admin_report_service_1.AdminReportService, admin_analytics_service_1.AdminAnalyticsService],

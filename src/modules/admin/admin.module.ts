@@ -5,6 +5,7 @@ import { UserReport } from './entities/user-report.entity';
 import { ActivityLog } from './entities/activity-log.entity';
 import { AdminAction } from './entities/admin-action.entity';
 import { AdminNotification } from './entities/admin-notification.entity';
+import { SystemSettings } from './entities/system-settings.entity';
 import { Subscription } from '../subscriptions/entities/subscription.entity';
 import { SubscriptionPlan } from '../subscriptions/entities/subscription-plan.entity';
 import { SubscriptionHistory } from '../subscriptions/entities/subscription-history.entity';
@@ -22,12 +23,15 @@ import { AdminReportService } from './services/admin-report.service';
 import { AdminSubscriptionService } from './services/admin-subscription.service';
 import { AdminAnalyticsService } from './services/admin-analytics.service';
 import { AdminChatService } from './services/admin-chat.service';
+import { AdminSettingsService } from './services/admin-settings.service';
 import { AdminUserController } from './controllers/admin-user.controller';
 import { AdminRoleController } from './controllers/admin-role.controller';
 import { AdminReportController } from './controllers/admin-report.controller';
 import { AdminSubscriptionController } from './controllers/admin-subscription.controller';
 import { AdminAnalyticsController } from './controllers/admin-analytics.controller';
 import { AdminChatController } from './controllers/admin-chat.controller';
+import { AdminSettingsController } from './controllers/admin-settings.controller';
+import { PublicSettingsController } from './controllers/public-settings.controller';
 import { ConversationRepository } from '../chat/repositories/conversation.repository';
 import { MessageRepository } from '../chat/repositories/message.repository';
 import { MailModule } from '../mail/mail.module';
@@ -41,6 +45,7 @@ import { FirebaseService } from '../../services/firebase.service';
       ActivityLog,
       AdminAction,
       AdminNotification,
+      SystemSettings,
       Subscription,
       SubscriptionPlan,
       SubscriptionHistory,
@@ -57,6 +62,8 @@ import { FirebaseService } from '../../services/firebase.service';
     AdminSubscriptionController,
     AdminAnalyticsController,
     AdminChatController,
+    AdminSettingsController,
+    PublicSettingsController,
   ],
   providers: [
     UserRepository,
@@ -72,6 +79,7 @@ import { FirebaseService } from '../../services/firebase.service';
     AdminSubscriptionService,
     AdminAnalyticsService,
     AdminChatService,
+    AdminSettingsService,
     FirebaseService,
   ],
   exports: [AdminUserService, AdminReportService, AdminAnalyticsService],
