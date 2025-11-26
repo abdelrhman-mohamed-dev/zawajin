@@ -114,18 +114,6 @@ export class ProfileValidationPipe implements PipeTransform {
 
     // Validation for females
     if (gender === 'female') {
-      // Females should NOT have polygamyStatus field (string enum)
-      // They can only have acceptPolygamy (boolean)
-      if (
-        value.polygamyStatus !== undefined &&
-        value.polygamyStatus !== null &&
-        typeof value.polygamyStatus === 'string'
-      ) {
-        throw new BadRequestException(
-          'Female users cannot have polygamyStatus field. Use acceptPolygamy (boolean) instead.',
-        );
-      }
-
       // Validate marital status for females
       if (
         value.maritalStatus &&

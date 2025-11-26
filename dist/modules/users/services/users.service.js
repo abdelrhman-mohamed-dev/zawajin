@@ -108,11 +108,6 @@ let UsersService = UsersService_1 = class UsersService {
             }
         }
         if (gender === 'female') {
-            if (profileData.polygamyStatus !== undefined &&
-                profileData.polygamyStatus !== null &&
-                typeof profileData.polygamyStatus === 'string') {
-                throw new common_1.BadRequestException('Female users cannot have polygamyStatus field. Use acceptPolygamy (boolean) instead.');
-            }
             if (profileData.maritalStatus &&
                 !femaleMaritalStatuses.includes(profileData.maritalStatus)) {
                 throw new common_1.BadRequestException(`Invalid marital status for female users. Must be one of: ${femaleMaritalStatuses.join(', ')}`);
