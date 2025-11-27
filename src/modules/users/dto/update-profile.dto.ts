@@ -509,12 +509,12 @@ export class UpdateProfileDto {
   @ApiProperty({
     example: 'yes',
     description: 'Whether accepts polygamy for partner (males only)',
-    enum: ['yes', 'no'],
+    enum: ['yes', 'no', 'thinking'],
     required: false,
   })
   @IsOptional()
-  @IsEnum(['yes', 'no'], {
-    message: 'preferredAcceptPolygamy must be either yes or no',
+  @IsEnum(['yes', 'no', 'thinking'], {
+    message: 'preferredAcceptPolygamy must be either yes, no, or thinking',
   })
   preferredAcceptPolygamy?: string;
 
