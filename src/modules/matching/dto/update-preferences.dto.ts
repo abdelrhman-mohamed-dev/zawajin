@@ -261,11 +261,15 @@ export class UpdatePreferencesDto {
 
   @ApiProperty({
     description: 'Accept polygamy',
-    example: false,
+    example: 'yes',
+    enum: ['yes', 'no', 'thinking'],
     required: false,
   })
   @IsOptional()
-  acceptPolygamy?: boolean;
+  @IsEnum(['yes', 'no', 'thinking'], {
+    message: 'acceptPolygamy must be either yes, no, or thinking',
+  })
+  acceptPolygamy?: string;
 
   @ApiProperty({
     description: 'Require house availability',

@@ -618,13 +618,16 @@ __decorate([
 ], UpdateProfileDto.prototype, "marriageType", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
-        example: false,
+        example: 'yes',
         description: 'Whether the user accepts polygamy',
+        enum: ['yes', 'no', 'thinking'],
         required: false,
     }),
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsBoolean)(),
-    __metadata("design:type", Boolean)
+    (0, class_validator_1.IsEnum)(['yes', 'no', 'thinking'], {
+        message: 'acceptPolygamy must be either yes, no, or thinking',
+    }),
+    __metadata("design:type", String)
 ], UpdateProfileDto.prototype, "acceptPolygamy", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({

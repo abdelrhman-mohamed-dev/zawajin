@@ -189,8 +189,14 @@ export class MatchingPreferences {
   })
   preferredMarriageTypes: string[];
 
-  @Column({ type: 'boolean', nullable: true, name: 'accept_polygamy' })
-  acceptPolygamy: boolean;
+  @Column({
+    type: 'enum',
+    enum: ['yes', 'no', 'thinking'],
+    nullable: true,
+    name: 'accept_polygamy',
+    comment: 'Whether accepts polygamy: yes/no/thinking',
+  })
+  acceptPolygamy: string;
 
   @Column({ type: 'boolean', nullable: true, name: 'require_house' })
   requireHouse: boolean;

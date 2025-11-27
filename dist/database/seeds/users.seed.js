@@ -36,7 +36,7 @@ const users = [
         preferredEyeColors: ['brown', 'hazel'],
         partnerPreferencesBio: 'Looking for a practicing Muslim woman who values family and education.',
         marriageType: 'religious',
-        acceptPolygamy: false,
+        acceptPolygamy: 'no',
     },
     {
         fullName: 'Omar Abdullah',
@@ -70,7 +70,7 @@ const users = [
         preferredEyeColors: ['brown', 'dark_brown', 'hazel'],
         partnerPreferencesBio: 'Seeking a mature and understanding woman for remarriage.',
         marriageType: 'both',
-        acceptPolygamy: false,
+        acceptPolygamy: 'no',
     },
     {
         fullName: 'Khalid Rahman',
@@ -104,7 +104,7 @@ const users = [
         preferredEyeColors: ['brown', 'dark_brown'],
         partnerPreferencesBio: 'Looking for someone supportive and family-oriented.',
         marriageType: 'traditional',
-        acceptPolygamy: true,
+        acceptPolygamy: 'yes',
     },
     {
         fullName: 'Yusuf Ali',
@@ -138,7 +138,7 @@ const users = [
         preferredEyeColors: ['brown', 'hazel', 'green'],
         partnerPreferencesBio: 'Seeking a caring woman who loves children and education.',
         marriageType: 'religious',
-        acceptPolygamy: false,
+        acceptPolygamy: 'no',
     },
     {
         fullName: 'Ibrahim Mahmoud',
@@ -172,7 +172,7 @@ const users = [
         preferredEyeColors: ['brown', 'hazel', 'green'],
         partnerPreferencesBio: 'Looking for an educated and ambitious woman.',
         marriageType: 'both',
-        acceptPolygamy: false,
+        acceptPolygamy: 'no',
     },
     {
         fullName: 'Fatima Zahra',
@@ -206,7 +206,7 @@ const users = [
         preferredEyeColors: ['brown', 'dark_brown', 'hazel'],
         partnerPreferencesBio: 'Seeking an educated, practicing Muslim man with good character.',
         marriageType: 'religious',
-        acceptPolygamy: false,
+        acceptPolygamy: 'no',
     },
     {
         fullName: 'Aisha Mohammed',
@@ -240,7 +240,7 @@ const users = [
         preferredEyeColors: ['brown', 'dark_brown'],
         partnerPreferencesBio: 'Looking for a religious man with stable career and good values.',
         marriageType: 'religious',
-        acceptPolygamy: false,
+        acceptPolygamy: 'no',
     },
     {
         fullName: 'Maryam Ahmed',
@@ -274,7 +274,7 @@ const users = [
         preferredEyeColors: ['brown', 'hazel', 'green', 'blue'],
         partnerPreferencesBio: 'Seeking a creative, understanding man for remarriage.',
         marriageType: 'civil',
-        acceptPolygamy: false,
+        acceptPolygamy: 'no',
     },
     {
         fullName: 'Khadija Yusuf',
@@ -308,7 +308,7 @@ const users = [
         preferredEyeColors: ['brown', 'dark_brown', 'hazel'],
         partnerPreferencesBio: 'Looking for an adventurous, practicing Muslim man.',
         marriageType: 'religious',
-        acceptPolygamy: false,
+        acceptPolygamy: 'no',
     },
     {
         fullName: 'Sara Ibrahim',
@@ -342,7 +342,7 @@ const users = [
         preferredEyeColors: ['brown', 'dark_brown'],
         partnerPreferencesBio: 'Seeking a kind, caring man with strong family values.',
         marriageType: 'both',
-        acceptPolygamy: false,
+        acceptPolygamy: 'no',
     },
     {
         fullName: 'Layla Hassan',
@@ -376,7 +376,7 @@ const users = [
         preferredEyeColors: ['brown', 'dark_brown', 'hazel', 'green'],
         partnerPreferencesBio: 'Looking for an ambitious, supportive man.',
         marriageType: 'traditional',
-        acceptPolygamy: true,
+        acceptPolygamy: 'yes',
     },
     {
         fullName: 'Zainab Ali',
@@ -410,7 +410,7 @@ const users = [
         preferredEyeColors: ['brown', 'dark_brown'],
         partnerPreferencesBio: 'Seeking a loving, family-oriented man who loves children.',
         marriageType: 'religious',
-        acceptPolygamy: false,
+        acceptPolygamy: 'no',
     },
     {
         fullName: 'Hassan Khalil',
@@ -444,7 +444,7 @@ const users = [
         preferredEyeColors: ['brown', 'hazel'],
         partnerPreferencesBio: 'Looking for a responsible, caring woman.',
         marriageType: 'both',
-        acceptPolygamy: false,
+        acceptPolygamy: 'no',
     },
     {
         fullName: 'Nadia Omar',
@@ -478,7 +478,7 @@ const users = [
         preferredEyeColors: ['brown', 'hazel', 'green'],
         partnerPreferencesBio: 'Seeking an ambitious young man to grow together.',
         marriageType: 'religious',
-        acceptPolygamy: false,
+        acceptPolygamy: 'no',
     },
     {
         fullName: 'Mustafa Tariq',
@@ -512,7 +512,7 @@ const users = [
         preferredEyeColors: ['brown', 'hazel', 'green', 'blue'],
         partnerPreferencesBio: 'Seeking a creative, supportive woman for remarriage.',
         marriageType: 'civil',
-        acceptPolygamy: false,
+        acceptPolygamy: 'no',
     },
 ];
 async function seedUsers(dataSource) {

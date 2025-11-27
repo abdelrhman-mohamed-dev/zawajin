@@ -206,8 +206,8 @@ export class VisitorDto {
   @ApiProperty({ description: 'Marriage type', required: false })
   marriageType?: string;
 
-  @ApiProperty({ description: 'Accept polygamy', required: false })
-  acceptPolygamy?: boolean;
+  @ApiProperty({ description: 'Accept polygamy', enum: ['yes', 'no', 'thinking'], required: false })
+  acceptPolygamy?: string;
 
   @ApiProperty({ description: 'Polygamy status', required: false })
   polygamyStatus?: string;

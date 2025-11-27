@@ -23,7 +23,7 @@ export declare class UpdatePreferencesDto {
     preferredHairColors?: string[];
     preferredEyeColors?: string[];
     preferredMarriageTypes?: string[];
-    acceptPolygamy?: boolean;
+    acceptPolygamy?: string;
     requireHouse?: boolean;
     physicalAttributesImportance?: number;
     marriageTypeImportance?: number;

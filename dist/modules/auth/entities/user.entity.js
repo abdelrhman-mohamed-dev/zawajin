@@ -317,8 +317,14 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "marriageType", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'boolean', nullable: true, name: 'accept_polygamy' }),
-    __metadata("design:type", Boolean)
+    (0, typeorm_1.Column)({
+        type: 'enum',
+        enum: ['yes', 'no', 'thinking'],
+        nullable: true,
+        name: 'accept_polygamy',
+        comment: 'Whether the user accepts polygamy: yes/no/thinking',
+    }),
+    __metadata("design:type", String)
 ], User.prototype, "acceptPolygamy", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'varchar', length: 50, nullable: true, name: 'polygamy_status' }),

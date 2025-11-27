@@ -586,13 +586,16 @@ export class UpdateProfileDto {
   marriageType?: MarriageType;
 
   @ApiProperty({
-    example: false,
+    example: 'yes',
     description: 'Whether the user accepts polygamy',
+    enum: ['yes', 'no', 'thinking'],
     required: false,
   })
   @IsOptional()
-  @IsBoolean()
-  acceptPolygamy?: boolean;
+  @IsEnum(['yes', 'no', 'thinking'], {
+    message: 'acceptPolygamy must be either yes, no, or thinking',
+  })
+  acceptPolygamy?: string;
 
   @ApiProperty({
     example: PolygamyStatus.NO,

@@ -246,8 +246,14 @@ export class User {
   @Column({ type: 'varchar', length: 50, nullable: true, name: 'marriage_type' })
   marriageType: string;
 
-  @Column({ type: 'boolean', nullable: true, name: 'accept_polygamy' })
-  acceptPolygamy: boolean;
+  @Column({
+    type: 'enum',
+    enum: ['yes', 'no', 'thinking'],
+    nullable: true,
+    name: 'accept_polygamy',
+    comment: 'Whether the user accepts polygamy: yes/no/thinking',
+  })
+  acceptPolygamy: string;
 
   @Column({ type: 'varchar', length: 50, nullable: true, name: 'polygamy_status' })
   polygamyStatus: string;

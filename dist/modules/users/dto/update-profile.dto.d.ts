@@ -55,7 +55,7 @@ export declare class UpdateProfileDto {
     preferredEyeColors?: EyeColor[];
     partnerPreferencesBio?: string;
     marriageType?: MarriageType;
-    acceptPolygamy?: boolean;
+    acceptPolygamy?: string;
     polygamyStatus?: PolygamyStatus;
     detailedProfile?: string;
     gender?: string;

@@ -210,8 +210,14 @@ __decorate([
     __metadata("design:type", Array)
 ], MatchingPreferences.prototype, "preferredMarriageTypes", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'boolean', nullable: true, name: 'accept_polygamy' }),
-    __metadata("design:type", Boolean)
+    (0, typeorm_1.Column)({
+        type: 'enum',
+        enum: ['yes', 'no', 'thinking'],
+        nullable: true,
+        name: 'accept_polygamy',
+        comment: 'Whether accepts polygamy: yes/no/thinking',
+    }),
+    __metadata("design:type", String)
 ], MatchingPreferences.prototype, "acceptPolygamy", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: 'boolean', nullable: true, name: 'require_house' }),

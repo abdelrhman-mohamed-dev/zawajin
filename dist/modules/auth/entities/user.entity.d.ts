@@ -65,7 +65,7 @@ export declare class User {
     preferredEyeColors: string[];
     partnerPreferencesBio: string;
     marriageType: string;
-    acceptPolygamy: boolean;
+    acceptPolygamy: string;
     polygamyStatus: string;
     detailedProfile: string;
     religiousPractice: string;
